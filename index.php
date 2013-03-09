@@ -6,9 +6,33 @@ noCache();
 
 $db = dbConnect();
 
-if(isset($_GET['id']))
+if(isset($_GET['update']))
 {
+	// Page being called from XMLHttpRequest()
+	// Update database with location using ID
+	// Return a confirmation to user
+	$db->query("update gps set loc='" . $_GET['loc'] ."' where id=" . $_GET['update']);
+	echo('Position received.');
+}
+else
+{
+	// Page being visited in browser
+
+	// Use mod_rewrite to rewrite URL as ID
+
+	if(isset($_GET['id']))
+	{
+		// Base64-decode ID
+	}
+	else
+	{
+		// Use IP address to look up or generate ID
+	}
+
 	// Get location
+	// Use position tracking
+	// Graceful error handling
+	// Minimize initial download size
 	?><!DOCTYPE html>
 	<htmk><head><script type="text/javascript">
 	function getPos(position) {
@@ -36,12 +60,7 @@ if(isset($_GET['id']))
 		}
 	};
 	</script></head><body><span id="startLat">?</span></body></html><?php
-}
-else if(isset($_GET['update']))
-{
-	// update database with loc
-	$db->query("update gps set loc='" . $_GET['loc'] ."' where id=" . $_GET['update']);
-	echo('Position received.');
+
 }
 
 ?>
