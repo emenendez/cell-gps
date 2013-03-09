@@ -11,13 +11,20 @@ $db = dbConnect();
 <head>
 	<title>Cellular geolocation web app</title>
 	<link rel="stylesheet" href="../style.css" />
-	<script src="../script.js" />
+	<script src="../script.js"></script>
 </head>
-<body>
+<body onload="onLoad_admin()">
 	<div id="header"><div id="logo"><img src="asrclogo.gif" alt="ASRC" /></div>
 		<div id="sms">
 			<!-- Prompt for SMS text and phone number here. Use drop-down list pf providers. Use a message preview to display character limit -->
 			<!-- Enter SMS email address (e.g. ##########@vtext.com or ##########@txt.att.net): <input type="text" name="email" /> -->
+			<form method="POST" action="index.php">
+				SMS email address: <select id="provider" name="provider"><option value="">Other</option></select>
+				<input type="text" name="phone" id="phone" size="10" /> @ <input type="text" name="gateway" id="gateway" size="8" /><br />
+				<input type="text" name="subject" id="subject" size="20" /> <input type="text" name="message" id="message" size="20" />
+				<input type="submit" value="Send" name="submit" /><br />
+				Message preview: <span id="preview"></span>
+			</form>
 		</div>
 	</div>
 	<div id="table">
