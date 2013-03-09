@@ -17,7 +17,7 @@
 //  Table: phones
 //   phone_id
 //   email
-//   time
+//   email_time
 //    
 
 include_once('auth.php');

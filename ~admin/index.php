@@ -23,12 +23,8 @@ $db = dbConnect();
 	<div id="table">
 		<table>
 			<tr>
-				<td>ID</td><td>Email</td><td>Last location</td><td>Timestamp</td>
+				<td>ID</td><td>Email</td><td>location</td><td>Timestamp</td>
 			</tr>
-		</table>
-	</div>
-</body>
-</html>
 <?
 
 if(isset($_POST['submit']))
@@ -41,15 +37,17 @@ if(isset($_POST['submit']))
 	mail($_POST['email'], 'Tap link to send location to SAR', "http://myasrc.dreamhosters.com/gps/index.php?id=" . $array['id']);
 }
 
-// Get list of phones and last location for each
+// Get list of phones and locations
 // Display in table with link to Google maps
-$result = $db->query("select * from gps where id=" . $_GET['check']);
-$array = $result->fetch_assoc();
-if($array['loc'] != '')
+$result = $db->query('select * from gps left join phones using(phone_id) order by time desc');
+while($row = $result->fetch_assoc())
 {
-	// Location found
-	?><!DOCTYPE html>
-	<html><body>Location: <a href="http://maps.google.com/maps?q=<?php echo(urlencode($array['loc'])); ?>"><?php echo($array['loc']); ?></a></body></html><?php
+	printf('<tr><td>%d</td><td>%s</td><td><a href="http://maps.google.com/maps?q=%s">%s</a></td><td>%s</td></tr>',
+		$row['phone_id'], $row['email'], urlencode($row['loc']), $row['loc'], $row['time']);
 }
 
 ?>
+		</table>
+	</div>
+</body>
+</html>
