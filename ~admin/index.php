@@ -16,14 +16,19 @@ $db = dbConnect();
 <body onload="onLoad_admin()">
 	<div id="header"><div id="logo"><img src="asrclogo.gif" alt="ASRC" /></div>
 		<div id="sms">
-			<!-- Prompt for SMS text and phone number here. Use drop-down list pf providers. Use a message preview to display character limit -->
-			<!-- Enter SMS email address (e.g. ##########@vtext.com or ##########@txt.att.net): <input type="text" name="email" /> -->
+			<h2>Send SMS requesting location</h2>
 			<form method="POST" action="index.php">
-				SMS email address: <select id="provider" name="provider"><option value="">Other</option></select>
-				<input type="text" name="phone" id="phone" size="10" /> @ <input type="text" name="gateway" id="gateway" size="8" /><br />
-				<input type="text" name="subject" id="subject" size="20" /> <input type="text" name="message" id="message" size="20" />
-				<input type="submit" value="Send" name="submit" /><br />
-				Message preview: <span id="preview"></span>
+				<p>
+					<em>SMS email address:</em><br />
+					Provider: <select id="provider" name="provider"><option value="">Other</option></select>
+					<input type="text" name="phone" id="phone" size="12" />@<input type="text" name="gateway" id="gateway" size="8" /><br />
+					<input type="text" name="subject" id="subject" size="22" /> <input type="text" name="message" id="message" size="22" />
+					<input type="submit" value="Send" name="submit" />
+				</p>
+				<p>
+					<em>Message preview:</em><br />
+					<span id="preview"></span>
+				</p>
 			</form>
 		</div>
 	</div>

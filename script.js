@@ -3,8 +3,8 @@ var BASE_URL = 'http://myasrc.dreamhosters.com/gps/';
 var defaultValue = new Object;
 defaultValue['phone'] = '10-digit #';
 defaultValue['gateway'] = '';
-defaultValue['subject'] = 'Subject';
-defaultValue['message'] = 'Message';
+defaultValue['subject'] = 'Tap link to send location to SAR';
+defaultValue['message'] = 'Custom message';
 defaultValue['provider'] = '';
 
 var gateway = new Object;
