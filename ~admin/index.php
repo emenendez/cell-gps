@@ -4,6 +4,8 @@ include_once('inc.php');
 
 noCache();
 
+$db = dbConnect();
+
 ?><!DOCTYPE html>
 <html>
 <head>
@@ -32,9 +34,9 @@ if(isset($_POST['submit']))
 	// Add email to database and get ID
 	// Send email
 	// Redirect to check page
-	$result = mysql_query("insert into gps (email) values ('" . $_POST['email'] . "')");
-	$result = mysql_query("select id from gps where email='" . $_POST['email'] . "' order by id desc");
-	$array = mysql_fetch_array($result);
+	$result = $db->query("insert into gps (email) values ('" . $_POST['email'] . "')");
+	$result = $db->query("select id from gps where email='" . $_POST['email'] . "' order by id desc");
+	$array = $result->fetch_assoc();
 	mail($_POST['email'], 'Tap link to send location to SAR', "http://myasrc.dreamhosters.com/gps/index.php?id=" . $array['id']);
 	header("Location: index.php?check=" . $array['id']);
 }
@@ -42,8 +44,8 @@ else if(isset($_GET['check']))
 {
 	// Check to see if loc is in database
 	// display with link to google maps
-	$result = mysql_query("select * from gps where id=" . $_GET['check']);
-	$array = mysql_fetch_array($result);
+	$result = $db->query("select * from gps where id=" . $_GET['check']);
+	$array = $result->fetch_assoc();
 	if($array['loc'] != '')
 	{
 		// Location found

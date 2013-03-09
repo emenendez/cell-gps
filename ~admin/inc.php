@@ -24,10 +24,7 @@ include_once('auth.php');
 
 function dbConnect()
 {
-	$db = mysql_connect($MYSQL_HOST, $MYSQL_USER, $MYSQL_PASSWORD);
-	mysql_select_db($MYSQL_DATABASE, $db);
-
-	return $db;	
+	return new mysqli($MYSQL_HOST, $MYSQL_USER, $MYSQL_PASSWORD, $MYSQL_DATABASE);
 }
 
 function noCache()

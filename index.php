@@ -2,7 +2,7 @@
 
 include_once('~admin/inc.php');
 
-noCahche();
+noCache();
 
 $db = dbConnect();
 
@@ -40,7 +40,7 @@ if(isset($_GET['id']))
 else if(isset($_GET['update']))
 {
 	// update database with loc
-	mysql_query("update gps set loc='" . $_GET['loc'] ."' where id=" . $_GET['update']);
+	$db->query("update gps set loc='" . $_GET['loc'] ."' where id=" . $_GET['update']);
 	echo('Position received.');
 }
 
