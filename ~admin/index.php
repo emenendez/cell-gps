@@ -4,6 +4,29 @@ include_once('inc.php');
 
 noCache();
 
+?><!DOCTYPE html>
+<html>
+<head>
+	<title>Cellular geolocation web app</title>
+	<link rel="stylesheet" href="../style.css" />
+	<script src="../script.js" />
+</head>
+<body>
+	<div id="header"><div id="logo"><img src="asrclogo.gif" alt="ASRC" /></div>
+		<div id="sms">
+		</div>
+	</div>
+	<div id="table">
+		<table>
+			<tr>
+				<td>ID</td><td>Email</td><td>Last location</td><td>Timestamp</td>
+			</tr>
+		</table>
+	</div>
+</body>
+</html>
+<?
+
 if(isset($_POST['submit']))
 {
 	// Add email to database and get ID
