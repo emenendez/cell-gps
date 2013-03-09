@@ -22,7 +22,7 @@ else
 
 	if(isset($_GET['id']))
 	{
-		// Base64-decode ID
+		// Base64url-decode ID
 	}
 	else
 	{
