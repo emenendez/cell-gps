@@ -1,32 +1,52 @@
-body
-{
+body {
 	font-size: 1em;
+	font-family: sans-serif;
 }
 
-#logo
-{
+#header {
+	font-size: 0.8em;
+}
+
+#logo {
 	margin-right: 10px;
 	float: left;
 }
 
-#sms
-{
+#sms {
 	padding-top: 5px;
 }
 
-#table 
-{
+#table  {
 	clear: both;
+	display: table;
+	text-align: right;
+	font-size: 0.9em;
 }
 
-h2
-{
+h2 {
 	margin: 0;
-	font-size: 1.2em;
+	font-size: 1.5em;
 }
 
-p
-{
+p {
 	margin-top: 0;
 	margin-bottom: 0.5em;
+}
+
+table {
+	border-spacing: 0;
+	padding-top: 2px;
+	text-align: left;
+}
+
+tr.header {
+	background-color: #e30;
+}
+
+tr.shade {
+	background-color: #f63;
+}
+
+td {
+	padding: 3px 5px;
 }

@@ -22,9 +22,14 @@
 
 include_once('auth.php');
 
+$BASE_URL = 'http://myasrc.dreamhosters.com/gps/';
+$TIME_ZONE = 'US/Eastern';
+
 function dbConnect()
 {
-	return new mysqli($GLOBALS['MYSQL_HOST'], $GLOBALS['MYSQL_USER'], $GLOBALS['MYSQL_PASSWORD'], $GLOBALS['MYSQL_DATABASE']);
+	$db = new mysqli($GLOBALS['MYSQL_HOST'], $GLOBALS['MYSQL_USER'], $GLOBALS['MYSQL_PASSWORD'], $GLOBALS['MYSQL_DATABASE']);
+	$db->query("SET time_zone='". $GLOBALS['TIME_ZONE'] . "'"); // Set local time zone
+	return $db;
 }
 
 function noCache()
