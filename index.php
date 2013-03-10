@@ -11,8 +11,32 @@ if(isset($_GET['update']))
 	// Page being called from XMLHttpRequest()
 	// Update database with location using ID
 	// Return a confirmation to user
-	$db->query("update gps set loc='" . $_GET['loc'] ."' where id=" . $_GET['update']);
-	echo('Position received.');
+
+	$error = true;
+	$_GET['update'] = (int) $_GET['update'];
+	if($_GET['update'] > 0)
+	{
+		$_GET['loc'] = $db->escape_string($_GET['loc']);
+		$_GET['altitude'] = (int) $_GET['altitude'];
+		$_GET['accuracy'] = (int) $_GET['accuracy'];
+		$_GET['altitudeAccuracy'] = (int) $_GET['altitudeAccuracy'];
+		$_GET['heading'] = (int) $_GET['heading'];
+		$_GET['speed'] = (int) $_GET['speed'];
+		$_GET['location_time'] = $db->escape_string($_GET['location_time']);
+		if($db->query('insert into gps (phone_id, loc, altitude, accuracy, altitudeAccuracy, heading, speed, location_time) ' .
+			"VALUES ('" . $_GET['loc'] . "'," . $_GET['altitude'] . "," . $_GET['accuracy'] . "," . $_GET['altitudeAccuracy'] . "," . $_GET['heading'] . "," .
+			$_GET['speed'] . ",'" . $_GET['location_time'] . "')"))
+		{
+			echo('Your location has been received by Search &amp; Rescue');
+			$error = false;
+		}
+	}
+
+	if($error)
+	{
+		// Error
+		echo('Error: <a href="./">Location not received. Tap here to reload page</a>');
+	}
 }
 else
 {
@@ -20,13 +44,24 @@ else
 
 	// Use mod_rewrite to rewrite URL as ID
 
+	$id = 0;
 	if(isset($_GET['id']))
 	{
 		// Base64url-decode ID
+		$id = (int) base64url_decode($_GET['id']);
+		if(!($id > 0 && $db->query('select phone_id from phones where phone_id=' . $id)->num_rows > 0))
+		{
+			// Invalid ID
+			$id = 0;
+		}
 	}
-	else
+	
+	if($id == 0)
 	{
-		// Use IP address to look up or generate ID
+		// Use IP address to generate ID
+		$userString = $db->escape_string($_SERVER['REMOTE_ADDR'] . ':' . $_SERVER['REMOTE_PORT'] . ' ' . $_SERVER['HTTP_USER_AGENT']);
+		$db->query('insert into phones (email) values (\'' . $userString .'\')');
+		$id = $db->insert_id;
 	}
 
 	// Get location
@@ -35,31 +70,81 @@ else
 	// Minimize initial download size
 	?><!DOCTYPE html>
 	<htmk><head><script type="text/javascript">
-	function getPos(position) {
-		document.getElementById('startLat').innerHTML = 'Getting position...';
-		var pos = '(' + position.coords.latitude + ', ' + position.coords.longitude + ')';
-	    document.getElementById('startLat').innerHTML = pos;
+	function reqReceived() {
+		document.getElementById('status').innerHTML = this.responseText;
+	}
+
+	function reqError() {
+		document.getElementById('status').innerHTML += '<br />Error. Retrying...';
+		this.send();
+	}
+
+	function receivePos(position) {
+		var loc = '(' + position.coords.latitude + ', ' + position.coords.longitude + ')';
+	    document.getElementById('status').innerHTML = 'Your location: ' + loc;
 	    var req = new XMLHttpRequest();
-	    req.open("get", "index.php?update=<?php echo($_GET['id']); ?>&loc=" + encodeURI(pos));
+	    req.open("get", "index.php?update=<?php echo($id); ?>&loc=" + encodeURI(loc) +
+	    	"&altitude=" + position.coords.altitude +
+	    	"&accuracy=" + position.coords.accuracy +
+	    	"&altitudeAccuracy=" + position.coords.altitudeAccuracy +
+	    	"&heading=" + position.coords.heading +
+	    	"&speed=" + position.coords.speed +
+	    	"&location_time=" + encodeURI(position.timestamp), true);
+	    req.onload = reqReceived;
+	    req.onerror = reqError;
+	    req.onabort = reqError;
+	    document.getElementById('status').innerHTML += '<br />Sending location to Search &amp; Rescue...';
 	    req.send();
 	}
 
-	function err(error) {
-    	document.getElementById('startLat').innerHTML = 'Error: ' + error.code;
+	function posError(error) {
+		var errorText = '<a href="./<?php echo(base64url_encode($id)); ?>">Error: ';
+		if(error.code == error.PERMISSION_DENIED) {
+			errorText += 'Permission Denied. Please enable location sharing in your device web browser\'s Privacy and/or Security settings, then tap here to reload this page.</a>';
+		}
+		else if(error.code == error.POSITION_UNAVAILABLE) {
+			errorText += 'Position Unavailable. Please turn on GPS and/or location services on your device, then tap here to reload this page.</a>';
+		}
+		else if(error.code == error.TIMEOUT) {
+			errorText = document.getElementById('status').innerHTML + '<br />Timeout. Retrying...';
+			getPos();
+		}
+		else {
+			errorText += 'Unknown Code ' + error.code +'. Please turn on GPS and/or location services on your device and enable location sharing, then tap here to reload this page.</a>';
+		}
+		document.getElementById('status').innerHTML = errorText;
+	}
+
+	function watchPosError(error) {
+		// Do nothing for now. May log later.
+	}
+
+	function getPos() {
+		navigator.geolocation.getCurrentPosition(receivePos, posError, {enableHighAccuracy:true});
 	}
 
 	window.onload = function() {
 		if(navigator.geolocation) {
-			document.getElementById('startLat').innerHTML = 'Loading...';
-			navigator.geolocation.getCurrentPosition(getPos, err, {enableHighAccuracy:true});
+			document.getElementById('status').innerHTML = 'Waiting for position...';
+			getPos();
+			navigator.geolocation.watchPosition(receivePos, watchPosError, {enableHighAccuracy:true});
 		}
-		else
-		{
+		else {
 			// Geolocation not supported
-			document.getElementById('startLat').innerHTML = 'Geolocation not supported by this device.';
+			document.getElementById('status').innerHTML = 'Geolocation not supported by this device.';
 		}
 	};
-	</script></head><body><span id="startLat">?</span></body></html><?php
+	</script><style>
+	body {
+		font-size:1em;
+		font-family: "Georgia", serif;
+		background-color: #e30;
+		color: #fff;
+	}
+	</style></head><body>
+	<p id="allow">Tap Allow to send your location to Search and Rescue</p>
+	<p id="status"></p>
+	</body></html><?php
 
 }
 
