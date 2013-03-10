@@ -69,7 +69,9 @@ else
 	// Graceful error handling
 	// Minimize initial download size
 	?><!DOCTYPE html>
-	<html><head><title>Search &amp; Rescue Cell Phone Locator</title><script type="text/javascript">
+	<html><head><title>Search &amp; Rescue Cell Phone Locator</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+	<script type="text/javascript">
 	function reqReceived() {
 		document.getElementById('status').innerHTML = this.responseText;
 	}
@@ -125,7 +127,7 @@ else
 
 	window.onload = function() {
 		if(navigator.geolocation) {
-			document.getElementById('status').innerHTML = 'Waiting for position...';
+			document.getElementById('status').innerHTML = 'Waiting for location...';
 			getPos();
 			navigator.geolocation.watchPosition(receivePos, watchPosError, {enableHighAccuracy:true});
 		}
@@ -136,11 +138,16 @@ else
 	};
 	</script><style>
 	body {
-		font-size:1em;
+		font-size:1.5em;
 		font-family: "Georgia", serif;
 		background-color: #e30;
 		color: #fff;
+	}
+	p {
 		text-align: center;
+	}
+	#allow {
+		font-weight: bold;
 	}
 	</style></head><body>
 	<p id="allow">Tap &#8220;Allow&#8221; to send your location to Search &amp; Rescue.</p>

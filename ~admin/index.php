@@ -10,6 +10,7 @@ $db = dbConnect();
 <html>
 <head>
 	<title>Cellular geolocation web app</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 	<link rel="stylesheet" href="../style.css" />
 	<script src="../script.js"></script>
 </head>
