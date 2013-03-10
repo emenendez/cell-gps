@@ -8,8 +8,18 @@ defaultValue['message'] = 'Custom message';
 defaultValue['provider'] = '';
 
 var gateway = new Object;
-gateway['Verizon']	= 'vtext.com';
-gateway['AT&T']	= 'txt.att.net';
+gateway['Alltel'] = 'message.alltel.com';
+gateway['AT&T'] = 'txt.att.net';
+gateway['Bell Canada'] = 'txt.bellmobility.ca';
+gateway['Boost Mobile'] = 'myboostmobile.com';
+gateway['Cricket'] = 'sms.mycricket.com';
+gateway['Nextel (now Sprint Nextel)'] = 'messaging.nextel.com';
+gateway['nTelos'] = 'pcs.ntelos.com';
+gateway['Sprint (now Sprint Nextel)'] = 'messaging.sprintpcs.com';
+gateway['T-Mobile'] = 'tmomail.net';
+gateway['US Cellular'] = 'email.uscc.net';
+gateway['Verizon'] = 'vtext.com';
+gateway['Virgin Mobile'] = 'vmobl.com';
 
 function onChange_admin(id)
 {
