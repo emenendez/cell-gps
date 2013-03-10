@@ -76,6 +76,7 @@ function onLoad_admin()
 	}
 	document.getElementById('subject').onkeypress = preview;
 	document.getElementById('message').onkeypress = preview;
+	document.getElementById('help-toggle').onclick = toggleHelp;
 
 	other = document.getElementById('provider').options[0];
 	for(var provider in gateway)
@@ -94,3 +95,16 @@ function preview()
 	document.getElementById('preview').innerHTML = sms.substring(0, 140);
 }
 
+function toggleHelp()
+{
+	if(document.getElementById('help-toggle').innerHTML == 'Show Help')
+	{
+		document.getElementById('help-toggle').innerHTML = 'Hide Help';
+		document.getElementById('help').style.display = 'block';
+	}
+	else
+	{
+		document.getElementById('help-toggle').innerHTML = 'Show Help';
+		document.getElementById('help').style.display = 'none';
+	}
+}

@@ -1,6 +1,26 @@
 body {
 	font-size: 1em;
 	font-family: sans-serif;
+	margin: 0;
+}
+
+body > div {
+	margin: 10px;
+}
+
+#help-toggle {
+	background-color: #e30;
+	color: #fff;
+	margin: 0;
+	padding: 3px 10px;
+	cursor: pointer;
+}
+
+#help {
+	background-color: #f63;
+	display: none;
+	margin: 0;
+	padding: 10px 10px 5px 10px;
 }
 
 #header {
