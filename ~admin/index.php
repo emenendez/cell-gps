@@ -75,7 +75,7 @@ if(isset($_POST['submit']))
 
 // Get list of phones and locations
 // Display in table with link to Google maps
-$result = $db->query('select * from gps right join phones using(phone_id) order by time desc');
+$result = $db->query('select * from gps right join phones using(phone_id) order by time desc, phone_id desc');
 $shade = false;
 while($row = $result->fetch_assoc())
 {
