@@ -79,7 +79,7 @@ $result = $db->query('select * from gps right join phones using(phone_id) order 
 $shade = false;
 while($row = $result->fetch_assoc())
 {
-	$altitude = $row['accuracy'] ? $row['accuracy'] . '&#xB1;' . $row['altitudeAccuracy'] . 'm' : '';
+	$altitude = $row['altitude'] ? $row['altitude'] . '&#xB1;' . $row['altitudeAccuracy'] . 'm' : '';
 	printf('<tr%s><td>%d</td><td title="%s">%s</td><td><a href="http://maps.google.com/maps?q=%s">%s</a></td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>',
 		$shade?' class="shade"':'',$row['phone_id'], $row['email_time'], $row['email'], urlencode($row['loc']), $row['loc'], $row['accuracy'], $altitude, $row['heading'], $row['speed'], $row['location_time'], $row['time']);
 	$shade = !$shade;
