@@ -48,7 +48,7 @@ if(isset($_POST['submit']))
 	// Add email to database and get ID
 	// Send email
 	$email = $_POST['phone'] . '@' . $_POST['gateway'];
-	if(!$db->query("insert into phones (email) values ('" . mysqli::escape_string($email) . "')") || $db->insert_id == 0)
+	if(!$db->query("insert into phones (email) values ('" . $db->escape_string($email) . "')") || $db->insert_id == 0)
 	{
 		// Error
 		echo('<div id="error">SMS email could not be inserted into database.</div>');
