@@ -17,17 +17,17 @@ if(isset($_GET['update']))
 	if($_GET['update'] > 0)
 	{
 		$_GET['loc'] = $db->escape_string($_GET['loc']);
-		$_GET['altitude'] = (int) $_GET['altitude'];
-		$_GET['accuracy'] = (int) $_GET['accuracy'];
-		$_GET['altitudeAccuracy'] = (int) $_GET['altitudeAccuracy'];
-		$_GET['heading'] = (int) $_GET['heading'];
-		$_GET['speed'] = (int) $_GET['speed'];
-		$_GET['location_time'] = $db->escape_string($_GET['location_time']);
+		$_GET['altitude'] = $_GET['altitude'] == 'null'?'null':(int) $_GET['altitude'];
+		$_GET['accuracy'] = $_GET['accuracy'] == 'null'?'null':(int) $_GET['accuracy'];
+		$_GET['altitudeAccuracy'] = $_GET['altitudeAccuracy'] == 'null'?'null':(int) $_GET['altitudeAccuracy'];
+		$_GET['heading'] = $_GET['heading'] == 'null'?'null':(int) $_GET['heading'];
+		$_GET['speed'] = $_GET['speed'] == 'null'?'null':(int) $_GET['speed'];
+		$_GET['location_time'] = (int) ($_GET['location_time']/1000);
 		if($db->query('insert into gps (phone_id, loc, altitude, accuracy, altitudeAccuracy, heading, speed, location_time) ' .
-			"VALUES ('" . $_GET['loc'] . "'," . $_GET['altitude'] . "," . $_GET['accuracy'] . "," . $_GET['altitudeAccuracy'] . "," . $_GET['heading'] . "," .
-			$_GET['speed'] . ",'" . $_GET['location_time'] . "')"))
+			"VALUES (" . $_GET['update'] . ",'" . $_GET['loc'] . "'," . $_GET['altitude'] . "," . $_GET['accuracy'] . "," . 
+			$_GET['altitudeAccuracy'] . "," . $_GET['heading'] . "," . $_GET['speed'] . ",FROM_UNIXTIME(" . $_GET['location_time'] . "))"))
 		{
-			echo('Your location has been received by Search &amp; Rescue');
+			echo('Your location has been received by Search &amp; Rescue.');
 			$error = false;
 		}
 	}
@@ -35,7 +35,7 @@ if(isset($_GET['update']))
 	if($error)
 	{
 		// Error
-		echo('Error: <a href="./">Location not received. Tap here to reload page</a>');
+		echo('Error: <a href="./">Location not received. Tap here to reload page.</a>');
 	}
 }
 else
@@ -69,7 +69,7 @@ else
 	// Graceful error handling
 	// Minimize initial download size
 	?><!DOCTYPE html>
-	<htmk><head><script type="text/javascript">
+	<html><head><title>Search &amp; Rescue Cell Phone Locator</title><script type="text/javascript">
 	function reqReceived() {
 		document.getElementById('status').innerHTML = this.responseText;
 	}
@@ -89,7 +89,7 @@ else
 	    	"&altitudeAccuracy=" + position.coords.altitudeAccuracy +
 	    	"&heading=" + position.coords.heading +
 	    	"&speed=" + position.coords.speed +
-	    	"&location_time=" + encodeURI(position.timestamp), true);
+	    	"&location_time=" + position.timestamp, true);
 	    req.onload = reqReceived;
 	    req.onerror = reqError;
 	    req.onabort = reqError;
@@ -140,9 +140,10 @@ else
 		font-family: "Georgia", serif;
 		background-color: #e30;
 		color: #fff;
+		text-align: center;
 	}
 	</style></head><body>
-	<p id="allow">Tap Allow to send your location to Search and Rescue</p>
+	<p id="allow">Tap &#8220;Allow&#8221; to send your location to Search &amp; Rescue.</p>
 	<p id="status"></p>
 	</body></html><?php
 
