@@ -57,7 +57,7 @@ if(isset($_POST['submit']))
 	else
 	{
 		$id = base64url_encode($db->insert_id);
-		if(!mail($email, $_POST['subject'], $BASE_URL . $id . ' ' . $_POST['message']))
+		if(!mail($email, $_POST['subject'], $BASE_URL . $id . ' ' . $_POST['message'], 'From: ASRC <gps@asrc.net>'))
 		{
 			// Error
 			echo('<div id="error">Could not send email.</div>');
