@@ -22,7 +22,7 @@
 
 include_once('auth.php');
 
-$BASE_URL = 'http://myasrc.dreamhosters.com/gps/';
+$BASE_URL = 'http://gps.asrc.net/';
 $TIME_ZONE = 'US/Eastern';
 
 function dbConnect()

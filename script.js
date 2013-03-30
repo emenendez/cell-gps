@@ -1,4 +1,4 @@
-var BASE_URL = 'http://myasrc.dreamhosters.com/gps/';
+var BASE_URL = 'http://gps.asrc.net/';
 
 var defaultValue = new Object;
 defaultValue['phone'] = '10-digit #';

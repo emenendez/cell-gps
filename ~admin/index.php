@@ -20,7 +20,7 @@ $db = dbConnect();
 		<p>Welcome... This web app provides the ability to prompt a recipient to share their location via a text message sent to their phone containing a URL link. By clicking on the link, the recipient is permitting the phone to send its current location as determined by the location services enabled on the device.</p>
 		<p><strong>This app cannot &#8220;turn on&#8221; location services or independently extract location without acknowledgement by the recipient!</strong></p>
 		<p>Example of the text:<br />
-			asrc_admin@eucalyptus.dreamhost.com(ASRCAdministrator) S:Tap link to send location to SAR M:http://myasrc.dreamhosters.com/gps/Mq</p>
+			asrc_admin@eucalyptus.dreamhost.com(ASRCAdministrator) S:Tap link to send location to SAR M:http://gps.asrc.net/Mq</p>
 		<p>To send an SMS message from this web app, the user must provide the phone's SMS gateway. A list of SMS gateways for some of the major North American providers is included. <a href="http://en.wikipedia.org/wiki/List_of_SMS_gateways">A more complete list is available here</a> and/or by Googling.</p>
 		<p>Questions/comments/suggestions/defects: <a href="mailto:ericmenendez@gmail.com">ericmenendez@gmail.com</a></p>
 	</div>
