@@ -11,8 +11,12 @@ $db = dbConnect();
 <head>
 	<title>Cellular geolocation web app</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-	<link rel="stylesheet" href="../style.css" />
-	<script src="../script.js"></script>
+	<link rel="stylesheet" href="css/bootstrap.min.css" />
+	<link rel="stylesheet" href="css/bootstrap-responsive.min.css" />
+	<link rel="stylesheet" href="css/style.css" />
+	<script src="js/jquery-1.9.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/script.js"></script>
 </head>
 <body onload="onLoad_admin()">
 	<div id="help-toggle">Show Help</div>
