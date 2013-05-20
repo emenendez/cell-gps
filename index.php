@@ -129,7 +129,7 @@ else
 		if(navigator.geolocation) {
 			document.getElementById('status').innerHTML = 'Waiting for location...';
 			getPos();
-			navigator.geolocation.watchPosition(receivePos, watchPosError, {enableHighAccuracy:true});
+			//navigator.geolocation.watchPosition(receivePos, watchPosError, {enableHighAccuracy:true});
 		}
 		else {
 			// Geolocation not supported
