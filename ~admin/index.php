@@ -6,16 +6,20 @@ noCache();
 
 $db = dbConnect();
 
+// Delete all row from database older than a week
+$db->query('delete * from gps where time<(now() - interval 1 week)');
+$db->query('delete * from phones where email_time<(now() - interval 1 week)');
+
 ?><!DOCTYPE html>
 <html>
 <head>
 	<title>Cellular geolocation web app</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-	<link rel="stylesheet" href="css/bootstrap.min.css" />
-	<link rel="stylesheet" href="css/bootstrap-responsive.min.css" />
+	<!-- <link rel="stylesheet" href="css/bootstrap.min.css" /> -->
+	<!-- <link rel="stylesheet" href="css/bootstrap-responsive.min.css" /> -->
 	<link rel="stylesheet" href="css/style.css" />
 	<script src="js/jquery-1.9.1.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
+	<!-- <script src="js/bootstrap.min.js"></script> -->
 	<script src="js/script.js"></script>
 </head>
 <body onload="onLoad_admin()">
@@ -78,16 +82,50 @@ if(isset($_POST['submit']))
 			</tr>
 <?php
 
-// Get list of phones and locations
 // Display in table with link to Google maps
-$result = $db->query('select * from gps right join phones using(phone_id) order by time desc, phone_id desc');
-$shade = false;
-while($row = $result->fetch_assoc())
-{
-	$altitude = $row['altitude'] ? $row['altitude'] . '&#xB1;' . $row['altitudeAccuracy'] . 'm' : '';
-	printf('<tr%s><td>%d</td><td title="%s">%s</td><td><a href="http://maps.google.com/maps?q=%s">%s</a></td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>',
-		$shade?' class="shade"':'',$row['phone_id'], $row['email_time'], $row['email'], urlencode($row['loc']), $row['loc'], $row['accuracy'], $altitude, $row['heading'], $row['speed'], $row['location_time'], $row['time']);
-	$shade = !$shade;
+
+if(isset($_GET['phone'])) {
+	// Display all locations for one phone
+	// See if there is a row for this phone
+	$phoneId = int($_GET['phone']);
+	$phonesResult = $db->query('select * from phones where phone_id='.$phoneId.' order by email_time desc, phone_id desc');
+	if($phonesRow = $phonesResult->fetch_assoc()) {
+		// Get list of gps rows for phone
+		$gpsResult = $db->query('select * from gps where phone_id='.$phonesRow['phone_id'].' order by time desc, phone_id desc limit 1');
+		$shade = false;
+		while($gpsRow = $gpsResult->fetch_assoc())
+		{
+			$altitude = $gpsRow['altitude'] ? $gpsRow['altitude'] . '&#xB1;' . $gpsRow['altitudeAccuracy'] . 'm' : '';
+			printf('<tr%s><td>%d</td><td title="%s">%s</td><td><a href="http://maps.google.com/maps?q=%s">%s</a></td>' .
+				   '<td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>',
+				$shade?' class="shade"':'', $phonesRow['phone_id'], $phonesRow['email_time'], $phonesRow['email'], urlencode($gpsRow['loc']),
+				$gpsRow['loc'], $gpsRow['accuracy'], $altitude, $gpsRow['heading'], $gpsRow['speed'], $gpsRow['location_time'], $gpsRow['time']);
+			$shade = !$shade;
+		}
+	}
+	else {
+		printf('Error: phone not found.');
+	}
+}
+else {
+	// Display all phones with most recent location
+	// Get list of phones
+	$phonesResult = $db->query('select * from phones order by email_time desc, phone_id desc');
+	$shade = false;
+	while($phonesRow = $phonesResult->fetch_assoc())
+	{
+		// Get list of gps rows for phone
+		$gpsResult = $db->query('select * from gps where phone_id='.$phonesRow['phone_id'].' order by time desc, phone_id desc limit 1');
+		$gpsRow = $gpsResult->fetch_assoc();
+
+		$altitude = $gpsRow['altitude'] ? $gpsRow['altitude'] . '&#xB1;' . $gpsRow['altitudeAccuracy'] . 'm' : '';
+		printf('<tr%s><td><a href="index.php?phone=%d">%d</a></td><td title="%s">%s</td><td><a href="http://maps.google.com/maps?q=%s">%s</a></td>' .
+			   '<td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>',
+			$shade?' class="shade"':'', $phonesRow['phone_id'], $phonesRow['phone_id'], $phonesRow['email_time'], $phonesRow['email'],
+			urlencode($gpsRow['loc']), $gpsRow['loc'], $gpsRow['accuracy'], $altitude, $gpsRow['heading'], $gpsRow['speed'], $gpsRow['location_time'],
+			$gpsRow['time']);
+		$shade = !$shade;
+	}	
 }
 
 ?>
