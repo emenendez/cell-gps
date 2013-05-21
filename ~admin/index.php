@@ -7,8 +7,8 @@ noCache();
 $db = dbConnect();
 
 // Delete all row from database older than a week
-$db->query('delete * from gps where time<(now() - interval 1 week)');
-$db->query('delete * from phones where email_time<(now() - interval 1 week)');
+$db->query('delete from gps where time<(now() - interval 1 week)');
+$db->query('delete from phones where email_time<(now() - interval 1 week)');
 
 ?><!DOCTYPE html>
 <html>
@@ -75,7 +75,7 @@ if(isset($_POST['submit']))
 
 ?>
 	<div id="table">
-		<a href="./">Refresh</a>
+		<a href="<?php echo(isset($_GET['phone'])?'javascript:location.reload()':'./'); ?>">Refresh</a>
 		<table>
 			<tr class="header">
 				<td>ID</td><td>Email</td><td>Location</td><td>Accuracy (m)</td><td>Altitude (m)</td><td>Heading (deg)</td><td>Speed (m/s)</td><td>Time of location</td><td>Time received</td>
@@ -87,11 +87,11 @@ if(isset($_POST['submit']))
 if(isset($_GET['phone'])) {
 	// Display all locations for one phone
 	// See if there is a row for this phone
-	$phoneId = int($_GET['phone']);
+	$phoneId = intval($_GET['phone']);
 	$phonesResult = $db->query('select * from phones where phone_id='.$phoneId.' order by email_time desc, phone_id desc');
 	if($phonesRow = $phonesResult->fetch_assoc()) {
 		// Get list of gps rows for phone
-		$gpsResult = $db->query('select * from gps where phone_id='.$phonesRow['phone_id'].' order by time desc, phone_id desc limit 1');
+		$gpsResult = $db->query('select * from gps where phone_id='.$phonesRow['phone_id'].' order by time desc, phone_id desc');
 		$shade = false;
 		while($gpsRow = $gpsResult->fetch_assoc())
 		{
