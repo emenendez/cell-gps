@@ -10,3 +10,5 @@ vendor/*
 bootstrap/compiled.php
 
 composer.lock
+
+app/config/database.php
