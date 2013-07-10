@@ -2,8 +2,8 @@
 
 //
 // Database schema:
-//  Table: gps
-//   id
+//  Table: locations
+//   location_id
 //   phone_id
 //   loc
 //   altitude
@@ -16,8 +16,16 @@
 //
 //  Table: phones
 //   phone_id
+//   user_id
 //   email
 //   email_time
+//
+//  Table: users
+//   user_id
+//   username
+//   email
+//   password
+//   organization
 //    
 
 include_once('auth.php');

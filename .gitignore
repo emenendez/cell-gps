@@ -2,3 +2,11 @@
 ~admin/auth.php
 
 ~admin/.htaccess
+
+app/config/database.php
+
+vendor/*
+
+bootstrap/compiled.php
+
+composer.lock
