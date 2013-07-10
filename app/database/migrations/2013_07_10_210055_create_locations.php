@@ -13,7 +13,7 @@ class CreateLocations extends Migration {
 	{
 		// Create locations table
 		Schema::create('locations', function($table){
-			$table->increments('location_id');
+			$table->increments('id');
 			$table->integer('phone_id');
 			$table->string('lcoation', 64);
 			$table->float('altitude');

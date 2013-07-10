@@ -13,7 +13,7 @@ class CreatePhones extends Migration {
 	{
 		// Create phones table
 		Schema::create('phones', function($table){
-			$table->increments('phone_id');
+			$table->increments('id');
 			$table->integer('user_id');
 			$table->string('email', 320);
 			$table->timestamps();
