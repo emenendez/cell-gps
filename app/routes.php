@@ -13,5 +13,30 @@
 
 Route::get('/', function()
 {
-	return View::make('hello');
+	// Display list of phones with most recent location for current user
+	return View::make('fluid');
+});
+
+Route::post('/', function() {
+	// Send SMS
+});
+
+Route::get('phone/{num}', function() {
+	// Display all locations for a phone
+})->where('num', '[0-9]+');
+
+Route::get('login', function() {
+	// Show login form
+});
+
+Route::post('login', function() {
+	// Process login form
+});
+
+Route::get('signup', function() {
+	// Show registration form
+});
+
+Route::post('signup', function() {
+	// Process registration form
 });
