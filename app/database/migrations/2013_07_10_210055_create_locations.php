@@ -14,7 +14,7 @@ class CreateLocations extends Migration {
 		// Create locations table
 		Schema::create('locations', function($table){
 			$table->increments('id');
-			$table->integer('phone_id');
+			$table->integer('phone_id')->unsigned();
 			$table->string('lcoation', 64);
 			$table->float('altitude');
 			$table->float('accuracy');
@@ -23,6 +23,11 @@ class CreateLocations extends Migration {
 			$table->float('speed');
 			$table->timestamp('location_time');
 			$table->timestamps();
+
+			$table->foreign('phone_id')
+				  ->references('id')->on('phones')
+				  ->onUpdate('cascade')
+				  ->onDelete('cascade');
 		});
 	}
 
