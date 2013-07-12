@@ -14,7 +14,7 @@
 Route::get('/', function()
 {
 	// Display list of phones with most recent location for current user
-	return View::make('fluid');
+	return View::make('phones');
 });
 
 Route::post('/', function() {
