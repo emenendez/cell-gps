@@ -48,7 +48,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a href="http://www.asrc.net"><img src="asrclogo.gif" alt="ASRC" width="40" height="40" /></a>
+          <a class="brand" href="http://www.asrc.net"><img src="{{ asset('img/asrclogo.gif') }}" style="margin: -5px 0;" alt="ASRC" width="30" height="30" /></a>
           <a class="brand" href="#">Cell GPS</a>
           <div class="nav-collapse collapse">
             <p class="navbar-text pull-right">
