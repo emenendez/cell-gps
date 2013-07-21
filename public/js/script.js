@@ -2,25 +2,29 @@ var BASE_URL = 'http://gps.asrc.net/';
 
 function preview()
 {
-	subject = $('#subject').val();
+	subject = $('[name="subject"]').val();
 	if(subject.length == 0) {
 		subject = 'Tap link to send location to SAR';
 	}
-	sms = '[' + subject + '] ' + BASE_URL + 'xyz ' + $('#message').val();
+	sms = '[' + subject + '] ' + BASE_URL + 'xyz ' + $('[name="message"]').val();
 	$('#preview').text(sms.substring(0, 140));
 }
 
 $(document).ready(function() {
-	$('#subject, #message').change(function() {
+	$('[name="subject"], [name="message"]').change(function() {
 		preview();
 	});
 
-	$('#subject, #message').blur(function() {
+	$('[name="subject"], [name="message"]').blur(function() {
 		preview();
 	});
 
-	$('#provider').change(function() {
-		$('#gateway').val($('#provider').val());
+	$('[name="subject"], [name="message"]').keyup(function() {
+		preview();
+	});
+
+	$('[name="provider"]').change(function() {
+		$('[name="gateway"]').val($('[name="provider"]').val());
 	});
 
 	preview();
