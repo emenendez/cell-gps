@@ -137,11 +137,11 @@ $providers = array(
                   <?php
                     $location = $phone->locations()->orderBy('created_at', 'desc')->first();
                   ?>
-                  <td>{{ $phone->id }}</td>
-                  <td>{{ $phone->email }}</td>
-                  <td>{{ $location->location }}</td>
+                  <td>{{ link_to_route('phone', $phone->id, array($phone->id)) }}</td>
+                  <td>{{ link_to_route('phone', $phone->email, array($phone->id), array('title' => 'SMS sent ' . $phone->created_at )) }}</td>
+                  <td>{{ HTML::link('http://maps.google.com/maps?q=' . urlencode($location->location), $location->location) }}</td>
                   <td>{{ $location->accuracy }}</td>
-                  <td>{{ $location->altitude }}</td>
+                  <td>{{ $location->altitude ? $location->altitude . '&#xB1;' . $location->altitudeAccuracy . 'm' : '' }}</td>
                   <td>{{ $location->heading }}</td>
                   <td>{{ $location->speed }}</td>
                   <td>{{ $location->location_time }}</td>

@@ -21,9 +21,9 @@ Route::post('/', function() {
 	// Send SMS
 });
 
-Route::get('phone/{num}', function() {
+Route::get('phone/{id}', array('as' => 'phone', function($id) {
 	// Display all locations for a phone
-})->where('num', '[0-9]+');
+}))->where('id', '[0-9]+');
 
 Route::get('login', function() {
 	// Show login form
