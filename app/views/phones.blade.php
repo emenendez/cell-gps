@@ -108,7 +108,7 @@ $providers = array(
               {{ Form::text('subject', '', array('placeholder' => 'Message subject')) }}
               {{ Form::text('message', '', array('placeholder' => 'Message body')) }}
 
-              {{ Form::submit('Send', array('class' => 'btn')) }}
+              {{ Form::submit('Send', array('class' => 'btn btn-primary')) }}
             </div>
             <h6>Message preview:</h6>
             <p><span id="preview"></span></p>
