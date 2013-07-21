@@ -1,4 +1,21 @@
 <!DOCTYPE html>
+<?php
+$providers = array(
+'' => 'Other',
+'message.alltel.com' => 'Alltel',
+'txt.att.net' => 'AT&T',
+'txt.bellmobility.ca' => 'Bell Canada',
+'myboostmobile.com' => 'Boost Mobile',
+'sms.mycricket.com' => 'Cricket',
+'messaging.nextel.com' => 'Nextel (now Sprint Nextel)',
+'pcs.ntelos.com' => 'nTelos',
+'messaging.sprintpcs.com' => 'Sprint (now Sprint Nextel)',
+'tmomail.net' => 'T-Mobile',
+'email.uscc.net' => 'US Cellular',
+'vtext.com' => 'Verizon',
+'vmobl.com' => 'Virgin Mobile'
+);
+?>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -48,7 +65,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="brand" href="http://www.asrc.net"><img src="{{ asset('img/asrclogo.gif') }}" style="margin: -5px 0;" alt="ASRC" width="30" height="30" /></a>
+          <a class="brand" href="http://www.asrc.net"><img src="{{ asset('img/asrclogo.gif') }}" style="margin: -8px 0;" alt="ASRC" width="29" height="29" /></a>
           <a class="brand" href="#">Cell GPS</a>
           <div class="nav-collapse collapse">
             <p class="navbar-text pull-right">
@@ -64,36 +81,37 @@
 
     <div class="container-fluid">
       <div class="row-fluid collapse" id="help">
-        <div class="span12">
+        <div class="span12 well">
           <p>Welcome... This web app provides the ability to prompt a recipient to share their location via a text message sent to their cell phone containing a URL link. By clicking on the link, the recipient is permitting the phone to send its current location as determined by the location services enabled on the device.</p>
           <p><strong>This app cannot &#8220;turn on&#8221; location services or independently extract location without acknowledgement by the recipient!</strong></p>
-          <p>Example of the text:<br />
-            asrc_admin@eucalyptus.dreamhost.com(ASRCAdministrator) S:Tap link to send location to SAR M:http://gps.asrc.net/Mq</p>
+          <p>Example of the text:
+            <pre>asrc_admin@eucalyptus.dreamhost.com(ASRCAdministrator) S:Tap link to send location to SAR M:http://gps.asrc.net/Mq</pre>
+          </p>
           <p>To send an SMS message from this web app, the sender must provide the phone's SMS gateway. A list of SMS gateways for some of the major North American providers is included. <a href="http://en.wikipedia.org/wiki/List_of_SMS_gateways">A more complete list is available here</a> and/or by Googling.</p>
           <p>Questions/comments/suggestions/defects: <a href="mailto:ericmenendez@gmail.com">ericmenendez@gmail.com</a></p>
-        </div>        
+        </div>
       </div>
       <div class="row-fluid" id="sms">
         <div class="span12">
           <h2>Send SMS requesting location</h2>
-          {{ Form::open(array('url' => '/')) }}
-            <p>
-              <em>SMS email address:</em><br />
-              {{ Form::label('provider', 'Provider') }} {{ Form::select('provider', array('1' => 'lorem')) }}
-              <div class="input-prepend input-append">
-                {{ Form::text('phone', '', array('placeholder' => 'Phone Number', 'class' => 'span2')) }}
-                <span class="add-on">@</span>
-                {{ Form::text('gateway', '', array('placeholder' => 'Gateway', 'class' => 'span2')) }}
-              </div>
-              {{ Form::text('subject', '', array('placeholder' => 'Message subject', 'class' => 'span2')) }}
-              {{ Form::text('message', '', array('placeholder' => 'Message body', 'class' => 'span2')) }}
+          {{ Form::open(array('url' => '/', 'class' => 'form-inline')) }}
+            <h6>SMS email address:</h6>
+            <div class="controls controls-row">
+              {{ Form::label('provider', 'Provider') }} {{ Form::select('provider', $providers, '', array('class' => 'input-small')) }}
+              <span class="input-append">
+                {{ Form::text('phone', '', array('placeholder' => 'Phone No.', 'class' => 'input-small')) }}
+              </span><span class="input-prepend input-append">
+                <span></span><span class="add-on">@</span><span></span>
+              </span><span class="input-prepend">
+                {{ Form::text('gateway', '', array('placeholder' => 'Gateway', 'class' => 'input-small')) }}
+              </span>
+              {{ Form::text('subject', '', array('placeholder' => 'Message subject')) }}
+              {{ Form::text('message', '', array('placeholder' => 'Message body')) }}
 
-              {{ Form::submit('Send') }}
-            </p>
-            <p>
-              <em>Message preview:</em><br />
-              <span id="preview"></span>
-            </p>
+              {{ Form::submit('Send', array('class' => 'btn')) }}
+            </div>
+            <h6>Message preview:</h6>
+            <p><span id="preview"></span></p>
           {{ Form::close() }}
         </div>
       </div>
@@ -116,6 +134,7 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="{{ asset('js/jquery-1.10.2.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('js/script.js') }}"></script>
 
   </body>
 </html>
