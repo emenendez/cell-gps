@@ -15,7 +15,7 @@ class CreateLocations extends Migration {
 		Schema::create('locations', function($table){
 			$table->increments('id');
 			$table->integer('phone_id')->unsigned();
-			$table->string('lcoation', 64);
+			$table->string('location', 64);
 			$table->float('altitude');
 			$table->float('accuracy');
 			$table->float('altitudeAccuracy');
