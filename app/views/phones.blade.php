@@ -124,7 +124,7 @@ $providers = array(
       <hr>
 
       <footer>
-        <p>&copy; ASRC 2013</p>
+        <p>&copy; ASRC 2013. {{ HTML::mailto('ericmenendez@gmail.com', 'Comments/Suggestions/Bugs/Questions') }}</p>
       </footer>
 
     </div><!--/.fluid-container-->
