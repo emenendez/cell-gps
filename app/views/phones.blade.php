@@ -117,7 +117,39 @@ $providers = array(
       </div>
       <div class="row-fluid">
         <div class="span12">
-          <!-- table -->
+          <table class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Email</th>
+                <th>Location</th>
+                <th>Accuracy (m)</th>
+                <th>Altitude (m)</th>
+                <th>Heading (deg)</th>
+                <th>Speed (m/s)</th>
+                <th>Time of location</th>
+                <th>Time received</th>
+              </tr>
+            </thead>
+            <tbody>
+              @foreach (Phone::all() as $phone)
+                <tr>
+                  <?php
+                    $location = $phone->locations()->orderBy('created_at', 'desc')->first();
+                  ?>
+                  <td>{{ $phone->id }}</td>
+                  <td>{{ $phone->email }}</td>
+                  <td>{{ $location->location }}</td>
+                  <td>{{ $location->accuracy }}</td>
+                  <td>{{ $location->altitude }}</td>
+                  <td>{{ $location->heading }}</td>
+                  <td>{{ $location->speed }}</td>
+                  <td>{{ $location->location_time }}</td>
+                  <td>{{ $location->created_at }}</td>
+                </tr>
+              @endforeach
+            </tbody>
+          </table>
         </div><!--/span-->
       </div><!--/row-->
 
