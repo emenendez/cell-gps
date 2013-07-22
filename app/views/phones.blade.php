@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <?php
 $providers = array(
-'' => 'Other',
-'message.alltel.com' => 'Alltel',
-'txt.att.net' => 'AT&T',
-'txt.bellmobility.ca' => 'Bell Canada',
-'myboostmobile.com' => 'Boost Mobile',
-'sms.mycricket.com' => 'Cricket',
-'messaging.nextel.com' => 'Nextel (now Sprint Nextel)',
-'pcs.ntelos.com' => 'nTelos',
-'messaging.sprintpcs.com' => 'Sprint (now Sprint Nextel)',
-'tmomail.net' => 'T-Mobile',
-'email.uscc.net' => 'US Cellular',
-'vtext.com' => 'Verizon',
-'vmobl.com' => 'Virgin Mobile'
-);
+  '' => 'Other',
+  'message.alltel.com' => 'Alltel',
+  'txt.att.net' => 'AT&T',
+  'txt.bellmobility.ca' => 'Bell Canada',
+  'myboostmobile.com' => 'Boost Mobile',
+  'sms.mycricket.com' => 'Cricket',
+  'messaging.nextel.com' => 'Nextel (now Sprint Nextel)',
+  'pcs.ntelos.com' => 'nTelos',
+  'messaging.sprintpcs.com' => 'Sprint (now Sprint Nextel)',
+  'tmomail.net' => 'T-Mobile',
+  'email.uscc.net' => 'US Cellular',
+  'vtext.com' => 'Verizon',
+  'vmobl.com' => 'Virgin Mobile'
+  );
 ?>
 <html lang="en">
   <head>
