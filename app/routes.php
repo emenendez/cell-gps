@@ -11,32 +11,56 @@
 |
 */
 
-Route::get('/', function()
+// Routes that require authentication
+Route::group(array('before' => 'auth'), function()
 {
-	// Display list of phones with most recent location for current user
-	return View::make('phones');
-});
 
-Route::post('/', function() {
-	// Send SMS
-});
+	Route::get('/', function()
+	{
+		// Display list of phones with most recent location for current user
+		return View::make('phones');
+	});
 
-Route::get('phone/{id}', array('as' => 'phone', function($id) {
-	// Display all locations for a phone
-}))->where('id', '[0-9]+');
+	Route::get('phone/{id}', array('as' => 'phone', function($id) {
+		// Display all locations for a phone
+	}))->where('id', '[0-9]+');
+	
+	// Routes that also require csrf
+	Route::group(array('before' => 'csrf'), function()
+	{
+
+		Route::post('/', function() {
+			// Send SMS
+		});
+
+	});
+
+});
 
 Route::get('login', function() {
 	// Show login form
+	return View::make('login');
 });
 
-Route::post('login', function() {
-	// Process login form
-});
+Route::get('login/guest', array('as' => 'login-guest', function() {
+	// Log in as guest
+
+}));
 
 Route::get('signup', function() {
 	// Show registration form
 });
 
-Route::post('signup', function() {
-	// Process registration form
+// Routes that require csrf
+Route::group(array('before' => 'csrf'), function()
+{
+
+	Route::post('login', function() {
+		// Process login form
+	});
+
+	Route::post('signup', function() {
+		// Process registration form
+	});
+
 });
