@@ -14,13 +14,15 @@ class CreateUsers extends Migration {
 		// Create users table
 		Schema::create('users', function($table) {
 			$table->increments('id');
-			$table->string('username', 320);
 			$table->string('email', 320);
 			$table->string('organization', 320);
 			$table->string('password', 64);
 			$table->timestamps();
 			$table->timestamp('last_login');
 		});
+
+		// Add Guest user
+		DB::insert('insert into users (id, email, organization, password) values (?, ?, ?, ?)', array(1, 'Guest', '', Hash::make('')));
 	}
 
 	/**

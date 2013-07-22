@@ -19,17 +19,8 @@ class DatabaseSeeder extends Seeder {
 class AdminPageSeeder extends Seeder {
 	public function run()
 	{
-		DB::table('users')->delete();
-
-		$user = User::create(array(
-			'username' => 'tester',
-			'email' => 'ericmenendez@gmail.com',
-			'organization' => 'Test Organization',
-			'password' => Hash::make('password')
-			));
-
 		$phone = Phone::create(array(
-			'user_id' => $user->id,
+			'user_id' => 1,
 			'email' => '2027310827@vtext.com'
 			));
 
