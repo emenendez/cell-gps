@@ -44,12 +44,19 @@ Route::get('login', function() {
 
 Route::get('login/guest', array('as' => 'login-guest', function() {
 	// Log in as guest
-
+	Auth::loginUsingId(1);
+	return Redirect::intended('/');
 }));
 
 Route::get('signup', function() {
 	// Show registration form
 });
+
+Route::get('logout', array('as' => 'logout', function() {
+	// Log out
+	Auth::logout();
+	return Redirect::to('/');
+}));
 
 // Routes that require csrf
 Route::group(array('before' => 'csrf'), function()
