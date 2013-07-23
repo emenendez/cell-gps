@@ -69,7 +69,7 @@ $providers = array(
           <a class="brand" href="#">Cell GPS</a>
           <div class="nav-collapse collapse">
             <p class="navbar-text pull-right">
-              Logged in as <a href="#" class="navbar-link">Username</a>
+              Logged in as {{ link_to_route('logout', Auth::user()->email, array(), array('class' => 'navbar-link')) }}
             </p>
             <ul class="nav">
               <li><a href="#" data-toggle="collapse" data-target="#help">Help</a></li>
@@ -132,7 +132,13 @@ $providers = array(
               </tr>
             </thead>
             <tbody>
-              @foreach (Phone::all() as $phone)
+              <?php
+                $phones = Phone::where('user_id', Auth::user()->id)
+                  ->orWhere('user_id', 1)
+                  ->orderBy('created_at', 'desc')
+                  ->get();
+              ?>
+              @foreach ($phones as $phone)
                 <tr>
                   <?php
                     $location = $phone->locations()->orderBy('created_at', 'desc')->first();
