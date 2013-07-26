@@ -32,15 +32,17 @@ View::composer('master', function($view)
     $view->with('providers', $providers);
 });
 
+// Route models
+Route::model('phone', 'Phone');
+
 // Routes that require authentication
 Route::group(array('before' => 'auth'), function()
 {
 
 	Route::get('/', 'PhoneController@showPhones');
 
-	Route::get('phone/{id}', array('as' => 'phone', function($id) {
-		// Display all locations for a phone
-	}))->where('id', '[0-9]+');
+	// Display all locations for a phone
+	Route::get('phone/{phone}', array('as' => 'phone', 'uses' => 'PhoneController@showPhone'))->where('phone', '[0-9]+');
 	
 	// Routes that also require csrf
 	Route::group(array('before' => 'csrf'), function()

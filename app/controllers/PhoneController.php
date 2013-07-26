@@ -19,5 +19,19 @@ class PhoneController extends BaseController {
         return View::make('phones', array('phones' => $phones));
     }
 
+    /**
+     * Show all locations for given phone
+     * Verify phone belongs to user or guest
+     */
+    public function showPhone(Phone $phone)
+    {
+    	if( !($phone->user() == Auth::user() || $phone->user->id == 1) ) {
+    		throw new NotFoundException;
+    	}
+
+    	$locations = $phone->locations()->orderBy('created_at', 'desc')->get();
+
+    	return View::make('phone', array('email' => $phone->email, 'phone_time' => $phone->created_at, 'locations' => $locations));
+    }
 
 }
