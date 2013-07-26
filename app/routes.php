@@ -11,15 +11,32 @@
 |
 */
 
+// List of providers
+View::composer('master', function($view)
+{
+	$providers = array(
+		'' => 'Other',
+		'message.alltel.com' => 'Alltel',
+		'txt.att.net' => 'AT&T',
+		'txt.bellmobility.ca' => 'Bell Canada',
+		'myboostmobile.com' => 'Boost Mobile',
+		'sms.mycricket.com' => 'Cricket',
+		'messaging.nextel.com' => 'Nextel (now Sprint Nextel)',
+		'pcs.ntelos.com' => 'nTelos',
+		'messaging.sprintpcs.com' => 'Sprint (now Sprint Nextel)',
+		'tmomail.net' => 'T-Mobile',
+		'email.uscc.net' => 'US Cellular',
+		'vtext.com' => 'Verizon',
+		'vmobl.com' => 'Virgin Mobile'
+		);
+    $view->with('providers', $providers);
+});
+
 // Routes that require authentication
 Route::group(array('before' => 'auth'), function()
 {
 
-	Route::get('/', function()
-	{
-		// Display list of phones with most recent location for current user
-		return View::make('phones');
-	});
+	Route::get('/', 'PhoneController@showPhones');
 
 	Route::get('phone/{id}', array('as' => 'phone', function($id) {
 		// Display all locations for a phone
