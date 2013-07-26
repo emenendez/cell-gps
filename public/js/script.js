@@ -1,5 +1,11 @@
 var BASE_URL = 'http://gps.asrc.net/';
 
+function toggleHelp()
+{
+	$('#help').collapse('toggle');
+	$('#help-link').toggleClass('active');
+}
+
 function preview()
 {
 	subject = $('[name="subject"]').val();

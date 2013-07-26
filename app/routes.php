@@ -39,7 +39,7 @@ Route::model('phone', 'Phone');
 Route::group(array('before' => 'auth'), function()
 {
 
-	Route::get('/', 'PhoneController@showPhones');
+	Route::get('/', array('as' => 'index', 'uses' => 'PhoneController@showPhones'));
 
 	// Display all locations for a phone
 	Route::get('phone/{phone}', array('as' => 'phone', 'uses' => 'PhoneController@showPhone'))->where('phone', '[0-9]+');
