@@ -77,19 +77,28 @@
       <div class="row-fluid" id="sms">
         <div class="span12">
           <h2>Send SMS requesting location</h2>
-          {{ Form::open(array('url' => '/', 'class' => 'form-inline')) }}
+          {{ Form::open(array('route' => 'send-sms', 'class' => 'form-inline')) }}
             <h6>SMS email address:</h6>
+            @if (count($errors->all()))
+              <div class="alert alert-error">
+                @foreach ($errors->all() as $message)
+                  <strong>Error:</strong> {{ $message }}<br>
+                @endforeach
+              </div>
+            @endif
             <div class="controls controls-row">
-              {{ Form::label('provider', 'Provider') }} {{ Form::select('provider', $providers, '', array('class' => 'input-small')) }}
+              {{ Form::label('provider', 'Provider') }} {{ Form::select('provider', $providers, $provider, array('class' => 'input-small')) }}
               <span class="input-append">
-                {{ Form::text('phone', '', array('placeholder' => 'Phone No.', 'class' => 'input-small')) }}
+                <input type="tel" name="phone" placeholder="Phone No." class="input-small" value="{{ $phone }}"
+                title="10-digit phone number" pattern="[\D]*1?[\d]{3}[\D]*[\d]{3}[\D]*[\d]{4}.*" required>
               </span><span class="input-prepend input-append">
                 <span></span><span class="add-on">@</span><span></span>
               </span><span class="input-prepend">
-                {{ Form::text('gateway', '', array('placeholder' => 'Gateway', 'class' => 'input-small')) }}
+                <input type="text" name="gateway" placeholder="Gateway" class="input-small" value="{{ $gateway }}"
+                title="Valid domain" pattern="([0-9a-zA-Z\-]+\.)+[0-9a-zA-Z\-]+" required>
               </span>
-              {{ Form::text('subject', '', array('placeholder' => 'Message subject')) }}
-              {{ Form::text('message', '', array('placeholder' => 'Message body')) }}
+              {{ Form::text('subject', $subject, array('placeholder' => 'Message subject')) }}
+              {{ Form::text('message', $message, array('placeholder' => 'Message body')) }}
 
               {{ Form::submit('Send', array('class' => 'btn btn-primary')) }}
             </div>

@@ -30,6 +30,11 @@ View::composer('master', function($view)
 		'vmobl.com' => 'Virgin Mobile'
 		);
     $view->with('providers', $providers);
+	$view->with('provider', Input::old('provider', ''));
+	$view->with('phone', Input::old('phone', ''));
+	$view->with('gateway', Input::old('gateway', ''));
+	$view->with('subject', Input::old('subject', ''));
+	$view->with('message', Input::old('message', ''));
 });
 
 // Route models
@@ -47,11 +52,8 @@ Route::group(array('before' => 'auth'), function()
 	// Routes that also require csrf
 	Route::group(array('before' => 'csrf'), function()
 	{
-
-		Route::post('/', function() {
-			// Send SMS
-		});
-
+		// Send SMS
+		Route::post('/', array('as' => 'send-sms', 'uses' => 'PhoneController@sendSMS'));
 	});
 
 });
