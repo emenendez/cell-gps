@@ -1,6 +1,6 @@
 <?php
 
-include_once('~admin/inc.php');
+include_once('../inc.php');
 
 noCache();
 
@@ -23,7 +23,7 @@ if(isset($_GET['update']))
 		$_GET['heading'] = $_GET['heading'] == 'null'?'null':(int) $_GET['heading'];
 		$_GET['speed'] = $_GET['speed'] == 'null'?'null':(int) $_GET['speed'];
 		$_GET['location_time'] = (int) ($_GET['location_time']/1000);
-		if($db->query('insert into gps (phone_id, loc, altitude, accuracy, altitudeAccuracy, heading, speed, location_time) ' .
+		if($db->query('insert into gps (id, loc, altitude, accuracy, altitudeAccuracy, heading, speed, location_time) ' .
 			"VALUES (" . $_GET['update'] . ",'" . $_GET['loc'] . "'," . $_GET['altitude'] . "," . $_GET['accuracy'] . "," . 
 			$_GET['altitudeAccuracy'] . "," . $_GET['heading'] . "," . $_GET['speed'] . ",FROM_UNIXTIME(" . $_GET['location_time'] . "))"))
 		{
@@ -49,7 +49,7 @@ else
 	{
 		// Base64url-decode ID
 		$id = (int) base64url_decode($_GET['id']);
-		if(!($id > 0 && $db->query('select phone_id from phones where phone_id=' . $id)->num_rows > 0))
+		if(!($id > 0 && $db->query('select id from phones where id=' . $id)->num_rows > 0))
 		{
 			// Invalid ID
 			$id = 0;
@@ -60,7 +60,7 @@ else
 	{
 		// Use IP address to generate ID
 		$userString = $db->escape_string($_SERVER['REMOTE_ADDR'] . ':' . $_SERVER['REMOTE_PORT'] . ' ' . $_SERVER['HTTP_USER_AGENT']);
-		$db->query('insert into phones (email) values (\'' . $userString .'\')');
+		$db->query('insert into phones (user_id,email) values (1,\'' . $userString .'\')');
 		$id = $db->insert_id;
 	}
 
