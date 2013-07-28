@@ -58,10 +58,8 @@ Route::group(array('before' => 'auth'), function()
 
 });
 
-Route::get('login', function() {
-	// Show login form
-	return View::make('login');
-});
+// Show login form
+Route::get('login', array('as' => 'login', 'uses' => 'UserController@showLogin'));
 
 Route::get('login/guest', array('as' => 'login-guest', function() {
 	// Log in as guest
@@ -81,10 +79,8 @@ Route::get('logout', array('as' => 'logout', function() {
 // Routes that require csrf
 Route::group(array('before' => 'csrf'), function()
 {
-
-	Route::post('login', function() {
-		// Process login form
-	});
+	// Process login
+	Route::post('login', array('as' => 'login-submit', 'uses' => 'UserController@processLogin')); 
 
 	// Process registration form
 	Route::post('signup', array('as' => 'register-submit', 'uses' => 'UserController@processRegistration'));

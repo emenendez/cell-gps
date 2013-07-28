@@ -72,8 +72,13 @@
 
       {{ Form::open(array('url' => 'login', 'class' => 'form-signin')) }}
         <h2 class="form-signin-heading">Please sign in</h2>
-        {{ Form::input('text', 'email', '', array('class' => 'input-block-level', 'placeholder' => 'Email address')) }}
-        {{ Form::input('password', 'password', '', array('class' => 'input-block-level', 'placeholder' => 'Password')) }}
+        @unless ($error == '')
+          <div class="alert alert-error">
+            {{ $error }}
+          </div>
+        @endunless
+        {{ Form::input('text', 'email', $email, array('class' => 'input-block-level', 'placeholder' => 'Email address', 'required')) }}
+        {{ Form::input('password', 'password', '', array('class' => 'input-block-level', 'placeholder' => 'Password', 'required')) }}
         <label class="checkbox">
           {{ Form::checkbox('remember', 'remember-me', false) }} Remember me
         </label>
