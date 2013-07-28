@@ -55,30 +55,21 @@ class PhoneController extends BaseController {
 
 		if ($validator->fails())
 	    {
-	        return Redirect::to('/')->withErrors($validator);
+	        return Redirect::route('index')->withErrors($validator);
 	    }
 
-	    /*
-
-		$email = Input::get('phone') . '@' . Input::get('gateway');
-
-    	// Add email to database and get ID
+    	// Add phone to database
+    	$phone = new Phone;
+    	$phone->email = Input::get('phone') . '@' . Input::get('gateway');
+    	$phone = Auth::user()->phones()->save($phone);
+		// Get ID
+		$id = base64url_encode($phone->id);
 		// Send email with ID
-		if(!$db->query("insert into phones (email) values ('" . $db->escape_string($email) . "')") || $db->insert_id == 0)
-		{
-			// Error
-			echo('<div id="error">SMS email could not be inserted into database.</div>');
-		}
-		else
-		{
-			$id = base64url_encode($db->insert_id);
-			if(!mail($email, $_POST['subject'], $BASE_URL . $id . ' ' . $_POST['message'], 'From: ASRC <gps@asrc.net>'))
-			{
-				// Error
-				echo('<div id="error">Could not send email.</div>');
-			}
-		}	
-	    */
+		Mail::send(array('text' => 'emails.sms'), array('id' => $id, 'body' => Input::get('message')), function($message) use ($phone) {
+				$message->to($phone->email)->subject(Input::get('subject', 'Tap link to send location to SAR'));
+		});
+
+		return Redirect::route('index')->with('success', 'Email sent to ' . $phone->email);
 	}
 
 }

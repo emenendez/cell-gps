@@ -1,6 +1,9 @@
 @extends('master')
 
 @section('content')
+  @unless (empty($success))
+    <div class="alert alert-success">{{ $success }}</div>
+  @endunless
   <table class="table table-striped table-hover">
     <thead>
       <tr>
