@@ -26,7 +26,7 @@ class PhoneController extends BaseController {
 		        $phone->location->created_at = '';
         	}
         }
-        return View::make('phones', array('phones' => $phones));
+        return View::make('phones', array('phones' => $phones, 'success' => Session::get('success')));
     }
 
     /**
@@ -66,21 +66,31 @@ class PhoneController extends BaseController {
 
 		if ($validator->fails())
 	    {
-	        return Redirect::route('index')->withErrors($validator);
+	        return Redirect::back()->withErrors($validator);
 	    }
+
+	    // Apply phone regex to input and build email address
+	    $matches = array();
+	    preg_match('/1?([\d]{3})[\D]*([\d]{3})[\D]*([\d]{4})/', Input::get('phone'), $matches);
+	    $email = $matches[1] . $matches[2] . $matches[3] . '@' . Input::get('gateway');
+
+	    $subject = Input::get('subject');
+		if ($subject == '') {
+			$subject = 'Tap link to send location to SAR';
+		}
 
     	// Add phone to database
     	$phone = new Phone;
-    	$phone->email = Input::get('phone') . '@' . Input::get('gateway');
+    	$phone->email = $email;
     	$phone = Auth::user()->phones()->save($phone);
 		// Get ID
 		$id = base64url_encode($phone->id);
 		// Send email with ID
-		Mail::send(array('text' => 'emails.sms'), array('id' => $id, 'body' => Input::get('message')), function($message) use ($phone) {
-				$message->to($phone->email)->subject(Input::get('subject', 'Tap link to send location to SAR'));
+		Mail::send(array('text' => 'emails.sms'), array('id' => $id, 'body' => Input::get('message')), function($message) use ($email, $subject) {
+			$message->to($email)->subject($subject);
 		});
 
-		return Redirect::route('index')->with('success', 'Email sent to ' . $phone->email);
+		return Redirect::route('index')->with('success', 'Email sent to ' . $email);
 	}
 
 }

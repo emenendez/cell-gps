@@ -15,7 +15,7 @@ return array(
 	|
 	*/
 
-	'driver' => 'smtp',
+	'driver' => 'mail',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -54,7 +54,7 @@ return array(
 	|
 	*/
 
-	'from' => array('address' => 'gps@asrc.net', 'name' => null),
+	'from' => array('address' => 'gps@asrc.net', 'name' => 'ASRC'),
 
 	/*
 	|--------------------------------------------------------------------------
