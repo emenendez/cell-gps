@@ -7,6 +7,11 @@ class PhoneController extends BaseController {
      */
     public function showPhones()
     {
+    	// Delete all phones older than a week
+		// Delete Guest phones older than a day
+		Auth::user()->phones()->where('created_at', '<', '(now() - interval 1 week)')->delete();
+		Phone::where('user_id', '1')->where('created_at', '<', '(now() - interval 1 day)')->delete();
+
         $phones = Phone::where('user_id', Auth::user()->id)
           ->orWhere('user_id', 1)
           ->orderBy('created_at', 'desc')
