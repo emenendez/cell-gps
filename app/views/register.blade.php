@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Login | Cellular geolocation web app</title>
+    <title>Sign Up | Cellular geolocation web app</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -34,26 +34,13 @@
         margin-bottom: 10px;
       }
       .form-signin input[type="text"],
-      .form-signin input[type="password"] {
+      .form-signin input[type="password"],
+      .form-signin input[type="email"] {
         font-size: 16px;
         height: auto;
         margin-bottom: 15px;
         padding: 7px 9px;
       }
-      .register-box {
-        max-width: 300px;
-        padding: 19px 29px 19px;
-        margin: 0 auto 0;
-        background-color: #fff;
-        border: 1px solid #e5e5e5;
-        -webkit-border-radius: 5px;
-           -moz-border-radius: 5px;
-                border-radius: 5px;
-        -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
-           -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
-                box-shadow: 0 1px 2px rgba(0,0,0,.05);
-      }
-
     </style>
     <link href="{{ asset('css/bootstrap-responsive.min.css') }}" rel="stylesheet">
 
@@ -70,26 +57,23 @@
 
     <div class="container">
 
-      {{ Form::open(array('url' => 'login', 'class' => 'form-signin')) }}
-        <h2 class="form-signin-heading">Please sign in</h2>
-        {{ Form::input('text', 'email', '', array('class' => 'input-block-level', 'placeholder' => 'Email address')) }}
-        {{ Form::input('password', 'password', '', array('class' => 'input-block-level', 'placeholder' => 'Password')) }}
-        <label class="checkbox">
-          {{ Form::checkbox('remember', 'remember-me', false) }} Remember me
-        </label>
-        {{ Form::submit('Sign in', array('class' => 'btn btn-large btn-primary')) }}
-        {{ link_to_route('login-guest', 'Sign in as guest', array(), array('class' => 'btn btn-large')) }}
+      {{ Form::model($user, array('route' => 'register-submit', 'class' => 'form-signin')) }}
+        <h2 class="form-signin-heading">Register</h2>
+        @if (count($errors->all()))
+          <div class="alert alert-error">
+            @foreach ($errors->all() as $message)
+              <strong>Error:</strong> {{ $message }}<br>
+            @endforeach
+          </div>
+        @endif
+        {{ Form::input('email', 'email', '', array('class' => 'input-block-level', 'placeholder' => 'Email address', 'required')) }}
+        {{ Form::input('password', 'password', '', array('class' => 'input-block-level', 'placeholder' => 'Password', 'required')) }}
+        {{ Form::input('password', 'password_confirmation', '', array('class' => 'input-block-level', 'placeholder' => 'Confirm password', 'required')) }}
+        {{ Form::input('text', 'organization', '', array('class' => 'input-block-level', 'placeholder' => 'Organization')) }}
+        {{ Form::submit('Sign up', array('class' => 'btn btn-large btn-primary')) }}
       {{ Form::close() }}
 
     </div> <!-- /container -->
-
-    <div class="container">
-
-      <div class="register-box">
-        {{ link_to_route('register', 'Register', array(), array('class' => 'btn btn-large btn-block'))}}
-      </div>
-
-    </div>
 
     <!-- Le javascript
     ================================================== -->

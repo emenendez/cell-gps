@@ -69,14 +69,13 @@ Route::get('login/guest', array('as' => 'login-guest', function() {
 	return Redirect::intended('/');
 }));
 
-Route::get('signup', function() {
-	// Show registration form
-});
+// Show registration form
+Route::get('signup', array('as' => 'register', 'uses' => 'UserController@showRegistration'));
 
 Route::get('logout', array('as' => 'logout', function() {
 	// Log out
 	Auth::logout();
-	return Redirect::to('/');
+	return Redirect::route('index');
 }));
 
 // Routes that require csrf
@@ -87,8 +86,7 @@ Route::group(array('before' => 'csrf'), function()
 		// Process login form
 	});
 
-	Route::post('signup', function() {
-		// Process registration form
-	});
+	// Process registration form
+	Route::post('signup', array('as' => 'register-submit', 'uses' => 'UserController@processRegistration'));
 
 });
