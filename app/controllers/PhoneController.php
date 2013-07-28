@@ -14,6 +14,17 @@ class PhoneController extends BaseController {
 
         foreach($phones as $phone) {
         	$phone->location = $phone->locations()->orderBy('created_at', 'desc')->first();
+        	if(!$phone->location) {
+        		$phone->location = new Location;
+		        $phone->location->location = '';
+		        $phone->location->accuracy = '';
+		        $phone->location->altitude = '';
+		        $phone->location->altitudeAccuracy = '';
+		        $phone->location->heading = '';
+		        $phone->location->speed = '';
+		        $phone->location->location_time = '';
+		        $phone->location->created_at = '';
+        	}
         }
         return View::make('phones', array('phones' => $phones));
     }
