@@ -1,4 +1,0 @@
-AuthName "Cellular locater administration"
-AuthType Basic
-AuthUserFile /home/asrc_admin/.htpasswd
-Require valid-user
