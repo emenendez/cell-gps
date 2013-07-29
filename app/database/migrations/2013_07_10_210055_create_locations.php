@@ -16,12 +16,12 @@ class CreateLocations extends Migration {
 			$table->increments('id');
 			$table->integer('phone_id')->unsigned();
 			$table->string('location', 64);
-			$table->float('altitude');
-			$table->float('accuracy');
-			$table->float('altitudeAccuracy');
-			$table->float('heading');
-			$table->float('speed');
-			$table->timestamp('location_time');
+			$table->float('altitude')->nullable();
+			$table->float('accuracy')->nullable();
+			$table->float('altitudeAccuracy')->nullable();
+			$table->float('heading')->nullable();
+			$table->float('speed')->nullable();
+			$table->timestamp('location_time')->nullable();
 			$table->timestamps();
 
 			$table->foreign('phone_id')

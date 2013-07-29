@@ -15,6 +15,7 @@ class PhoneController extends BaseController {
         $phones = Phone::where('user_id', Auth::user()->id)
           ->orWhere('user_id', 1)
           ->orderBy('created_at', 'desc')
+          ->orderBy('id', 'desc')
           ->get();
 
         foreach($phones as $phone) {
@@ -40,8 +41,8 @@ class PhoneController extends BaseController {
      */
     public function showPhone(Phone $phone)
     {
-    	if( !($phone->user() == Auth::user() || $phone->user->id == 1) ) {
-    		throw new NotFoundException;
+    	if( !($phone->user->id == Auth::user()->id || $phone->user->id == 1) ) {
+    		App::abort(401, 'You are not authorized.');
     	}
 
     	$locations = $phone->locations()->orderBy('created_at', 'desc')->get();

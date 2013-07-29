@@ -1,7 +1,7 @@
 @extends('master')
 
 @section('content')
-  <h2>Details for phone {{ $email }}</h2>
+  <h2>Details for {{ $email }}</h2>
   <p>Time sent: {{ $phone_time }}</p>
   <table class="table table-striped table-hover">
     <thead>

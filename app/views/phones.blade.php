@@ -23,7 +23,7 @@
         <tr>
           <td>{{ link_to_route('phone', $phone->id, array($phone->id)) }}</td>
           <td>{{ link_to_route('phone', $phone->email, array($phone->id), array('title' => 'SMS sent ' . $phone->created_at )) }}</td>
-          <td>{{ $phone->location->location != '' ? HTML::link('http://maps.google.com/maps?q=' . urlencode($phone->location->location), $phone->location->location) : '' }}</td>
+          <td>{{ $phone->location->location != '' ? HTML::link('http://maps.google.com/maps?q=' . urlencode($phone->location->location), $phone->location->location, array('target' => '_blank')) : '' }}</td>
           <td>{{ $phone->location->accuracy }}</td>
           <td>{{ $phone->location->altitude ? $phone->location->altitude . '&#xB1;' . $phone->location->altitudeAccuracy . 'm' : '' }}</td>
           <td>{{ $phone->location->heading }}</td>

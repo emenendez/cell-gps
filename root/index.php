@@ -23,9 +23,9 @@ if(isset($_GET['update']))
 		$_GET['heading'] = $_GET['heading'] == 'null'?'null':(int) $_GET['heading'];
 		$_GET['speed'] = $_GET['speed'] == 'null'?'null':(int) $_GET['speed'];
 		$_GET['location_time'] = (int) ($_GET['location_time']/1000);
-		if($db->query('insert into gps (id, loc, altitude, accuracy, altitudeAccuracy, heading, speed, location_time) ' .
+		if($db->query('insert into locations (phone_id, location, altitude, accuracy, altitudeAccuracy, heading, speed, location_time, created_at) ' .
 			"VALUES (" . $_GET['update'] . ",'" . $_GET['loc'] . "'," . $_GET['altitude'] . "," . $_GET['accuracy'] . "," . 
-			$_GET['altitudeAccuracy'] . "," . $_GET['heading'] . "," . $_GET['speed'] . ",FROM_UNIXTIME(" . $_GET['location_time'] . "))"))
+			$_GET['altitudeAccuracy'] . "," . $_GET['heading'] . "," . $_GET['speed'] . ",FROM_UNIXTIME(" . $_GET['location_time'] . "),now())"))
 		{
 			echo('Your location has been received by Search &amp; Rescue.');
 			$error = false;
@@ -60,7 +60,7 @@ else
 	{
 		// Use IP address to generate ID
 		$userString = $db->escape_string($_SERVER['REMOTE_ADDR'] . ':' . $_SERVER['REMOTE_PORT'] . ' ' . $_SERVER['HTTP_USER_AGENT']);
-		$db->query('insert into phones (user_id,email) values (1,\'' . $userString .'\')');
+		$db->query('insert into phones (user_id,email,created_at) values (1,\'' . $userString .'\',now())');
 		$id = $db->insert_id;
 	}
 
