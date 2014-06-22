@@ -7,3 +7,5 @@ composer.lock
 .DS_Store
 Thumbs.db
 auth.php
+auth.*.php
+deploy
