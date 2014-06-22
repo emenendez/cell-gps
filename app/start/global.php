@@ -79,3 +79,7 @@ App::down(function()
 */
 
 require app_path().'/filters.php';
+
+// Add global includes
+require app_path().'/../inc.php';
+
