@@ -70,7 +70,7 @@
 
     <div class="container">
 
-      {{ Form::open(array('url' => 'login', 'class' => 'form-signin')) }}
+      {{ Form::open(array('route' => 'login', 'class' => 'form-signin')) }}
         <h2 class="form-signin-heading">Please sign in</h2>
         @unless ($error == '')
           <div class="alert alert-error">

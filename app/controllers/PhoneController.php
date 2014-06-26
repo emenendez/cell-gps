@@ -1,65 +1,67 @@
 <?php
 
+use Carbon\Carbon;
+
 class PhoneController extends \BaseController {
 
-    /**
-     * Show all phones for the logged-in user
-     */
-    public function showPhones()
-    {
-    	// Delete all phones older than a week
-		// Delete Guest phones older than a day
-		Auth::user()->phones()->where('created_at', '<', '(now() - interval 1 week)')->delete();
-		Phone::where('user_id', '1')->where('created_at', '<', '(now() - interval 1 day)')->delete();
+  /**
+   * Show all phones for the logged-in user
+   */
+  public function showPhones()
+  {
+  	// Delete all phones older than a week
+  	// Delete Guest phones older than a day
+  	Auth::user()->phones()->where('created_at', '<', '(now() - interval 1 week)')->delete();
+  	Phone::where('user_id', '1')->where('created_at', '<', '(now() - interval 1 day)')->delete();
 
-        $phones = Phone::where('user_id', Auth::user()->id)
-          ->orWhere('user_id', 1)
-          ->orderBy('created_at', 'desc')
-          ->orderBy('id', 'desc')
-          ->get();
+    $phones = Phone::where('user_id', Auth::user()->id)
+      ->orWhere('user_id', 1)
+      ->orderBy('created_at', 'desc')
+      ->orderBy('id', 'desc')
+      ->get();
 
-        foreach($phones as $phone) {
-        	$phone->location = $phone->locations()->orderBy('created_at', 'desc')->first();
-        	if(!$phone->location) {
-        		$phone->location = new Location;
-		        $phone->location->location = '';
-		        $phone->location->accuracy = '';
-		        $phone->location->altitude = '';
-		        $phone->location->altitudeAccuracy = '';
-		        $phone->location->heading = '';
-		        $phone->location->speed = '';
-		        $phone->location->location_time = '';
-		        $phone->location->created_at = '';
-        	}
-        }
-        return View::make('phones', array('phones' => $phones, 'success' => Session::get('success')));
-    }
-
-    /**
-     * Show all locations for given phone
-     * Verify phone belongs to user or guest
-     */
-    public function showPhone(Phone $phone)
-    {
-    	if( !($phone->user->id == Auth::user()->id || $phone->user->id == 1) ) {
-    		App::abort(401, 'You are not authorized.');
+    foreach($phones as $phone) {
+    	$phone->location = $phone->locations()->orderBy('created_at', 'desc')->first();
+    	if(!$phone->location) {
+    		$phone->location = new Location;
+        $phone->location->location = '';
+        $phone->location->accuracy = '';
+        $phone->location->altitude = '';
+        $phone->location->altitudeAccuracy = '';
+        $phone->location->heading = '';
+        $phone->location->speed = '';
+        $phone->location->location_time = '';
+        $phone->location->created_at = '';
     	}
-
-    	$locations = $phone->locations()->orderBy('created_at', 'desc')->get();
-
-    	return View::make('phone', array('email' => $phone->email, 'phone_time' => $phone->created_at, 'locations' => $locations));
     }
+    return View::make('phones', array('phones' => $phones, 'success' => Session::get('success')));
+  }
 
-    /**
-     * Send SMS message
-     */
-    public function sendSMS()
-    {
-    	// Make input available in future requests
-    	Input::flash();
+  /**
+   * Show all locations for given phone
+   * Verify phone belongs to user or guest
+   */
+  public function showPhone(Phone $phone)
+  {
+  	if( !($phone->user->id == Auth::user()->id || $phone->user->id == 1) ) {
+  		App::abort(401, 'You are not authorized.');
+  	}
 
-    	// Validate input
-		$validator = Validator::make(
+  	$locations = $phone->locations()->orderBy('created_at', 'desc')->get();
+
+  	return View::make('phone', array('email' => $phone->email, 'phone_time' => $phone->created_at, 'locations' => $locations));
+  }
+
+  /**
+   * Send SMS message
+   */
+  public function sendSMS()
+  {
+  	// Make input available in future requests
+  	Input::flash();
+
+  	// Validate input
+	  $validator = Validator::make(
 			Input::all(), 
 			array(
 				'phone' => array('required', 'regex:/1?[\d]{3}[\D]*[\d]{3}[\D]*[\d]{4}/'),
@@ -70,29 +72,31 @@ class PhoneController extends \BaseController {
 				'gateway.regex' => 'The gateway field must be a valid domain.'
 				));
 
-		if ($validator->fails())
-	    {
-	        return Redirect::back()->withErrors($validator);
-	    }
+	  if ($validator->fails())
+    {
+      return Redirect::back()->withErrors($validator);
+    }
 
-	    // Apply phone regex to input and build email address
-	    $matches = array();
-	    preg_match('/1?([\d]{3})[\D]*([\d]{3})[\D]*([\d]{4})/', Input::get('phone'), $matches);
-	    $email = $matches[1] . $matches[2] . $matches[3] . '@' . Input::get('gateway');
+    // Apply phone regex to input and build email address
+    $matches = array();
+    preg_match('/1?([\d]{3})[\D]*([\d]{3})[\D]*([\d]{4})/', Input::get('phone'), $matches);
+    $email = $matches[1] . $matches[2] . $matches[3] . '@' . Input::get('gateway');
 
-	    $subject = Input::get('subject');
-		if ($subject == '') {
-			$subject = 'Tap link to send location to SAR';
-		}
+    $subject = Input::get('subject');
+    if ($subject == '') {
+      $subject = 'Tap link to send location to SAR';
+    }
 
-    	// Add phone to database
-    	$phone = new Phone;
-    	$phone->email = $email;
-    	$phone = Auth::user()->phones()->save($phone);
-		// Get ID
-		$id = base64url_encode($phone->id);
-		// Send email with ID
-		Mail::send(array('text' => 'emails.sms'), array('id' => $id, 'body' => Input::get('message')), function($message) use ($email, $subject) {
+  	// Add phone to database
+  	$phone = new Phone;
+  	$phone->email = $email;
+  	$phone = Auth::user()->phones()->save($phone);
+
+		// Get token
+		$token = base64url_encode($phone->id);
+
+    // Send email with token
+		Mail::send(array('text' => 'emails.sms'), array('token' => $token, 'body' => Input::get('message')), function($message) use ($email, $subject) {
 			$message->to($email)->subject($subject);
 		});
 
@@ -107,7 +111,7 @@ class PhoneController extends \BaseController {
   {
     // Base64url-decode ID
     $id = (int) base64url_decode($token);
-    $phone = Phones::find($id);
+    $phone = Phone::find($id);
 
     if(!$phone)
     {
@@ -126,9 +130,9 @@ class PhoneController extends \BaseController {
   /**
    * Prompt subject device for location
    */
-  public function getLocation($token)
+  public function getLocation($token = null)
   {
-    $phone = getPhone($token);
+    $phone = $this->getPhone($token);
     return View::make('subject', array('token' => base64url_encode($phone->id)));
   }
 
@@ -147,7 +151,7 @@ class PhoneController extends \BaseController {
       echo('Error: <a href="./">Location not received. Tap here to reload page.</a>');
     });
     
-    $phone = getPhone($token);
+    $phone = $this->getPhone($token);
     $location = new Location;
 
     $location->location = $loc;

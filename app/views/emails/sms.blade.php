@@ -1,1 +1,1 @@
-http://gps.asrc.net/{{ $id }} {{ $body }}
+{{ route('get-location') }}/{{ $token }} {{ $body }}
