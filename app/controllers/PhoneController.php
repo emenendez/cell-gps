@@ -100,9 +100,10 @@ class PhoneController extends \BaseController {
 	}
 
   /**
-   * Prompt subject device for location
+   * Parse token and return phone model
+   * Create a new phone if need be
    */
-  public function getLocation(string $token)
+  private function getPhone($token)
   {
     // Base64url-decode ID
     $id = (int) base64url_decode($token);
@@ -112,25 +113,54 @@ class PhoneController extends \BaseController {
     {
       // Use IP address to generate ID
       $userString = $_SERVER['REMOTE_ADDR'] . ' ' . $_SERVER['HTTP_USER_AGENT'];
-      $phone = new Phone();
+      $phone = new Phone;
       $phone->user_id = 1;
       $phone->email = $userString;
       $phone->created_at = Carbon::now();
       $phone->save();
-
-      $token = base64url_encode($phone->id);
     }
 
-    return View::make('subject', array('token' => $token));
+    return $phone;
+  }
+
+  /**
+   * Prompt subject device for location
+   */
+  public function getLocation($token)
+  {
+    $phone = getPhone($token);
+    return View::make('subject', array('token' => base64url_encode($phone->id)));
   }
 
   /**
    * Get location from subject device
    */
-  public function setLocation(string $token)
+  public function setLocation($token, $loc, $altitude, $accuracy, $altitudeAccuracy, $heading, $speed, $location_time)
   {
+    // This route is called via AJAX
+    // Update database with location using ID
+    // Return a confirmation to user
+    
+    // Register catch-all error handler, just for this request
+    App::error(function(Exception $exception, $code)
+    {
+      echo('Error: <a href="./">Location not received. Tap here to reload page.</a>');
+    });
+    
+    $phone = getPhone($token);
+    $location = new Location;
 
+    $location->location = $loc;
+    $location->altitude = $altitude;
+    $location->accuracy = $accuracy;
+    $location->altitudeAccuracy = $altitudeAccuracy;
+    $location->heading = $heading;
+    $location->speed = $speed;
+    $location->location_time = $location_time / 1000;
 
+    $phone->locations()->save($location);
+
+    echo('Your location has been received by Search &amp; Rescue.');
   }
 
 }
