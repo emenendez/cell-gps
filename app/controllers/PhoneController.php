@@ -99,4 +99,21 @@ class PhoneController extends \BaseController {
 		return Redirect::route('index')->with('success', 'Email sent to ' . $email);
 	}
 
+  /**
+   * Prompt subject device for location
+   */
+  public function getLocation(strong $token)
+  {
+
+  }
+
+  /**
+   * Get location from subject device
+   */
+  public function setLocation(string $token)
+  {
+
+
+  }
+
 }
