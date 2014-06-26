@@ -102,9 +102,26 @@ class PhoneController extends \BaseController {
   /**
    * Prompt subject device for location
    */
-  public function getLocation(strong $token)
+  public function getLocation(string $token)
   {
+    // Base64url-decode ID
+    $id = (int) base64url_decode($token);
+    $phone = Phones::find($id);
 
+    if(!$phone)
+    {
+      // Use IP address to generate ID
+      $userString = $_SERVER['REMOTE_ADDR'] . ' ' . $_SERVER['HTTP_USER_AGENT'];
+      $phone = new Phone();
+      $phone->user_id = 1;
+      $phone->email = $userString;
+      $phone->created_at = Carbon::now();
+      $phone->save();
+
+      $token = base64url_encode($phone->id);
+    }
+
+    return View::make('subject', array('token' => $token));
   }
 
   /**
