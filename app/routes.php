@@ -92,7 +92,7 @@ Route::group(array('prefix' => '~admin'), function()
 
 });
 
-Route::pattern('token', '[0-9A-Za-z\-\_]+');
+Route::pattern('token', '[0-9A-Za-z\-_]+');
 
 // Get location from subject device
 Route::get('/update/{token}/{location}/{altitude}/{accuracy}/{altitudeAccuracy}/{heading}/{speed}/{location_time}',
