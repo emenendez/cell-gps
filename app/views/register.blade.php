@@ -71,6 +71,7 @@
         {{ Form::input('password', 'password_confirmation', '', array('class' => 'input-block-level', 'placeholder' => 'Confirm password', 'required')) }}
         {{ Form::input('text', 'organization', '', array('class' => 'input-block-level', 'placeholder' => 'Organization')) }}
         {{ Form::submit('Sign up', array('class' => 'btn btn-large btn-primary')) }}
+        {{ link_to_route('index', 'Cancel', array(), array('class' => 'btn btn-large')) }}
       {{ Form::close() }}
 
     </div> <!-- /container -->
