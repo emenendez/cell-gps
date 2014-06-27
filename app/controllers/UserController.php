@@ -44,7 +44,6 @@ class UserController extends \BaseController {
 		$user = Auth::user();
 		$user->last_login = Carbon::now();
 		$user->save();
-		
 	}
 
 	public function processLogin() {
