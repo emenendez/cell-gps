@@ -43,7 +43,7 @@ class UserController extends \BaseController {
 			// $user = Auth::user();
 			// $user->last_login = now();
 			// $user->save();
-		    return Redirect::intended('index');
+		    return Redirect::intended(route('index'));
 		}
 
 		return Redirect::back()->with('error', 'Incorrect user and/or password.')->withInput();

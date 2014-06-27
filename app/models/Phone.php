@@ -2,6 +2,8 @@
 
 class Phone extends Eloquent {
 
+	protected $touches = array('user');
+
 	public function user() {
 		return $this->belongsTo('User');
 	}

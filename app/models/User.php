@@ -26,6 +26,18 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	protected $hidden = array('password', 'remember_token');
 
 	/**
+	 * Date fields
+	 */
+	public function getDates()
+	{
+		return array(
+			'created_at',
+			'updated_at',
+			'last_login',
+			);
+	}
+
+	/**
 	 * Get the unique identifier for the user.
 	 *
 	 * @return mixed
