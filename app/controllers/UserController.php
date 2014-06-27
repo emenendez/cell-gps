@@ -1,5 +1,7 @@
 <?php
 
+use Carbon\Carbon;
+
 class UserController extends \BaseController {
 	public function showRegistration() {
 		$user = new User;
@@ -37,12 +39,18 @@ class UserController extends \BaseController {
 		return View::make('login')->with(array('error' => Session::get('error'), 'email' => $email));
 	}
 
+	static function touchUser()
+	{
+		$user = Auth::user();
+		$user->last_login = Carbon::now();
+		$user->save();
+		
+	}
+
 	public function processLogin() {
 		if (Auth::attempt(array('email' => Input::get('email'), 'password' => Input::get('password'))))
 		{
-			// $user = Auth::user();
-			// $user->last_login = now();
-			// $user->save();
+			UserController::touchUser();
 		    return Redirect::intended(route('index'));
 		}
 
