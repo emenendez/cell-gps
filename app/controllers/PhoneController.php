@@ -5,14 +5,22 @@ use Carbon\Carbon;
 class PhoneController extends \BaseController {
 
   /**
+   * Purge old phones from database
+   */
+  private function purgePhones()
+  {
+  	// Delete all phones without activity within the past week
+    Phone::where('updated_at', '<', Carbon::now()->subWeek())->delete();
+  	// Delete all Guest phones without activity within the past day
+  	Phone::where('user_id', '1')->where('updated_at', '<', Carbon::now()->subDay())->delete();
+  }
+  
+  /**
    * Show all phones for the logged-in user
    */
   public function showPhones()
   {
-  	// Delete all phones older than a week
-  	// Delete Guest phones older than a day
-  	Auth::user()->phones()->where('created_at', '<', '(now() - interval 1 week)')->delete();
-  	Phone::where('user_id', '1')->where('created_at', '<', '(now() - interval 1 day)')->delete();
+    $this->purgePhones();
 
     $phones = Phone::where('user_id', Auth::user()->id)
       ->orWhere('user_id', 1)
@@ -98,7 +106,7 @@ class PhoneController extends \BaseController {
     // Send email with token
 		Mail::send(array('text' => 'emails.sms'), array('token' => $token, 'body' => Input::get('message')), function($message) use ($email, $subject) {
 			$message->to($email)->subject($subject);
-		});
+    });
 
 		return Redirect::route('index')->with('success', 'Email sent to ' . $email);
 	}
