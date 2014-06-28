@@ -20,7 +20,7 @@ class AdminPageSeeder extends Seeder {
 	public function run()
 	{
 		$phone = Phone::create(array(
-			'user_id' => 1,
+			'user_id' => User::guestId(),
 			'email' => '1234567890@vtext.com',
 			'created_at' => '2014-06-01 00:00:00',
 			));

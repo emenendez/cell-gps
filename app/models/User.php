@@ -12,6 +12,22 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	protected $fillable = array('email', 'password', 'organization');
 
 	/**
+	 * Return the guest user ID
+	 */
+	static function guestId()
+	{
+		return 1;
+	}
+
+	/**
+	 * Return the guest user's model
+	 */
+	static function Guest()
+	{
+		return User::find(User::guestId());
+	}
+	
+	/**
 	 * The database table used by the model.
 	 *
 	 * @var string
