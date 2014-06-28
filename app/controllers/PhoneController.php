@@ -12,7 +12,7 @@ class PhoneController extends \BaseController {
   	// Delete all phones without activity within the past week
     Phone::where('updated_at', '<', Carbon::now()->subWeek())->delete();
   	// Delete all Guest phones without activity within the past day
-  	Phone::where('user_id', '1')->where('updated_at', '<', Carbon::now()->subDay())->delete();
+    User::Guest()->phones()->where('updated_at', '<', Carbon::now()->subDay())->delete();
   }
   
   /**
@@ -23,7 +23,7 @@ class PhoneController extends \BaseController {
     $this->purgePhones();
 
     $phones = Phone::where('user_id', Auth::user()->id)
-      ->orWhere('user_id', 1)
+      ->orWhere('user_id', User::guestId())
       ->orderBy('created_at', 'desc')
       ->orderBy('id', 'desc')
       ->get();
@@ -51,7 +51,7 @@ class PhoneController extends \BaseController {
    */
   public function showPhone(Phone $phone)
   {
-  	if( !($phone->user->id == Auth::user()->id || $phone->user->id == 1) ) {
+  	if( !($phone->user->id == Auth::user()->id || $phone->user->id == User::guestId()) ) {
   		App::abort(401, 'You are not authorized.');
   	}
 
@@ -126,10 +126,10 @@ class PhoneController extends \BaseController {
       // Use IP address to generate ID
       $userString = $_SERVER['REMOTE_ADDR'] . ' ' . $_SERVER['HTTP_USER_AGENT'];
       $phone = new Phone;
-      $phone->user_id = 1;
       $phone->email = $userString;
       $phone->created_at = Carbon::now();
-      $phone->save();
+
+      User::Guest()->phones()->save($phone);
     }
 
     return $phone;

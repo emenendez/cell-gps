@@ -24,7 +24,7 @@ class CreateUsers extends Migration {
 		});
 
 		// Add Guest user
-		DB::insert('insert into users (id, email, organization, password) values (?, ?, ?, ?)', array(1, 'Guest', '', Hash::make('')));
+		DB::insert('insert into users (id, email, organization, password) values (?, ?, ?, ?)', array(User::guestId(), 'Guest', '', Hash::make('')));
 	}
 
 	/**
