@@ -128,7 +128,6 @@ class PhoneController extends \BaseController {
       $phone = new Phone;
       $phone->email = $userString;
       $phone->created_at = Carbon::now();
-
       User::Guest()->phones()->save($phone);
     }
 
