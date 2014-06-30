@@ -29,7 +29,7 @@ $env = $app->detectEnvironment(function() {
 	{
 		return 'local';
 	}
-	else if ($_SERVER['SERVER_NAME'] == 'test.gps.asrc.net')
+	else if (ends_with($_SERVER['USER'], '_test'))
 	{
 		return 'test';
 	}
