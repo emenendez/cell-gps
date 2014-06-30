@@ -24,11 +24,18 @@ $app = new Illuminate\Foundation\Application;
 |
 */
 
-$env = $app->detectEnvironment(array(
+$env = $app->detectEnvironment(function() {
+	if (gethostname() == 'dragon-admins-MacBook-Air.local')
+	{
+		return 'local';
+	}
+	else if ($_SERVER['SERVER_NAME'] == 'test.gps.asrc.net')
+	{
+		return 'test';
+	}
 
-	'local' => array('dragon-admins-MacBook-Air.local'),
-
-));
+	return 'production';
+});
 
 /*
 |--------------------------------------------------------------------------
