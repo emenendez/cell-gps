@@ -67,6 +67,7 @@ Route::group(array('prefix' => '~admin'), function()
 	Route::get('login/guest', array('as' => 'login-guest', function() {
 		// Log in as guest
 		Auth::login(User::Guest());
+		UserController::touchUser();
 		return Redirect::intended(route('index'));
 	}));
 
