@@ -40,6 +40,9 @@ View::composer('master', function($view)
 // Route models
 Route::model('phone', 'Phone');
 
+/**
+ * All routes used by SAR
+ */
 Route::group(array('prefix' => '~admin'), function()
 {
 
@@ -93,11 +96,18 @@ Route::group(array('prefix' => '~admin'), function()
 
 });
 
+/**
+ * All routes used by the search subject
+ */
+
 Route::pattern('token', '[0-9A-Za-z\-_]+');
 
-// Get location from subject device
-Route::get('/update/{token}/{longitude}/{latitude}/{altitude}/{accuracy}/{altitudeAccuracy}/{heading}/{speed}/{location_time}',
-	array('as' => 'set-location', 'uses' => 'PhoneController@setLocation'));
+Route::group(array('before' => array('session.remove')), function()
+{
+	// Get location from subject device
+	Route::get('/update/{token}/{longitude}/{latitude}/{altitude}/{accuracy}/{altitudeAccuracy}/{heading}/{speed}/{location_time}',
+		array('as' => 'set-location', 'uses' => 'PhoneController@setLocation'));
 
-// Prompt subject for location
-Route::get('/{token?}', array('as' => 'get-location', 'uses' => 'PhoneController@getLocation'));
+	// Prompt subject for location
+	Route::get('/{token?}', array('as' => 'get-location', 'uses' => 'PhoneController@getLocation'));
+});

@@ -88,3 +88,11 @@ Route::filter('csrf', function()
 		throw new Illuminate\Session\TokenMismatchException;
 	}
 });
+
+/**
+ * Disables sessions for any routes using this filter
+ */
+Route::filter('session.remove', function()
+{
+	return Config::set('session.driver', 'array');
+});
