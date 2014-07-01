@@ -144,9 +144,28 @@ class PhoneController extends \BaseController {
   }
 
   /**
+   * Convert 'null' to null, all other values to float
+   */
+  private function toFloat($input)
+  {
+    if ($input == null)
+    {
+      return null;
+    }
+    else if (strtolower($input) == 'null')
+    {
+      return null;
+    }
+    else
+    {
+      return floatval($input);
+    }
+  }
+
+  /**
    * Get location from subject device
    */
-  public function setLocation($token, $loc, $altitude, $accuracy, $altitudeAccuracy, $heading, $speed, $location_time)
+  public function setLocation($token, $longitude, $latitude, $altitude, $accuracy, $altitudeAccuracy, $heading, $speed, $location_time)
   {
     // This route is called via AJAX
     // Update database with location using ID
@@ -161,13 +180,13 @@ class PhoneController extends \BaseController {
     $phone = $this->getPhone($token);
     $location = new Location;
 
-    $location->location = $loc;
-    $location->altitude = $altitude;
-    $location->accuracy = $accuracy;
-    $location->altitudeAccuracy = $altitudeAccuracy;
-    $location->heading = $heading;
-    $location->speed = $speed;
-    $location->location_time = $location_time / 1000;
+    $location->location = sprintf('(%s, %s)', $latitude, $longitude);
+    $location->altitude = $this->toFloat($altitude);
+    $location->accuracy = $this->toFloat($accuracy);
+    $location->altitudeAccuracy = $this->toFloat($altitudeAccuracy);
+    $location->heading = $this->toFloat($heading);
+    $location->speed = $this->toFloat($speed);
+    $location->location_time = intval($location_time) / 1000;
 
     $phone->locations()->save($location);
 

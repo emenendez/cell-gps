@@ -12,21 +12,22 @@ function reqError() {
 }
 
 function receivePos(position) {
-  var loc = '(' + position.coords.latitude + ', ' + position.coords.longitude + ')';
-    document.getElementById('status').innerHTML = 'Your location: ' + loc;
-    var req = new XMLHttpRequest();
-    req.open('get', 'update/{{ $token }}/' + encodeURI(loc) +
-      '/' + position.coords.altitude +
-      '/' + position.coords.accuracy +
-      '/' + position.coords.altitudeAccuracy +
-      '/' + position.coords.heading +
-      '/' + position.coords.speed +
-      '/' + position.timestamp, true);
-    req.onload = reqReceived;
-    req.onerror = reqError;
-    req.onabort = reqError;
-    document.getElementById('status').innerHTML += '<br />Sending location to Search &amp; Rescue...';
-    req.send();
+  document.getElementById('status').innerHTML = 'Your location: (' + position.coords.latitude + ', ' + position.coords.longitude + ')';
+  var req = new XMLHttpRequest();
+  req.open('get', 'update/{{ $token }}' +
+    '/' + position.coords.longitude +
+    '/' + position.coords.latitude +
+    '/' + position.coords.altitude +
+    '/' + position.coords.accuracy +
+    '/' + position.coords.altitudeAccuracy +
+    '/' + position.coords.heading +
+    '/' + position.coords.speed +
+    '/' + position.timestamp, true);
+  req.onload = reqReceived;
+  req.onerror = reqError;
+  req.onabort = reqError;
+  document.getElementById('status').innerHTML += '<br />Sending location to Search &amp; Rescue...';
+  req.send();
 }
 
 function posError(error) {
