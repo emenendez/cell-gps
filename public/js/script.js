@@ -1,37 +1,61 @@
-var BASE_URL = 'http://gps.asrc.net/';
-
 function toggleHelp()
 {
 	$('#help').collapse('toggle');
 	$('#help-link').toggleClass('active');
 }
 
-function preview()
+function updatePhone(field, change)
 {
-	subject = $('[name="subject"]').val();
-	if(subject.length == 0) {
-		subject = 'Tap link to send location to SAR';
+	var defaultRegion = 'US';
+	var number = field.val();
+	var valid = false;
+
+	try
+	{
+		valid = phoneUtils.isValidNumber(number, defaultRegion)
 	}
-	sms = '[' + subject + '] ' + BASE_URL + 'xyz ' + $('[name="message"]').val();
-	$('#preview').text(sms.substring(0, 140));
+	catch (e) {}
+
+	if (field[0].setCustomValidity)
+	{
+		if (valid)
+		{
+			field[0].setCustomValidity('');
+		}
+		else
+		{
+			field[0].setCustomValidity('Please enter a valid phone number.')
+		}
+	}
+
+	if (valid && change)
+	{
+		if (phoneUtils.getRegionCodeForNumber(number, defaultRegion) == defaultRegion)
+		{
+			field.val(phoneUtils.formatNational(number, defaultRegion));
+		}
+		else
+		{
+			field.val(phoneUtils.formatInternational(number, defaultRegion));
+		}
+	}
 }
 
 $(document).ready(function() {
-	$('[name="subject"], [name="message"]').change(function() {
-		preview();
+
+	var phoneField = $('[name="phone"]');
+
+	phoneField.change(function() {
+		updatePhone(phoneField, false);
 	});
 
-	$('[name="subject"], [name="message"]').blur(function() {
-		preview();
+	phoneField.blur(function() {
+		updatePhone(phoneField, true);
 	});
 
-	$('[name="subject"], [name="message"]').keyup(function() {
-		preview();
+	phoneField.keyup(function() {
+		updatePhone(phoneField, false);
 	});
 
-	$('[name="provider"]').change(function() {
-		$('[name="gateway"]').val($('[name="provider"]').val());
-	});
-
-	preview();
+	updatePhone(phoneField, true);
 });

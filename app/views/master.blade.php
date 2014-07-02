@@ -78,7 +78,6 @@
         <div class="span12">
           <h2>Send SMS requesting location</h2>
           {{ Form::open(array('route' => 'send-sms', 'class' => 'form-inline')) }}
-            <h6>SMS email address:</h6>
             @if (count($errors->all()))
               <div class="alert alert-error">
                 @foreach ($errors->all() as $message)
@@ -87,23 +86,11 @@
               </div>
             @endif
             <div class="controls controls-row">
-              {{ Form::label('provider', 'Provider') }} {{ Form::select('provider', $providers, $provider, array('class' => 'input-small')) }}
-              <span class="input-append">
-                <input type="tel" name="phone" placeholder="Phone No." class="input-small" value="{{ $phone }}"
-                title="10-digit phone number" pattern="[\D]*1?[\d]{3}[\D]*[\d]{3}[\D]*[\d]{4}.*" required>
-              </span><span class="input-prepend input-append">
-                <span></span><span class="add-on">@</span><span></span>
-              </span><span class="input-prepend">
-                <input type="text" name="gateway" placeholder="Gateway" class="input-small" value="{{ $gateway }}"
-                title="Valid domain" pattern="([0-9a-zA-Z\-]+\.)+[0-9a-zA-Z\-]+" required>
-              </span>
-              {{ Form::text('subject', $subject, array('placeholder' => 'Message subject')) }}
-              {{ Form::text('message', $message, array('placeholder' => 'Message body')) }}
-
+              <input type="text" name="phone" placeholder="Phone No." class="input-medium" value="{{ $phone }}"
+                title="Subject's mobile phone number" required>
+              {{ Form::text('message', $message, array('placeholder' => 'Message (optional)', 'class' => 'input-xlarge')) }}
               {{ Form::submit('Send', array('class' => 'btn btn-primary')) }}
             </div>
-            <h6>Message preview:</h6>
-            <p><span id="preview"></span></p>
           {{ Form::close() }}
         </div>
       </div>
@@ -126,6 +113,7 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="{{ asset('js/jquery-1.10.2.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('js/libphonenumber.js') }}"></script> {{-- from https://github.com/nathanhammond/libphonenumber/ --}}
     <script src="{{ asset('js/script.js') }}"></script>
 
   </body>
