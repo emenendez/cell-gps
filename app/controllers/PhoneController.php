@@ -41,9 +41,7 @@ class PhoneController extends \BaseController {
   		App::abort(401, 'You are not authorized.');
   	}
 
-  	$locations = $phone->locations()->orderBy('created_at', 'desc')->get();
-
-  	return View::make('phone', array('phone' => $phone, 'locations' => $locations));
+  	return View::make('phone', array('phone' => $phone));
   }
 
   /**

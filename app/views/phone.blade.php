@@ -2,7 +2,26 @@
 
 @section('content')
   <h2>Details for {{ $phone->number_pretty }}</h2>
-  <p>SMS sent at {{ $phone->created_at }}</p>
+
+  <h3>Messages sent</h3>
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th>Time message sent</th>
+        <th>Message</th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach ($phone->messages()->orderBy('created_at', 'desc')->get() as $message)
+        <tr>
+          <td>{{ $message->created_at }}</td>
+          <td>{{ $message->message }}</td>
+        </tr>
+      @endforeach
+    </tbody>
+  </table>
+  
+  <h3>Locations received</h3>
   <table class="table table-striped table-hover">
     <thead>
       <tr>
@@ -16,7 +35,7 @@
       </tr>
     </thead>
     <tbody>
-      @foreach ($locations as $location)
+      @foreach ($phone->locations()->orderBy('created_at', 'desc')->get() as $location)
         <tr>
           <td>{{ $location->location_time }}</td>
           <td>{{ $location->created_at }}</td>
