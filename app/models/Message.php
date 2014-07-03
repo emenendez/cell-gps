@@ -10,7 +10,7 @@ class Message extends Eloquent {
         $twilio = new Services_Twilio($_ENV['TWILIO_ACCOUNT_SID'], $_ENV['TWILIO_AUTH_TOKEN']);
         $sms = $twilio->account->messages->sendMessage(
           $_ENV['TWILIO_NUMBER'], 
-          $this->phone()->number,
+          $this->phone->number,
           $this->message
         );
         // Update timestamp
