@@ -83,7 +83,7 @@ class PhoneController extends \BaseController {
    */
   private function toFloat($input)
   {
-    if (gettype($input) == 'NULL')
+    if (is_null($input))
     {
       return null;
     }

@@ -7,23 +7,30 @@ class Phone extends Eloquent {
 	protected $appends = array('token', 'number_pretty', 'last_location');
 
 	private function format($number, $format = null) {
-		$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
-    	$phoneProto = $phoneUtil->parse($number, Config::get('app.region'));
-    	if (gettype($format) != 'NULL')
-    	{
-    		return $phoneUtil->format($phoneProto, $format);
-    	}
-    	else
-    	{
-    		if ($phoneUtil->getRegionCodeForNumber($phoneProto) == Config::get('app.region'))
-    		{
-    			return $phoneUtil->format($phoneProto, \libphonenumber\PhoneNumberFormat::NATIONAL);
-    		}
-    		else
-    		{
-    			return $phoneUtil->format($phoneProto, \libphonenumber\PhoneNumberFormat::INTERNATIONAL);    			
-    		}
-    	}
+        if (!is_null($number))
+        {
+    		$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
+        	$phoneProto = $phoneUtil->parse($number, Config::get('app.region'));
+        	if (!is_null($format))
+        	{
+        		return $phoneUtil->format($phoneProto, $format);
+        	}
+        	else
+        	{
+        		if ($phoneUtil->getRegionCodeForNumber($phoneProto) == Config::get('app.region'))
+        		{
+        			return $phoneUtil->format($phoneProto, \libphonenumber\PhoneNumberFormat::NATIONAL);
+        		}
+        		else
+        		{
+        			return $phoneUtil->format($phoneProto, \libphonenumber\PhoneNumberFormat::INTERNATIONAL);    			
+        		}
+        	}
+        }
+        else
+        {
+            return null;
+        }
 	}
 
 	public function getTokenAttribute() {
