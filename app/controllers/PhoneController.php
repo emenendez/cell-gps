@@ -47,48 +47,6 @@ class PhoneController extends \BaseController {
   }
 
   /**
-   * Send SMS message
-   */
-  public function sendSMS()
-  {
-  	// Make input available in future requests
-  	Input::flash();
-
-  	// Validate input
-	  $validator = Validator::make(
-			Input::all(), 
-			array(
-				'phone' => array('required', 'phone:US'),
-				));
-
-	  if ($validator->fails())
-    {
-      return Redirect::back()->withErrors($validator);
-    }
-
-    // Use default message if user left it blank
-    $message = Input::get('message');
-    if (trim($message) == '') {
-      $message = 'Tap link to send location to SAR:';
-    }
-
-  	// Add phone to database
-  	$phone = new Phone;
-  	$phone->number = Input::get('phone');
-  	$phone = Auth::user()->phones()->save($phone);
-
-    // Send SMS with token using Twilio
-    $twilio = new Services_Twilio($_ENV['TWILIO_ACCOUNT_SID'], $_ENV['TWILIO_AUTH_TOKEN']);
-    $sms = $twilio->account->messages->sendMessage(
-      $_ENV['TWILIO_NUMBER'], 
-      $phone->number,
-      sprintf('%s %s/%s', $message, route('get-location'), $phone->token)
-    );
-
-		return Redirect::route('index')->with('success', 'SMS sent to ' . $phone->number_pretty);
-	}
-
-  /**
    * Parse token and return phone model
    * Create a new phone if need be
    */

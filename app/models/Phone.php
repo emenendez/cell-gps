@@ -38,6 +38,11 @@ class Phone extends Eloquent {
 		$this->attributes['number'] = $this->format($value, \libphonenumber\PhoneNumberFormat::E164);
 	}
 
+    public function scopeNumber($query, $number)
+    {
+        return $query->whereNumber($this->format($number, \libphonenumber\PhoneNumberFormat::E164));
+    }
+
 	public function getLastLocationAttribute() {
 		$location = $this->locations()->orderBy('created_at', 'desc')->first();
     	if(!$location) {

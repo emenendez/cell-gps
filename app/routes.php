@@ -40,7 +40,7 @@ Route::group(array('prefix' => '~admin'), function()
 		Route::group(array('before' => 'csrf'), function()
 		{
 			// Send SMS
-			Route::post('/', array('as' => 'send-sms', 'uses' => 'PhoneController@sendSMS'));
+			Route::post('/', array('as' => 'send-sms', 'uses' => 'MessageController@send'));
 		});
 
 	});
