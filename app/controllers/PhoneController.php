@@ -75,7 +75,7 @@ class PhoneController extends \BaseController {
   public function getLocation($token = null)
   {
     $phone = $this->getPhone($token);
-    return View::make('subject', array('token' => base64url_encode($phone->id)));
+    return View::make('subject', array('token' => $phone->token));
   }
 
   /**
