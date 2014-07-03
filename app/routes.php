@@ -14,7 +14,7 @@
 // Keep old fields populated in master view
 View::composer('master', function($view)
 {
-	$view->with('number', Input::old('number', ''));
+	$view->with('phone', Input::old('phone', ''));
 	$view->with('message', Input::old('message', ''));
 });
 
