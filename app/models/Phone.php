@@ -38,7 +38,15 @@ class Phone extends Eloquent {
 	}
 
 	public function getNumberPrettyAttribute() {
-		return $this->format($this->attributes['number']);
+		$number = $this->format($this->attributes['number']);
+        if (is_null($number))
+        {
+            return $this->user_agent;
+        }
+        else
+        {
+            return $number;
+        }
 	}
 
 	public function setNumberAttribute($value) {

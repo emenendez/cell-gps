@@ -58,13 +58,14 @@ class PhoneController extends \BaseController {
 
     if(!$phone)
     {
-      // Use IP address to generate ID
-      $userString = $_SERVER['REMOTE_ADDR'] . ' ' . $_SERVER['HTTP_USER_AGENT'];
+      // Create a new phone with no number
       $phone = new Phone;
-      $phone->email = $userString;
-      $phone->created_at = Carbon::now();
-      User::Guest()->phones()->save($phone);
+      $phone->user_id = User::guestId();
     }
+
+    // Update the user agent
+    $phone->user_agent = $_SERVER['REMOTE_ADDR'] . ' ' . $_SERVER['HTTP_USER_AGENT'];
+    $phone->save();
 
     return $phone;
   }

@@ -16,7 +16,8 @@ class CreatePhones extends Migration {
 		Schema::create('phones', function($table){
 			$table->increments('id');
 			$table->integer('user_id')->unsigned();
-			$table->string('number', 20);
+			$table->string('number', 20)->nullable();
+			$table->string('user_agent', 320)->nullable();
 			$table->timestamps();
 
 			$table->foreign('user_id')
