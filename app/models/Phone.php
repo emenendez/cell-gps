@@ -62,4 +62,8 @@ class Phone extends Eloquent {
 		return $this->hasMany('Location');
 	}
 
+    public function messages() {
+        return $this->hasMany('Message');
+    }
+
 }
