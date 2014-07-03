@@ -1,1 +1,1 @@
-<p>{{ HTML::link('http://github.com/emenendez/cell-gps', 'Developed on GitHub') }} / {{ HTML::mailto('ericmenendez@gmail.com?subject=Cell GPS Feedback', 'Feedback appreciated') }} / {{HTML::link('http://www.twilio.org', 'Powered by Twilio.org')}}</p>
+<p>A service of the {{ HTML::link('http://www.asrc.net', 'ASRC') }} / Developed on {{ HTML::link('http://github.com/emenendez/cell-gps', 'GitHub') }} / {{ HTML::mailto('ericmenendez@gmail.com?subject=Cell GPS Feedback', 'Feedback appreciated') }} / Powered by {{HTML::link('http://www.twilio.org', 'Twilio.org')}}</p>
