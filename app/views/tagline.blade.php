@@ -1,0 +1,1 @@
+<p>{{ HTML::link('http://github.com/emenendez/cell-gps', 'Developed on GitHub') }} / {{ HTML::mailto('ericmenendez@gmail.com?subject=Cell GPS Feedback', 'Feedback appreciated') }} / {{HTML::link('http://www.twilio.org', 'Powered by Twilio.org')}}</p>

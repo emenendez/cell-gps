@@ -97,7 +97,7 @@
       <hr>
 
       <footer>
-        <p>&copy; ASRC 2013. {{ HTML::mailto('ericmenendez@gmail.com?subject=Cell GPS Feedback', 'Feedback') }}</p>
+        @include('tagline')
       </footer>
 
     </div><!--/.fluid-container-->
