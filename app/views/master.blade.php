@@ -71,7 +71,7 @@
             <blockquote>gps@asrc.net(ASRC) S:Tap link to send location to SAR M:http://gps.asrc.net/Mq</blockquote>
           </p>
           <p>To send an SMS message from this web app, the sender must provide the phone's SMS gateway. A list of SMS gateways for some of the major North American providers is included. <a href="http://en.wikipedia.org/wiki/List_of_SMS_gateways" target="_blank">A more complete list is available here</a> and/or by <a href="http://www.google.com/search?q=List+of+SMS+gateways" target="_blank">Googling</a>.</p>
-          <p>Questions/comments/suggestions/defects: <a href="mailto:ericmenendez@gmail.com">ericmenendez@gmail.com</a></p>
+          <p>Feedback: <a href="mailto:ericmenendez@gmail.com?subject=Cell GPS Feedback">ericmenendez@gmail.com</a></p>
         </div>
       </div>
       <div class="row-fluid" id="sms">
@@ -103,7 +103,7 @@
       <hr>
 
       <footer>
-        <p>&copy; ASRC 2013. {{ HTML::mailto('ericmenendez@gmail.com', 'Comments/Suggestions/Bugs/Questions') }}</p>
+        <p>&copy; ASRC 2013. {{ HTML::mailto('ericmenendez@gmail.com?subject=Cell GPS Feedback', 'Feedback') }}</p>
       </footer>
 
     </div><!--/.fluid-container-->
