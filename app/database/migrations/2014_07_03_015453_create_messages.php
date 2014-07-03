@@ -24,7 +24,6 @@ class CreateMessages extends Migration {
 				  ->onUpdate('cascade')
 				  ->onDelete('cascade');
 		});
-		
 	}
 
 	/**
@@ -36,7 +35,6 @@ class CreateMessages extends Migration {
 	{
 		// Drop phones table
 		Schema::drop('messages');
-
 	}
 
 }
