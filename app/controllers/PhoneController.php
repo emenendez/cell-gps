@@ -57,7 +57,7 @@ class PhoneController extends \BaseController {
 
   	$locations = $phone->locations()->orderBy('created_at', 'desc')->get();
 
-  	return View::make('phone', array('email' => $phone->email, 'phone_time' => $phone->created_at, 'locations' => $locations));
+  	return View::make('phone', array('phone' => $phone, 'locations' => $locations));
   }
 
   /**
