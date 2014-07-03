@@ -72,12 +72,7 @@ class PhoneController extends \BaseController {
 	  $validator = Validator::make(
 			Input::all(), 
 			array(
-				'phone' => array('required', 'regex:/1?[\d]{3}[\D]*[\d]{3}[\D]*[\d]{4}/'),
-				'gateway' => array('required', 'regex:/([[:alnum:]\-]+\.)+[[:alnum:]\-]+/')
-				),
-			array(
-				'phone.regex' => 'The phone field must be a valid 10-digit phone number.',
-				'gateway.regex' => 'The gateway field must be a valid domain.'
+				'phone' => array('required', 'phone:US'),
 				));
 
 	  if ($validator->fails())
@@ -85,30 +80,26 @@ class PhoneController extends \BaseController {
       return Redirect::back()->withErrors($validator);
     }
 
-    // Apply phone regex to input and build email address
-    $matches = array();
-    preg_match('/1?([\d]{3})[\D]*([\d]{3})[\D]*([\d]{4})/', Input::get('phone'), $matches);
-    $email = $matches[1] . $matches[2] . $matches[3] . '@' . Input::get('gateway');
-
-    $subject = Input::get('subject');
-    if ($subject == '') {
-      $subject = 'Tap link to send location to SAR';
+    // Use default message if user left it blank
+    $message = Input::get('message');
+    if (trim($message) == '') {
+      $message = 'Tap link to send location to SAR:';
     }
 
   	// Add phone to database
   	$phone = new Phone;
-  	$phone->email = $email;
+  	$phone->number = Input::get('phone');
   	$phone = Auth::user()->phones()->save($phone);
 
-		// Get token
-		$token = base64url_encode($phone->id);
+    // Send SMS with token using Twilio
+    $twilio = new Services_Twilio($_ENV['TWILIO_ACCOUNT_SID'], $_ENV['TWILIO_AUTH_TOKEN']);
+    $sms = $twilio->account->messages->sendMessage(
+      $_ENV['TWILIO_NUMBER'], 
+      $phone->number,
+      sprintf('%s %s/%s', $message, route('get-location'), $phone->token)
+    );
 
-    // Send email with token
-		Mail::send(array('text' => 'emails.sms'), array('token' => $token, 'body' => Input::get('message')), function($message) use ($email, $subject) {
-			$message->to($email)->subject($subject);
-    });
-
-		return Redirect::route('index')->with('success', 'Email sent to ' . $email);
+		return Redirect::route('index')->with('success', 'SMS sent to ' . $phone->number_pretty);
 	}
 
   /**

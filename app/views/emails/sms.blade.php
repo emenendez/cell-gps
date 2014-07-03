@@ -1,1 +1,0 @@
-{{ route('get-location') }}/{{ $token }} {{ $body }}

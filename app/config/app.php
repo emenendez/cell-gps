@@ -54,6 +54,12 @@ return array(
 
 	'locale' => 'en',
 
+	/**
+	 * Default phone region
+	 */
+	
+	'region' => 'US',
+
 	/*
 	|--------------------------------------------------------------------------
 	| Application Fallback Locale
