@@ -4,7 +4,7 @@ class Phone extends Eloquent {
 
 	protected $touches = array('user');
 
-	protected $appends = array('token', 'number_pretty');
+	protected $appends = array('token', 'number_pretty', 'last_location');
 
 	private function format($number, $format = null) {
 		$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
@@ -36,6 +36,22 @@ class Phone extends Eloquent {
 
 	public function setNumberAttribute($value) {
 		$this->attributes['number'] = $this->format($value, \libphonenumber\PhoneNumberFormat::E164);
+	}
+
+	public function getLastLocationAttribute() {
+		$location = $this->locations()->orderBy('created_at', 'desc')->first();
+    	if(!$location) {
+    		$location = new Location;
+        	$location->location = '';
+        	$location->accuracy = '';
+        	$location->altitude = '';
+        	$location->altitudeAccuracy = '';
+        	$location->heading = '';
+        	$location->speed = '';
+        	$location->location_time = '';
+        	$location->created_at = '';
+    	}
+    	return $location;
 	}
 
 	public function user() {
