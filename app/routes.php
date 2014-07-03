@@ -11,29 +11,10 @@
 |
 */
 
-// List of providers
+// Keep old fields populated in master view
 View::composer('master', function($view)
 {
-	$providers = array(
-		'' => 'Other',
-		'message.alltel.com' => 'Alltel',
-		'txt.att.net' => 'AT&T',
-		'txt.bellmobility.ca' => 'Bell Canada',
-		'myboostmobile.com' => 'Boost Mobile',
-		'sms.mycricket.com' => 'Cricket',
-		'messaging.nextel.com' => 'Nextel (now Sprint Nextel)',
-		'pcs.ntelos.com' => 'nTelos',
-		'messaging.sprintpcs.com' => 'Sprint (now Sprint Nextel)',
-		'tmomail.net' => 'T-Mobile',
-		'email.uscc.net' => 'US Cellular',
-		'vtext.com' => 'Verizon',
-		'vmobl.com' => 'Virgin Mobile'
-		);
-    $view->with('providers', $providers);
-	$view->with('provider', Input::old('provider', ''));
-	$view->with('phone', Input::old('phone', ''));
-	$view->with('gateway', Input::old('gateway', ''));
-	$view->with('subject', Input::old('subject', ''));
+	$view->with('number', Input::old('number', ''));
 	$view->with('message', Input::old('message', ''));
 });
 
