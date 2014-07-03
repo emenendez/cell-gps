@@ -88,7 +88,7 @@
             <div class="controls controls-row">
               <input type="text" name="phone" placeholder="Phone No." class="input-medium" value="{{ $phone }}"
                 title="Subject's mobile phone number" required>
-              {{ Form::text('message', $message, array('placeholder' => 'Message (optional)', 'class' => 'input-xlarge')) }}
+              {{ Form::text('message', $message, array('placeholder' => 'Message (optional)', 'class' => 'input-xlarge', 'maxlength' => '290')) }}
               {{ Form::submit('Send', array('class' => 'btn btn-primary')) }}
             </div>
           {{ Form::close() }}
