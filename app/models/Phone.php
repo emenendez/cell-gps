@@ -9,7 +9,7 @@ class Phone extends Eloquent {
 	private function format($number, $format = null) {
 		$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
     	$phoneProto = $phoneUtil->parse($number, Config::get('app.region'));
-    	if ($format == null)
+    	if (gettype($format) != 'NULL')
     	{
     		return $phoneUtil->format($phoneProto, $format);
     	}
