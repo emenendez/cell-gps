@@ -1,9 +1,10 @@
 <?php
 
-class UserController extends BaseController {
+use Carbon\Carbon;
+
+class UserController extends \BaseController {
 	public function showRegistration() {
 		$user = new User;
-
 		return View::make('register', array('user' => $user));
 	}
 
@@ -37,13 +38,18 @@ class UserController extends BaseController {
 		return View::make('login')->with(array('error' => Session::get('error'), 'email' => $email));
 	}
 
+	static function touchUser()
+	{
+		$user = Auth::user();
+		$user->last_login = Carbon::now();
+		$user->save();
+	}
+
 	public function processLogin() {
 		if (Auth::attempt(array('email' => Input::get('email'), 'password' => Input::get('password'))))
 		{
-			// $user = Auth::user();
-			// $user->last_login = now();
-			// $user->save();
-		    return Redirect::intended('index');
+			UserController::touchUser();
+		    return Redirect::intended(route('index'));
 		}
 
 		return Redirect::back()->with('error', 'Incorrect user and/or password.')->withInput();

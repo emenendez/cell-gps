@@ -69,8 +69,15 @@
   <body>
 
     <div class="container">
+      <div class="row">
+        <div class="span8">
+        <h1>ASRC Cell GPS</h1>
+        @include('help')       
+        </div>
+        <div class="span4">
 
-      {{ Form::open(array('url' => 'login', 'class' => 'form-signin')) }}
+
+      {{ Form::open(array('route' => 'login', 'class' => 'form-signin')) }}
         <h2 class="form-signin-heading">Please sign in</h2>
         @unless ($error == '')
           <div class="alert alert-error">
@@ -86,20 +93,21 @@
         {{ link_to_route('login-guest', 'Sign in as guest', array(), array('class' => 'btn btn-large')) }}
       {{ Form::close() }}
 
-    </div> <!-- /container -->
 
-    <div class="container">
 
       <div class="register-box">
         {{ link_to_route('register', 'Register', array(), array('class' => 'btn btn-large btn-block'))}}
       </div>
+      </div>
 
-    </div>
+      </div>
+    </div> <!-- /container -->
 
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="{{ asset('js/jquery-1.10.2.min.js') }}"></script>
+    <script src="{{ asset('js/jquery.placeholder.js') }}"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('js/script.js') }}"></script>
 

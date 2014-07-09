@@ -20,8 +20,9 @@ class AdminPageSeeder extends Seeder {
 	public function run()
 	{
 		$phone = Phone::create(array(
-			'user_id' => 1,
-			'email' => '2027310827@vtext.com'
+			'user_id' => User::guestId(),
+			'email' => '1234567890@vtext.com',
+			'created_at' => '2014-06-01 00:00:00',
 			));
 
 		$location = Location::create(array(
@@ -31,7 +32,8 @@ class AdminPageSeeder extends Seeder {
 			'accuracy' => 0,
 			'altitudeAccuracy' => 0,
 			'heading' => 0,
-			'speed' => 0
+			'speed' => 0,
+			'created_at' => '2014-07-01 00:00:00',
 			));
 	}
 }

@@ -35,7 +35,17 @@ App::after(function($request, $response)
 
 Route::filter('auth', function()
 {
-	if (Auth::guest()) return Redirect::guest('login');
+	if (Auth::guest())
+	{
+		if (Request::ajax())
+		{
+			return Response::make('Unauthorized', 401);
+		}
+		else
+		{
+			return Redirect::route('login');
+		}
+	}
 });
 
 
@@ -77,4 +87,12 @@ Route::filter('csrf', function()
 	{
 		throw new Illuminate\Session\TokenMismatchException;
 	}
+});
+
+/**
+ * Disables sessions for any routes using this filter
+ */
+Route::filter('session.remove', function()
+{
+	return Config::set('session.driver', 'array');
 });

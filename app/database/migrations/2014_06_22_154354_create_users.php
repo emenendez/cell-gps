@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 class CreateUsers extends Migration {
@@ -19,10 +20,11 @@ class CreateUsers extends Migration {
 			$table->string('password', 64);
 			$table->timestamps();
 			$table->timestamp('last_login');
+			$table->string('remember_token', 100)->nullable();
 		});
 
 		// Add Guest user
-		DB::insert('insert into users (id, email, organization, password) values (?, ?, ?, ?)', array(1, 'Guest', '', Hash::make('')));
+		DB::insert('insert into users (id, email, organization, password) values (?, ?, ?, ?)', array(User::guestId(), 'Guest', '', Hash::make('')));
 	}
 
 	/**

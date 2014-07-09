@@ -1,8 +1,9 @@
 <?php
 
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePhones extends Migration {
+class CreateMessages extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -11,15 +12,15 @@ class CreatePhones extends Migration {
 	 */
 	public function up()
 	{
-		// Create phones table
-		Schema::create('phones', function($table){
+		// Create messages table
+		Schema::create('messages', function($table){
 			$table->increments('id');
-			$table->integer('user_id')->unsigned();
-			$table->string('email', 320);
+			$table->integer('phone_id')->unsigned();
+			$table->string('message', 320);
 			$table->timestamps();
 
-			$table->foreign('user_id')
-				  ->references('id')->on('users')
+			$table->foreign('phone_id')
+				  ->references('id')->on('phones')
 				  ->onUpdate('cascade')
 				  ->onDelete('cascade');
 		});
@@ -33,7 +34,7 @@ class CreatePhones extends Migration {
 	public function down()
 	{
 		// Drop phones table
-		Schema::drop('phones');
+		Schema::drop('messages');
 	}
 
 }

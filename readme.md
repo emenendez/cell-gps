@@ -1,21 +1,22 @@
-## Laravel PHP Framework
+## Mobile device geolocator
 
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/version.png)](https://packagist.org/packages/laravel/framework) [![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.png)](https://packagist.org/packages/laravel/framework) [![Build Status](https://travis-ci.org/laravel/framework.png)](https://travis-ci.org/laravel/framework)
+### Usage
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, and caching.
+http://gps.asrc.net/~admin/
 
-Laravel aims to make the development process a pleasing one for the developer without sacrificing application functionality. Happy developers make the best code. To this end, we've attempted to combine the very best of what we have seen in other web frameworks, including frameworks implemented in other languages, such as Ruby on Rails, ASP.NET MVC, and Sinatra.
+### Updates
 
-Laravel is accessible, yet powerful, providing powerful tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
+Here, or follow [@ericrmenendez](https://twitter.com/ericrmenendez)
 
-## Official Documentation
+### Version history
 
-Documentation for the entire framework can be found on the [Laravel website](http://laravel.com/docs).
+#### 3.0.0, July 2014
 
-### Contributing To Laravel
-
-**All issues and pull requests should be filed on the [laravel/framework](http://github.com/laravel/framework) repository.**
+- Now powered by Twilio.org which supports sending SMS messages to mobile phones in the US and many other countries. It is no longer required to know the provider of a particular mobile phone.
+- A single device is tracked and displayed in one place, no matter how many messages are sent to it.
+- Properly deletes all data older than one week, and guest data older than one day.
+- Supports older browsers not supporting the "placeholder" input attribute.
 
 ### License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+Licensed under the AGPL 3.0.
