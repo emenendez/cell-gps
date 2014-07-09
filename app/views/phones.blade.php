@@ -8,7 +8,7 @@
     <thead>
       <tr>
         <th>ID</th>
-        <th>Email</th>
+        <th>Phone</th>
         <th>Location</th>
         <th>Accuracy (m)</th>
         <th>Altitude (m)</th>
