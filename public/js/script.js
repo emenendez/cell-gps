@@ -45,17 +45,23 @@ $(document).ready(function() {
 
 	var phoneField = $('[name="phone"]');
 
-	phoneField.change(function() {
-		updatePhone(phoneField, false);
-	});
+	if (phoneField.length > 0)
+	{
+		phoneField.change(function() {
+			updatePhone(phoneField, false);
+		});
 
-	phoneField.blur(function() {
-		updatePhone(phoneField, true);
-	});
+		phoneField.blur(function() {
+			updatePhone(phoneField, true);
+		});
 
-	phoneField.keyup(function() {
-		updatePhone(phoneField, false);
-	});
+		phoneField.keyup(function() {
+			updatePhone(phoneField, false);
+		});
 
-	updatePhone(phoneField, true);
+		updatePhone(phoneField, true);		
+	}
+
+	$('input').placeholder();
+
 });
