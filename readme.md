@@ -2,7 +2,7 @@
 
 ### Usage
 
-[http://gps.asrc.net/~admin/]
+http://gps.asrc.net/~admin/
 
 ### Updates
 
