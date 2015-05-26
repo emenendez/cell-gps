@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cd $1
+7z a ../$1.zip .env.js *
+cd ..
