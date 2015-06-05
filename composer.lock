@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "57bbfffcb93b5f278443f202d5e5c3dc",
+    "hash": "bf04f80e48ab8c8c07df348f5de0b6a0",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -221,6 +221,66 @@
                 "string"
             ],
             "time": "2014-12-20 21:24:13"
+        },
+        {
+            "name": "giggsey/libphonenumber-for-php",
+            "version": "7.0.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/giggsey/libphonenumber-for-php.git",
+                "reference": "88554d43fcb2a686949f01a1c8f364962551ba24"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/88554d43fcb2a686949f01a1c8f364962551ba24",
+                "reference": "88554d43fcb2a686949f01a1c8f364962551ba24",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*"
+            },
+            "require-dev": {
+                "phing/phing": "~2.7",
+                "phpunit/phpunit": "~4.0",
+                "satooshi/php-coveralls": "~0.6",
+                "symfony/console": "~2.4"
+            },
+            "suggest": {
+                "ext-intl": "To use the geocoder and carrier mapping"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "7.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "libphonenumber": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Joshua Gigg",
+                    "email": "giggsey@gmail.com",
+                    "homepage": "http://giggsey.com/"
+                }
+            ],
+            "description": "PHP Port of Google's libphonenumber",
+            "homepage": "https://github.com/giggsey/libphonenumber-for-php",
+            "keywords": [
+                "geocoding",
+                "geolocation",
+                "libphonenumber",
+                "mobile",
+                "phonenumber",
+                "validation"
+            ],
+            "time": "2015-06-01 13:53:38"
         },
         {
             "name": "ircmaxell/password-compat",
@@ -825,6 +885,57 @@
                 "php"
             ],
             "time": "2015-05-02 15:40:40"
+        },
+        {
+            "name": "propaganistas/laravel-phone",
+            "version": "2.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Propaganistas/Laravel-Phone.git",
+                "reference": "0c88083895fcad5fb89a0fc4af7af1b9a890e169"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Propaganistas/Laravel-Phone/zipball/0c88083895fcad5fb89a0fc4af7af1b9a890e169",
+                "reference": "0c88083895fcad5fb89a0fc4af7af1b9a890e169",
+                "shasum": ""
+            },
+            "require": {
+                "giggsey/libphonenumber-for-php": "~7.0",
+                "illuminate/support": "~4.0|~5.0",
+                "illuminate/validation": "~4.0|~5.0",
+                "php": ">=5.4.0"
+            },
+            "suggest": {
+                "monarobase/country-list": "Adds a compatible (and fully translated) country list API."
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Propaganistas\\LaravelPhone": "src/"
+                },
+                "files": [
+                    "helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Propaganistas",
+                    "email": "Propaganistas@users.noreply.github.com"
+                }
+            ],
+            "description": "Adds a phone validator to Laravel based on Google's libphonenumber API.",
+            "keywords": [
+                "laravel",
+                "libphonenumber",
+                "phone",
+                "validation"
+            ],
+            "time": "2015-05-09 18:53:06"
         },
         {
             "name": "psr/log",
@@ -1698,6 +1809,56 @@
             "time": "2015-05-01 14:14:24"
         },
         {
+            "name": "twilio/sdk",
+            "version": "4.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/twilio/twilio-php.git",
+                "reference": "903a4c2a72305ca73ce9a60902205fbd4bd1b183"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/twilio/twilio-php/zipball/903a4c2a72305ca73ce9a60902205fbd4bd1b183",
+                "reference": "903a4c2a72305ca73ce9a60902205fbd4bd1b183",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.1"
+            },
+            "require-dev": {
+                "mockery/mockery": ">=0.7.2",
+                "phpunit/phpunit": "4.5.*"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "Services/Twilio.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kevin Burke",
+                    "email": "kevin@twilio.com"
+                },
+                {
+                    "name": "Kyle Conroy",
+                    "email": "kyle+pear@twilio.com"
+                }
+            ],
+            "description": "A PHP wrapper for Twilio's API",
+            "homepage": "http://github.com/twilio/twilio-php",
+            "keywords": [
+                "api",
+                "sms",
+                "twilio"
+            ],
+            "time": "2015-05-19 16:36:49"
+        },
+        {
             "name": "vlucas/phpdotenv",
             "version": "v1.1.1",
             "source": {
@@ -2022,16 +2183,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "2.1.2",
+            "version": "2.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "6b7d2094ca2a685a2cad846cb7cd7a30e8b9470f"
+                "reference": "28a6b34e91d789b2608072ab3c82eaae7cdb973c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/6b7d2094ca2a685a2cad846cb7cd7a30e8b9470f",
-                "reference": "6b7d2094ca2a685a2cad846cb7cd7a30e8b9470f",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/28a6b34e91d789b2608072ab3c82eaae7cdb973c",
+                "reference": "28a6b34e91d789b2608072ab3c82eaae7cdb973c",
                 "shasum": ""
             },
             "require": {
@@ -2080,7 +2241,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2015-06-01 07:35:26"
+            "time": "2015-06-03 07:01:01"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -2268,16 +2429,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "4.6.9",
+            "version": "4.6.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "816d12536a7a032adc3b68737f82cfbbf98b79c1"
+                "reference": "7b5fe98b28302a8b25693b2298bca74463336975"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/816d12536a7a032adc3b68737f82cfbbf98b79c1",
-                "reference": "816d12536a7a032adc3b68737f82cfbbf98b79c1",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/7b5fe98b28302a8b25693b2298bca74463336975",
+                "reference": "7b5fe98b28302a8b25693b2298bca74463336975",
                 "shasum": ""
             },
             "require": {
@@ -2336,7 +2497,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2015-05-29 06:00:03"
+            "time": "2015-06-03 05:03:30"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
