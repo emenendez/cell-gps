@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Installation
+# 1.  Update dreamhost web root to /[domain]/public
+# 2.  Add /usr/local/php54/bin/ to PATH in .bash_profile
+# 3.  Add ~/.php/5.4/phprc with: extension=intl.so
+# 4.  cd web root
+# 5.  rm -rf *
+# 6.  git clone https://github.com/emenendez/cell-gps.git .
+# 7.  git checkout [branch]
+# 8.  From client: ./deploy-test
+# 9.  php artisan migrate:install
+# 10. php artisan migrate
+rsync -r vendor/ asrc_gps_test@test.gps.asrc.net:test.gps.asrc.net/vendor
+scp .env.test.php asrc_gps_test@test.gps.asrc.net:test.gps.asrc.net/
