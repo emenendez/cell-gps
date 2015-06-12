@@ -5,22 +5,12 @@ class MessageController extends \Controller {
   /**
    * Send SMS message
    */
-  public function send()
+  public function store(Request $request)
   {
-  	// Make input available in future requests
-  	Input::flash();
-
   	// Validate input
-	  $validator = Validator::make(
-			Input::all(), 
-			array(
-				'phone' => array('required', 'phone:US'),
-				));
-
-	  if ($validator->fails())
-    {
-      return Redirect::back()->withErrors($validator);
-    }
+    $this->validate($request, [
+			'phone' => array('required', 'phone:US'),
+		]);
 
     // Use default message if user left it blank
     $copy = Input::get('message');
@@ -47,7 +37,7 @@ class MessageController extends \Controller {
     // Send message
     $message->send();
 
-		return Redirect::route('index')->with('success', 'SMS sent to ' . $phone->number_pretty);
+    return response()->json(['success' => true]);
 	}
 
 }
