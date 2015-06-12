@@ -1,0 +1,72 @@
+body {
+	font-size: 1em;
+	font-family: "Georgia", serif;
+	margin: 0;
+}
+
+body > div {
+	margin: 10px;
+}
+
+#help-toggle {
+	background-color: #e30;
+	color: #fff;
+	margin: 0;
+	padding: 3px 10px;
+	cursor: pointer;
+}
+
+#help {
+	background-color: #f63;
+	display: none;
+	margin: 0;
+	padding: 10px 10px 5px 10px;
+}
+
+#header {
+	font-size: 0.8em;
+}
+
+#logo {
+	margin-right: 10px;
+	float: left;
+}
+
+#sms {
+	padding-top: 5px;
+}
+
+#table  {
+	clear: both;
+	display: table;
+	text-align: right;
+	font-size: 0.9em;
+}
+
+h2 {
+	margin: 0;
+	font-size: 1.5em;
+}
+
+p {
+	margin-top: 0;
+	margin-bottom: 0.5em;
+}
+
+table {
+	border-spacing: 0;
+	padding-top: 2px;
+	text-align: left;
+}
+
+tr.header {
+	background-color: #e30;
+}
+
+tr.shade {
+	background-color: #f63;
+}
+
+td {
+	padding: 3px 5px;
+}
