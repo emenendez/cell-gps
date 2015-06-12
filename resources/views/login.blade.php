@@ -75,30 +75,27 @@
         @include('help')       
         </div>
         <div class="span4">
+          <div class="register-box">
+            <form action="{{ route('login') }}" method="POST">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+              <h2 class="form-signin-heading">Please sign in</h2>
+              @unless ($error == '')
+                <div class="alert alert-error">
+                  {{ $error }}
+                </div>
+              @endunless
+              <input type="email" name="email" class="input-block-level" placeholder="E-mail address" required>
+              <input type="password" name="password" class="input-block-level" placeholder="Password" required>
+              <label class="checkbox">
+                <input type="checkbox" name="remember" checked="false"> Remember me
+              </label>
+              <input type="submit" value="Sign in" class="btn btn-large btn-primary">
+              <a href="{{ route('login-guest') }}" class="btn btn-large">Sign in as guest</a>
+            </form>
 
-
-      {{ Form::open(array('route' => 'login', 'class' => 'form-signin')) }}
-        <h2 class="form-signin-heading">Please sign in</h2>
-        @unless ($error == '')
-          <div class="alert alert-error">
-            {{ $error }}
+            <a href="{{ route('register') }}" class="btn btn-large btn-block">Register</a>
           </div>
-        @endunless
-        {{ Form::input('text', 'email', $email, array('class' => 'input-block-level', 'placeholder' => 'Email address', 'required')) }}
-        {{ Form::input('password', 'password', '', array('class' => 'input-block-level', 'placeholder' => 'Password', 'required')) }}
-        <label class="checkbox">
-          {{ Form::checkbox('remember', 'remember-me', false) }} Remember me
-        </label>
-        {{ Form::submit('Sign in', array('class' => 'btn btn-large btn-primary')) }}
-        {{ link_to_route('login-guest', 'Sign in as guest', array(), array('class' => 'btn btn-large')) }}
-      {{ Form::close() }}
-
-
-
-      <div class="register-box">
-        {{ link_to_route('register', 'Register', array(), array('class' => 'btn btn-large btn-block'))}}
-      </div>
-      </div>
+        </div>
 
       </div>
     </div> <!-- /container -->
