@@ -33,7 +33,7 @@ Route::group(array('prefix' => '~admin'), function()
 {
 
 	// Routes that require authentication
-	Route::group(array('before' => 'auth'), function()
+	Route::group(array('middleware' => 'auth'), function()
 	{
 
 		Route::get('/', array('as' => 'index', 'uses' => 'PhoneController@showPhones'));
@@ -70,7 +70,7 @@ Route::group(array('prefix' => '~admin'), function()
 	}));
 
 	// Routes that require csrf
-	Route::group(array('before' => 'csrf'), function()
+	Route::group(array('middleware' => 'csrf'), function()
 	{
 		// Process login
 		Route::post('login', array('as' => 'login-submit', 'uses' => 'UserController@processLogin')); 
