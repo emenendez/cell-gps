@@ -1,8 +1,8 @@
-<?php
+<?php namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 
-class UserController extends \Controller {
+class UserController extends Controller {
 	public function showRegistration() {
 		$user = new User;
 		return View::make('register', array('user' => $user));

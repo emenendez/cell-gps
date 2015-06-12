@@ -1,6 +1,6 @@
-<?php
+<?php namespace App\Http\Controllers;
 
-class MessageController extends \Controller {
+class MessageController extends Controller {
 
   /**
    * Send SMS message

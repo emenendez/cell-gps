@@ -1,8 +1,8 @@
-<?php
+<?php namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 
-class PhoneController extends \Controller {
+class PhoneController extends Controller {
 
   /**
    * Purge old phones from database
