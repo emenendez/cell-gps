@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Carbon\Carbon;
 
 class UserController extends Controller {
@@ -33,9 +34,9 @@ class UserController extends Controller {
 	    return Redirect::route('index');
 	}
 
-	public function showLogin() {
-		$email = Input::get('email');
-		return View::make('login')->with(array('error' => Session::get('error'), 'email' => $email));
+	public function showLogin(Request $request) {
+		$email = $request->input('email');
+		return view('login', ['error' => session('error'), 'email' => $email]);
 	}
 
 	static function touchUser()
