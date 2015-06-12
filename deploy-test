@@ -11,5 +11,7 @@
 # 8.  From client: ./deploy-test
 # 9.  php artisan migrate:install
 # 10. php artisan migrate
+# 11. php artisan config:cache
+# 12. php artisan route:cache
 rsync -r vendor/ asrc_gps_test@test.gps.asrc.net:test.gps.asrc.net/vendor
 scp .env.test.php asrc_gps_test@test.gps.asrc.net:test.gps.asrc.net/
