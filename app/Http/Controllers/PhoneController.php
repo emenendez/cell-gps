@@ -16,32 +16,37 @@ class PhoneController extends \Controller {
   }
   
   /**
-   * Show all phones for the logged-in user
+   * Return all phones for the logged-in user
+   *
+   * @return Response
    */
-  public function showPhones()
+  public function index()
   {
     $this->purgePhones();
 
-    $phones = Phone::where('user_id', Auth::user()->id)
+    return Phone::where('user_id', Auth::user()->id)
       ->orWhere('user_id', User::guestId())
       ->orderBy('created_at', 'desc')
       ->orderBy('id', 'desc')
       ->get();
-
-    return View::make('phones', array('phones' => $phones, 'success' => Session::get('success')));
   }
 
   /**
    * Show all locations for given phone
    * Verify phone belongs to user or guest
+   *
+   * @param  int  $id
+   * @return Response
    */
-  public function showPhone(Phone $phone)
+  public function show($id)
   {
-  	if( !($phone->user->id == Auth::user()->id || $phone->user->id == User::guestId()) ) {
-  		App::abort(401, 'You are not authorized.');
-  	}
+    $phone = Phone::find($id);
 
-  	return View::make('phone', array('phone' => $phone));
+    if( !($phone->user->id == Auth::user()->id || $phone->user->id == User::guestId()) ) {
+      App::abort(401, 'You are not authorized.');
+    }
+
+    return $phone->locations()->get();
   }
 
   /**
@@ -125,6 +130,29 @@ class PhoneController extends \Controller {
     $phone->locations()->save($location);
 
     echo('Your location has been received by Search &amp; Rescue.');
+  }
+
+
+
+  /**
+   * Store a newly created resource in storage.
+   *
+   * @return Response
+   */
+  public function store()
+  {
+    //
+  }
+
+  /**
+   * Remove the specified resource from storage.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+  public function destroy($id)
+  {
+    //
   }
 
 }
