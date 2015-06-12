@@ -11,16 +11,6 @@
 |
 */
 
-// Keep old fields populated in master view
-View::composer('master', function($view)
-{
-	$view->with('phone', Input::old('phone', ''));
-	$view->with('message', Input::old('message', ''));
-});
-
-// Route models
-Route::model('phone', 'Phone');
-
 /**
  * All routes used by SAR
  */
@@ -30,19 +20,12 @@ Route::group(array('prefix' => '~admin'), function()
 	// Routes that require authentication
 	Route::group(array('middleware' => 'auth'), function()
 	{
+		// Display static admin page
+		Route::get('/', array('as' => 'index', 'uses' => 'AdminController@index'));
 
-		Route::get('/', array('as' => 'index', 'uses' => 'PhoneController@showPhones'));
-
-		// Display all locations for a phone
-		Route::get('phone/{phone}', array('as' => 'phone', 'uses' => 'PhoneController@showPhone'))->where('phone', '[0-9]+');
-		
-		// Routes that also require csrf
-		Route::group(array('before' => 'csrf'), function()
-		{
-			// Send SMS
-			Route::post('/', array('as' => 'send-sms', 'uses' => 'MessageController@send'));
-		});
-
+		// RESTful API routes
+		Route::resource('phone', 'PhoneController');
+		Route::resource('phone.message', 'MessageController', ['except' => ['edit', 'destroy']]);
 	});
 
 	// Show login form
@@ -64,16 +47,11 @@ Route::group(array('prefix' => '~admin'), function()
 		return Redirect::route('index');
 	}));
 
-	// Routes that require csrf
-	Route::group(array('middleware' => 'csrf'), function()
-	{
-		// Process login
-		Route::post('login', array('as' => 'login-submit', 'uses' => 'UserController@processLogin')); 
+	// Process login
+	Route::post('login', array('as' => 'login-submit', 'uses' => 'UserController@processLogin')); 
 
-		// Process registration form
-		Route::post('signup', array('as' => 'register-submit', 'uses' => 'UserController@processRegistration'));
-
-	});
+	// Process registration form
+	Route::post('signup', array('as' => 'register-submit', 'uses' => 'UserController@processRegistration'));
 
 });
 
