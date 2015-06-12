@@ -1,6 +1,8 @@
 <?php
 
-class Location extends Eloquent {
+use Illuminate\Database\Eloquent\Model;
+
+class Location extends Model {
 
 	protected $touches = array('phone');
 

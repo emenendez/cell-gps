@@ -1,5 +1,8 @@
 <?php
 
+use App\User;
+use App\Http\Controllers\UserController;
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
