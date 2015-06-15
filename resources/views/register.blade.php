@@ -57,7 +57,8 @@
 
     <div class="container">
 
-      {{ Form::model($user, array('route' => 'register-submit', 'class' => 'form-signin')) }}
+      <form action="{{ route('register-submit') }}" method="POST" class="form-signin">
+        <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <h2 class="form-signin-heading">Register</h2>
         @if (count($errors->all()))
           <div class="alert alert-error">
@@ -66,13 +67,13 @@
             @endforeach
           </div>
         @endif
-        {{ Form::input('email', 'email', '', array('class' => 'input-block-level', 'placeholder' => 'Email address', 'required')) }}
-        {{ Form::input('password', 'password', '', array('class' => 'input-block-level', 'placeholder' => 'Password', 'required')) }}
-        {{ Form::input('password', 'password_confirmation', '', array('class' => 'input-block-level', 'placeholder' => 'Confirm password', 'required')) }}
-        {{ Form::input('text', 'organization', '', array('class' => 'input-block-level', 'placeholder' => 'Organization')) }}
-        {{ Form::submit('Sign up', array('class' => 'btn btn-large btn-primary')) }}
-        {{ link_to_route('index', 'Cancel', array(), array('class' => 'btn btn-large')) }}
-      {{ Form::close() }}
+        <input type="email" name="email" placeholder="E-mail address" class="input-block-level" required>
+        <input type="password" name="password" placeholder="Password" class="input-block-level" required>
+        <input type="password" name="password_confirmation" placeholder="Confirm password" class="input-block-level" required>
+        <input type="text" name="organization" placeholder="Organization" class="input-block-level">
+        <input type="submit" value="Sign up" class="btn btn-large btn-primary">
+        <a href="{{ route('index') }}" class="btn btn-large">Cancel</a>
+      </form>
 
     </div> <!-- /container -->
 

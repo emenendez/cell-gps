@@ -3,11 +3,12 @@
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Auth;
+use App\User;
 
 class UserController extends Controller {
 	public function showRegistration() {
 		$user = new User;
-		return View::make('register', array('user' => $user));
+		return view('register', array('user' => $user));
 	}
 
 	public function processRegistration() {
