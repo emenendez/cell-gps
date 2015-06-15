@@ -24,7 +24,7 @@ Route::group(array('prefix' => '~admin'), function()
 	Route::group(array('middleware' => 'auth'), function()
 	{
 		// Display static admin page
-		Route::controller('/', 'AdminController', ['index' => 'index']);
+		Route::get('/', ['as' => 'index', 'uses' => 'AdminController@getIndex']);
 
 		// RESTful API routes
 		Route::resource('phone', 'PhoneController');

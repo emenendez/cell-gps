@@ -49,10 +49,10 @@
             <span class="icon-bar"></span>
           </button>
           <a class="brand" href="http://www.asrc.net"><img src="{{ asset('img/asrclogo.gif') }}" style="margin: -8px 0;" alt="ASRC" width="29" height="29" /></a>
-          {{ link_to_route('index', 'Cell GPS', array(), array('class' => 'brand')) }}
+          <a class="brand" href="{{ route('index') }}">Cell GPS</a>
           <div class="nav-collapse collapse">
             <p class="navbar-text pull-right">
-              Logged in as {{ link_to_route('logout', Auth::user()->email, array(), array('class' => 'navbar-link')) }}
+              Logged in as <a href="{{ route('logout') }}" class="navbar-link">{{ Auth::user()->email }}</a>
             </p>
             <ul class="nav">
               <li id="help-link"><a href="javascript:toggleHelp()">Help</a></li>
@@ -71,7 +71,8 @@
       <div class="row-fluid" id="sms">
         <div class="span12">
           <h2>Send SMS requesting location</h2>
-          {{ Form::open(array('route' => 'send-sms', 'class' => 'form-inline')) }}
+          <form action="{{-- route('send-sms') --}}" class="form-inline" method="POST">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}">
             @if (count($errors->all()))
               <div class="alert alert-error">
                 @foreach ($errors->all() as $message)
@@ -80,12 +81,12 @@
               </div>
             @endif
             <div class="controls controls-row">
-              <input type="text" name="phone" placeholder="Phone No." class="input-medium" value="{{ $phone }}"
+              <input type="text" name="phone" placeholder="Phone No." class="input-medium"
                 title="Subject's mobile phone number" required>
-              {{ Form::text('message', $message, array('placeholder' => 'Message (optional)', 'class' => 'input-xlarge', 'maxlength' => '290')) }}
-              {{ Form::submit('Send', array('class' => 'btn btn-primary')) }}
+              <input type="text" name="message" placeholder="Message (optional)" class="input-xlarge" maxlength="290">
+              <input type="submit" value="Send" class="btn btn-primary">
             </div>
-          {{ Form::close() }}
+          </form>
         </div>
       </div>
       <div class="row-fluid">

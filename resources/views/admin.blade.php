@@ -1,9 +1,6 @@
 @extends('master')
 
 @section('content')
-  @unless ($success == '')
-    <div class="alert alert-success">{{ $success }}</div>
-  @endunless
   <table class="table table-striped table-hover">
     <thead>
       <tr>
@@ -19,6 +16,7 @@
       </tr>
     </thead>
     <tbody>
+    {{-- 
       @foreach ($phones as $phone)
         <tr>
           <td>{{ link_to_route('phone', $phone->id, array($phone->id), array('title' => 'Token: ' . $phone->token)) }}</td>
@@ -32,6 +30,7 @@
           <td>{{ $phone->last_location->created_at }}</td>
         </tr>
       @endforeach
+      --}}
     </tbody>
   </table>
 @stop
