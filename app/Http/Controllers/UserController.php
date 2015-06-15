@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Auth;
 
 class UserController extends Controller {
 	public function showRegistration() {
