@@ -81,7 +81,7 @@ class PhoneController extends Controller {
   public function getLocation($token = null)
   {
     $phone = $this->getPhone($token);
-    return View::make('subject', array('token' => $phone->token));
+    return view('subject', ['token' => $phone->token]);
   }
 
   /**
