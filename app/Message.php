@@ -1,4 +1,4 @@
-<?php
+<?php namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -24,7 +24,7 @@ class Message extends Model {
     }
 
 	public function phone() {
-		return $this->belongsTo('Phone');
+		return $this->belongsTo('App\Phone');
 	}
 
 }

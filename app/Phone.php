@@ -77,15 +77,15 @@ class Phone extends Model {
 	}
 
 	public function user() {
-		return $this->belongsTo('User');
+		return $this->belongsTo('App\User');
 	}
 
 	public function locations() {
-		return $this->hasMany('Location');
+		return $this->hasMany('App\Location');
 	}
 
     public function messages() {
-        return $this->hasMany('Message');
+        return $this->hasMany('App\Message');
     }
 
 }
