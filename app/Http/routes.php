@@ -64,7 +64,7 @@ Route::group(array('prefix' => '~admin'), function()
 
 Route::pattern('token', '[0-9A-Za-z\-_]+');
 
-Route::group(array('before' => array('session.remove')), function()
+Route::group(array('middleware' => 'DisableSessions'), function()
 {
 	// Get location from subject device
 	Route::get('/update/{token}/{longitude}/{latitude}/{altitude}/{accuracy}/{altitudeAccuracy}/{heading}/{speed}/{location_time}',

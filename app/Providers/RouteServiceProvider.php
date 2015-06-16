@@ -23,14 +23,6 @@ class RouteServiceProvider extends ServiceProvider {
 	 */
 	public function boot(Router $router)
 	{
-		/**
-		 * Disables sessions for any routes using this filter
-		 */
-		Route::filter('session.remove', function()
-		{
-			return config(['session.driver' => 'array']);
-		});
-		
 		parent::boot($router);
 	}
 
