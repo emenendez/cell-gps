@@ -1,6 +1,8 @@
 <?php namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Phone;
+use App\User;
 
 class PhoneController extends Controller {
 

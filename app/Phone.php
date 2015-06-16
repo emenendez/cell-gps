@@ -1,4 +1,4 @@
-<?php
+<?php namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,14 +12,14 @@ class Phone extends Model {
         if (!is_null($number))
         {
     		$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
-        	$phoneProto = $phoneUtil->parse($number, Config::get('app.region'));
+        	$phoneProto = $phoneUtil->parse($number, config('app.region'));
         	if (!is_null($format))
         	{
         		return $phoneUtil->format($phoneProto, $format);
         	}
         	else
         	{
-        		if ($phoneUtil->getRegionCodeForNumber($phoneProto) == Config::get('app.region'))
+        		if ($phoneUtil->getRegionCodeForNumber($phoneProto) == config('app.region'))
         		{
         			return $phoneUtil->format($phoneProto, \libphonenumber\PhoneNumberFormat::NATIONAL);
         		}
