@@ -1,6 +1,7 @@
 <?php namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Services_Twilio;
 
 class Message extends Model {
 
@@ -9,10 +10,6 @@ class Message extends Model {
     public function send()
     {
         // Send SMS with token using Twilio
-        // 
-        // env('APP_DEBUG', false),
-        // 
-        // 
         $twilio = new Services_Twilio(env('TWILIO_ACCOUNT_SID', ''), env('TWILIO_AUTH_TOKEN', ''));
         $sms = $twilio->account->messages->sendMessage(
           env('TWILIO_NUMBER', ''), 

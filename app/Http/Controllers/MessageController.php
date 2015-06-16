@@ -1,5 +1,10 @@
 <?php namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+use Auth;
+use App\Phone;
+use App\Message;
+
 class MessageController extends Controller {
 
   /**
@@ -13,19 +18,19 @@ class MessageController extends Controller {
 		]);
 
     // Use default message if user left it blank
-    $copy = Input::get('message');
+    $copy = $request->input('message');
     if (trim($copy) == '') {
       $copy = 'Tap link to send location to SAR:';
     }
 
     // Try to see if phone already exists
-    $phone = Auth::user()->phones()->number(Input::get('phone'))->first();
+    $phone = Auth::user()->phones()->number($request->input('phone'))->first();
 
     if (!$phone)
     {
     	// Add phone to database
     	$phone = new Phone;
-    	$phone->number = Input::get('phone');
+    	$phone->number = $request->input('phone');
     	$phone = Auth::user()->phones()->save($phone);
     }
 
