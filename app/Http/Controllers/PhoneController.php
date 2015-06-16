@@ -3,6 +3,7 @@
 use Carbon\Carbon;
 use App\Phone;
 use App\User;
+use App\Location;
 
 class PhoneController extends Controller {
 
@@ -112,26 +113,25 @@ class PhoneController extends Controller {
     // Update database with location using ID
     // Return a confirmation to user
     
-    // Register catch-all error handler, just for this request
-    App::error(function(Exception $exception, $code)
-    {
+    try {
+      $phone = $this->getPhone($token);
+      $location = new Location;
+
+      $location->location = sprintf('(%s, %s)', $latitude, $longitude);
+      $location->altitude = $this->toFloat($altitude);
+      $location->accuracy = $this->toFloat($accuracy);
+      $location->altitudeAccuracy = $this->toFloat($altitudeAccuracy);
+      $location->heading = $this->toFloat($heading);
+      $location->speed = $this->toFloat($speed);
+      $location->location_time = intval($location_time) / 1000;
+
+      $phone->locations()->save($location);
+
+      echo('Your location has been received by Search &amp; Rescue.');
+    }
+    catch (Exception $e) {
       echo('Error: <a href="./">Location not received. Tap here to reload page.</a>');
-    });
-    
-    $phone = $this->getPhone($token);
-    $location = new Location;
-
-    $location->location = sprintf('(%s, %s)', $latitude, $longitude);
-    $location->altitude = $this->toFloat($altitude);
-    $location->accuracy = $this->toFloat($accuracy);
-    $location->altitudeAccuracy = $this->toFloat($altitudeAccuracy);
-    $location->heading = $this->toFloat($heading);
-    $location->speed = $this->toFloat($speed);
-    $location->location_time = intval($location_time) / 1000;
-
-    $phone->locations()->save($location);
-
-    echo('Your location has been received by Search &amp; Rescue.');
+    }
   }
 
 
