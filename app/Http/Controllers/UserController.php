@@ -27,7 +27,7 @@ class UserController extends Controller {
 
 	    Auth::login($user);
 
-	    return redirect('index');
+	    return redirect(route('index'));
 	}
 
 	public function showLogin(Request $request) {
@@ -46,7 +46,7 @@ class UserController extends Controller {
 		if (Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')], $request->input('remember')))
 		{
 			UserController::touchUser();
-		    return redirect()->intended('index');
+		    return redirect()->intended(route('index'));
 		}
 
 		return back()->with('error', 'Incorrect user and/or password.')->withInput();
