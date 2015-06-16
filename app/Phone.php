@@ -62,17 +62,6 @@ class Phone extends Model {
 
 	public function getLastLocationAttribute() {
 		$location = $this->locations()->orderBy('created_at', 'desc')->first();
-    	if(!$location) {
-    		$location = new Location;
-        	$location->location = '';
-        	$location->accuracy = '';
-        	$location->altitude = '';
-        	$location->altitudeAccuracy = '';
-        	$location->heading = '';
-        	$location->speed = '';
-        	$location->location_time = '';
-        	$location->created_at = '';
-    	}
     	return $location;
 	}
 

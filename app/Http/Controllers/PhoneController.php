@@ -4,6 +4,7 @@ use Carbon\Carbon;
 use App\Phone;
 use App\User;
 use App\Location;
+use Auth;
 
 class PhoneController extends Controller {
 
