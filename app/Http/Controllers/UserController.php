@@ -42,14 +42,14 @@ class UserController extends Controller {
 		$user->save();
 	}
 
-	public function processLogin() {
-		if (Auth::attempt(array('email' => Input::get('email'), 'password' => Input::get('password'))))
+	public function processLogin(Request $request) {
+		if (Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')], $request->input('remember')))
 		{
 			UserController::touchUser();
-		    return Redirect::intended(route('index'));
+		    return redirect()->intended('index');
 		}
 
-		return Redirect::back()->with('error', 'Incorrect user and/or password.')->withInput();
+		return back()->with('error', 'Incorrect user and/or password.')->withInput();
 	}
 
 }

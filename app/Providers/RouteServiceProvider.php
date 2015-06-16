@@ -28,7 +28,7 @@ class RouteServiceProvider extends ServiceProvider {
 		 */
 		Route::filter('session.remove', function()
 		{
-			return Config::set('session.driver', 'array');
+			return config(['session.driver' => 'array']);
 		});
 		
 		parent::boot($router);
