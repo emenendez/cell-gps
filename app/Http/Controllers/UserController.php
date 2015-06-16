@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Auth;
 use App\User;
+use Hash;
 
 class UserController extends Controller {
 	public function showRegistration() {
@@ -11,29 +12,22 @@ class UserController extends Controller {
 		return view('register', array('user' => $user));
 	}
 
-	public function processRegistration() {
+	public function processRegistration(Request $request) {
     	// Validate input
-		$validator = Validator::make(
-			Input::all(), 
-			array(
-				'email' => array('required', 'email', 'unique:users'),
-				'password' => array('required', 'confirmed'),
-				));
-
-		if ($validator->fails())
-	    {
-	        return Redirect::back()->withErrors($validator)->withInput();
-	    }
+    	$this->validate($request, [
+			'email' => array('required', 'email', 'unique:users'),
+			'password' => array('required', 'confirmed'),
+		]);
 
 	    $user = new User;
-	    $user->email = Input::get('email');
-	    $user->password = Hash::make(Input::get('password'));
-	    $user->organization = Input::get('organization');
+	    $user->email = $request->input('email');
+	    $user->password = Hash::make($request->input('password'));
+	    $user->organization = $request->input('organization');
 	    $user->save();
 
 	    Auth::login($user);
 
-	    return Redirect::route('index');
+	    return redirect('index');
 	}
 
 	public function showLogin(Request $request) {
