@@ -28,7 +28,7 @@ Route::group(array('prefix' => '~admin'), function()
 
 		// RESTful API routes
 		Route::resource('phones', 'PhoneController');
-		Route::resource('messages', 'MessageController', ['except' => ['edit', 'destroy']]);
+		Route::resource('messages', 'MessageController', ['except' => ['edit', 'destroy'], 'names' => ['store' => 'messages.store']]);
 	});
 
 	// Show login form

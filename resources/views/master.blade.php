@@ -71,7 +71,7 @@
       <div class="row-fluid" id="sms">
         <div class="span12">
           <h2>Send SMS requesting location</h2>
-          <form action="{{-- route('send-sms') --}}" class="form-inline" method="POST">
+          <form action="{{ route('messages.store') }}" class="form-inline" method="POST">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             @if (count($errors->all()))
               <div class="alert alert-error">
