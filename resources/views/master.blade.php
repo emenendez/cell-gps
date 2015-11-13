@@ -117,8 +117,9 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.29/angular.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.29/angular.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.29/angular-resource.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-poller/0.4.1/angular-poller.js"></script>
     <script src="{{ asset('js/all.js') }}"></script>
   </body>
 </html>
