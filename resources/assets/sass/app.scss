@@ -1,0 +1,58 @@
+.browsehappy {
+  margin: 0.2em 0;
+  background: #ccc;
+  color: #000;
+  padding: 0.2em 0;
+}
+
+// Navigation
+nav {
+  .navbar-header {
+    img {
+      margin: -5px 0;
+    }
+  }
+
+  #navbar {
+    p {
+      margin-right: 0;
+    }
+  }
+}
+
+.app {
+  & > div {
+    & > div {
+      form {
+        #message {
+          min-width: 30%;
+        }
+      }
+    }
+  }
+}
+
+.alert {
+  h3 {
+    margin-top: 0;
+  }
+
+  ol {
+    margin-bottom: 0;
+  }
+}
+
+#help-toggle {
+  // background-color: #e30;
+  // color: #fff;
+  // margin: 0;
+  // padding: 3px 10px;
+  // cursor: pointer;
+}
+
+#help {
+  // background-color: #f63;
+  // display: none;
+  // margin: 0;
+  // padding: 10px 10px 5px 10px;
+}

@@ -1,116 +1,124 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html>
   <head>
     <meta charset="utf-8">
     <title>Cellular geolocation web app</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="Locate a cell phone with an SMS">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
     <!-- Le styles -->
-    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
-    <style type="text/css">
-      body {
-        padding-top: 60px;
-        padding-bottom: 40px;
-      }
-      .sidebar-nav {
-        padding: 9px 0;
-      }
-
-      @media (max-width: 980px) {
-        /* Enable use of floated navbar text */
-        .navbar-text.pull-right {
-          float: none;
-          padding-left: 5px;
-          padding-right: 5px;
-        }
-      }
-    </style>
-    <link href="{{ asset('css/bootstrap-responsive.min.css') }}" rel="stylesheet">
-
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="{{ asset('js/html5shiv.js') }}"></script>
     <![endif]-->
-
-    <!-- Fav and touch icons -->
-    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
   </head>
+  <body ng-app="cellGpsAngularApp" ng-controller="MainCtrl">
+    <!--[if lte IE 8]>  
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
 
-  <body>
-
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container-fluid">
-          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+    <nav class="navbar navbar-inverse navbar-static-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="brand" href="http://www.asrc.net"><img src="{{ asset('img/asrclogo.gif') }}" style="margin: -8px 0;" alt="ASRC" width="29" height="29" /></a>
-          <a class="brand" href="{{ route('index') }}">Cell GPS</a>
-          <div class="nav-collapse collapse">
-            <p class="navbar-text pull-right">
-              Logged in as <a href="{{ route('logout') }}" class="navbar-link">{{ Auth::user()->email }}</a>
-            </p>
-            <ul class="nav">
-              <li id="help-link"><a href="javascript:toggleHelp()">Help</a></li>
-            </ul>
-          </div><!--/.nav-collapse -->
+          <a class="navbar-brand" href="http://www.asrc.net"><img src="{{ asset('img/asrclogo.gif') }}" alt="ASRC" width="29" height="29" /></a>
+          <a class="navbar-brand" href="{{ route('index') }}">Cell GPS</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="#">Help</a></li>
+          </ul>
+          <p class="navbar-text navbar-right">
+            Signed in as <a class="navbar-link" href="{{ route('logout') }}">{{ Auth::user()->email }}</a>
+          </p>
         </div>
       </div>
-    </div>
+    </nav>
 
-    <div class="container-fluid">
-      <div class="row-fluid collapse" id="help">
-        <div class="span12 well">
+    <div class="app container-fluid">
+      <div id="help" class="row">
+        <div class="col-sm-12">
           @include('help')
         </div>
       </div>
-      <div class="row-fluid" id="sms">
-        <div class="span12">
+
+      <div id="send" class="row">
+        <div class="col-sm-12">
           <h2>Send SMS requesting location</h2>
-          <form action="{{ route('messages.store') }}" class="form-inline" method="POST">
-            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-            @if (count($errors->all()))
-              <div class="alert alert-error">
-                @foreach ($errors->all() as $message)
-                  <strong>Error:</strong> {{ $message }}<br>
-                @endforeach
-              </div>
-            @endif
-            <div class="controls controls-row">
-              <input type="text" name="phone" placeholder="Phone No." class="input-medium"
-                title="Subject's mobile phone number" required>
-              <input type="text" name="message" placeholder="Message (optional)" class="input-xlarge" maxlength="290">
-              <input type="submit" value="Send" class="btn btn-primary">
-            </div>
+          <form action="{{ route('messages.store') }}" method="POST" class="form-inline">
+            <input class="form-control" type="hidden" name="_token" value="{{ csrf_token() }}">
+            <input class="form-control" type="text" name="phone" id="phone" placeholder="Phone No." title="Subject's mobile phone number" required>
+            <input class="form-control" type="text" name="message" id="message" placeholder="Message (optional)" maxlength="290">
+            <button class="btn btn-default" type="submit">Send</button>
           </form>
         </div>
       </div>
-      <div class="row-fluid">
-        <div class="span12">
-          @yield('content')
-        </div><!--/span-->
-      </div><!--/row-->
 
-      <hr>
+      <div id="dashboard" class="row">
+        <div class="col-sm-12">
+          <h1>Phones</h1>
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Phone</th>
+                <th>Location</th>
+                <th>Accuracy (m)</th>
+                <th>Altitude (m)</th>
+                <th>Heading (deg)</th>
+                <th>Speed (m/s)</th>
+                <th>Time of location</th>
+                <th>Time received</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="phone in phones">
+                <td>@{{ phone.id }}: @{{ phone.token }}</td>
+                <td>@{{ phone.number_pretty }}: @{{ phone.created_at }}</td>
+                <td>@{{ phone.last_location.location }}</td>
+                <td>@{{ phone.last_location.accuracy }}</td>
+                <td>@{{ phone.last_location.altitude }} &#xB1; @{{ phone.last_location.altitudeAccuracy }}</td>
+                <td>@{{ phone.last_location.heading }}</td>
+                <td>@{{ phone.last_location.speed }}</td>
+                <td>@{{ phone.last_location.location_time }}</td>
+                <td>@{{ phone.last_location.created_at }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
 
-      <footer>
-        @include('tagline')
-      </footer>
+    </div>
 
-    </div><!--/.fluid-container-->
+    <footer class="container-fluid">
+      @include('tagline')
+    </footer>
+
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+     <script>
+       !function(A,n,g,u,l,a,r){A.GoogleAnalyticsObject=l,A[l]=A[l]||function(){
+       (A[l].q=A[l].q||[]).push(arguments)},A[l].l=+new Date,a=n.createElement(g),
+       r=n.getElementsByTagName(g)[0],a.src=u,r.parentNode.insertBefore(a,r)
+       }(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+       ga('create', 'UA-XXXXX-X');
+       ga('send', 'pageview');
+    </script>
 
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="{{ asset('js/jquery-1.10.2.min.js') }}"></script>
-    <script src="{{ asset('js/jquery.placeholder.js') }}"></script>
-    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('js/libphonenumber.js') }}"></script> {{-- from https://github.com/nathanhammond/libphonenumber/ --}}
-    <script src="{{ asset('js/script.js') }}"></script>
-
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.29/angular.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.29/angular-resource.min.js"></script>
+    <script src="{{ asset('js/all.js') }}"></script>
   </body>
 </html>

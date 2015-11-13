@@ -6,7 +6,7 @@
 	<blockquote>Tap link to send location to SAR: {{ route('get-location') }}/Mq</blockquote>
 </p>
 
-<div class="alert alert-error">
+<div class="alert alert-danger">
 	<h3>Warning</h3>
 	<p>
 		This tool is intended for <strong>non-life-threatening</strong> situations only, and is likely not the best way to find the location of a mobile device. If you are working with an emergency services organization, you should take the following steps before using this app:
@@ -15,7 +15,6 @@
 			<li>Contact the Air Force Rescue Coordination Center and request cell phone forensics support</li>
 		</ol>
 	</p>
-
 </div>
 
 @include('tagline')
