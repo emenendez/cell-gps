@@ -13,13 +13,14 @@ angular
     'ngResource',
     'emguo.poller',
   ])
-  .controller('MainCtrl', ['$scope', '$resource', 'poller', function ($scope, $resource, poller) {
+  .factory('Phones', ['$resource', function($resource) {
+    // Phones resource
+    return $resource('/~admin/phones/:id');
+  }])
+  .controller('MainCtrl', ['$scope', '$resource', 'poller', 'Phones', function ($scope, $resource, poller, Phones) {
 
     // Initialize display variables
     $scope.showHelp = false;
-
-    // Phones resource
-    var Phones = $resource('/~admin/phones/:id');
 
     // Get poller. This also starts/restarts poller.
     var phonesPoller = poller.get(Phones, {action: 'query'});
