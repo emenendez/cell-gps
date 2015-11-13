@@ -33,9 +33,9 @@
           <a class="navbar-brand" href="{{ route('index') }}">Cell GPS</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="#">Help</a></li>
-          </ul>
+          <div class="navbar-form navbar-left">
+            <a href="#" class="btn btn-danger" ng-click="showHelp = !showHelp" ng-class="{active: showHelp}">Help</a>
+          </div>
           <p class="navbar-text navbar-right">
             Signed in as <a class="navbar-link" href="{{ route('logout') }}">{{ Auth::user()->email }}</a>
           </p>
@@ -44,7 +44,7 @@
     </nav>
 
     <div class="app container-fluid">
-      <div id="help" class="row">
+      <div id="help" class="row" ng-show="showHelp">
         <div class="col-sm-12">
           @include('help')
         </div>

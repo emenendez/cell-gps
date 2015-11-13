@@ -639,6 +639,9 @@ angular
   ])
   .controller('MainCtrl', ['$scope', '$resource', 'poller', function ($scope, $resource, poller) {
 
+    // Initialize display variables
+    $scope.showHelp = false;
+
     // Phones resource
     var Phones = $resource('/~admin/phones/:id');
 
