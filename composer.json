@@ -5,7 +5,7 @@
 	"license": "MIT",
 	"type": "project",
 	"require": {
-		"laravel/framework": "5.0.*",
+		"laravel/framework": "5.1.*",
 		"twilio/sdk": "~4.0",
 		"propaganistas/laravel-phone": "~2.0"
 	},
