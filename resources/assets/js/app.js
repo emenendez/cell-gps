@@ -26,8 +26,11 @@ angular
     // Show/hide help text
     $scope.showHelp = false;
     $scope.clickHelp = function() {
-        $scope.showHelp = !$scope.showHelp;
+      $scope.showHelp = !$scope.showHelp;
     }
+
+    // IE8 placeholder hack
+    $('input').placeholder();
 
     // Get poller. This also starts/restarts poller.
     var phonesPoller = poller.get(Phones, {action: 'query'});
@@ -36,7 +39,7 @@ angular
     // to keep track of all requests, poller service uses the notifyCallback. By default
     // poller only gets notified of success responses.
     phonesPoller.promise.then(null, null, function(data) {
-        $scope.phones = data;
+      $scope.phones = data;
     });
 
   }])
@@ -45,18 +48,55 @@ angular
     $scope.showNotification = false;
     $scope.loading = false;
 
+    var numberField = $('#phone').get(0);
+
     $scope.submit = function() {
-        $scope.loading = true;
-        Messages.save($scope.message, function(data) {
-            if (data.success) {
-                $scope.loading = false;
-                $scope.notification = 'Message sent';
-                $scope.showNotification = true;
-                $timeout(function() {
-                    $scope.showNotification = false;
-                }, 3000);
-            }
-        });
+      $scope.loading = true;
+      Messages.save($scope.message, function(data) {
+        if (data.success) {
+          $scope.loading = false;
+          $scope.notification = 'Message sent';
+          $scope.showNotification = true;
+          $timeout(function() {
+            $scope.showNotification = false;
+          }, 3000);
+        }
+      });
     };
+
+    $scope.updatePhone = function() {
+      var defaultRegion = 'US';
+      var valid = false;
+
+      try
+      {
+        valid = phoneUtils.isValidNumber($scope.message.phone, defaultRegion);
+      }
+      catch (e) {}
+
+      if (numberField.setCustomValidity)
+      {
+        if (valid)
+        {
+          numberField.setCustomValidity('');
+        }
+        else
+        {
+          numberField.setCustomValidity('Please enter a valid phone number.');
+        }
+      }
+
+      if (valid)
+      {
+        if (phoneUtils.getRegionCodeForNumber($scope.message.phone, defaultRegion) == defaultRegion)
+        {
+          $scope.message.phone = phoneUtils.formatNational($scope.message.phone, defaultRegion);
+        }
+        else
+        {
+          $scope.message.phone = phoneUtils.formatInternational($scope.message.phone, defaultRegion);
+        }
+      }
+    }
 
   }]);

@@ -55,7 +55,7 @@
           <h2>Send SMS requesting location</h2>
           <form name="sendSms" class="form-inline" ng-controller="SendCtrl" ng-submit="submit()">
             <input class="form-control" type="hidden" ng-model="message._token" value="{{ csrf_token() }}">
-            <input class="form-control" type="text" ng-model="message.phone" id="phone" placeholder="Phone No." title="Subject's mobile phone number" required>
+            <input class="form-control" type="text" ng-model="message.phone" ng-change="updatePhone()" id="phone" placeholder="Phone No." title="Subject's mobile phone number" required>
             <input class="form-control" type="text" ng-model="message.message" id="message" placeholder="Message (default: Tap link to send location to SAR)" maxlength="290">
             <button class="btn btn-default" type="submit">Send</button>
             <div class="loading"><span class="glyphicon glyphicon-refresh spin" ng-show="loading"></span></div>

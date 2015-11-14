@@ -1,9 +1,3 @@
-function toggleHelp()
-{
-	$('#help').collapse('toggle');
-	$('#help-link').toggleClass('active');
-}
-
 function updatePhone(field, change)
 {
 	var defaultRegion = 'US';
