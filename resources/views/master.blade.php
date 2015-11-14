@@ -34,7 +34,7 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <div class="navbar-form navbar-left">
-            <a href="#" class="btn btn-danger" ng-click="showHelp = !showHelp" ng-class="{active: showHelp}">Help</a>
+            <a class="btn btn-danger" ng-click="clickHelp()" ng-class="{active: showHelp}">Help</a>
           </div>
           <p class="navbar-text navbar-right">
             Signed in as <a class="navbar-link" href="{{ route('logout') }}">{{ Auth::user()->email }}</a>
@@ -53,11 +53,12 @@
       <div id="send" class="row">
         <div class="col-sm-12">
           <h2>Send SMS requesting location</h2>
-          <form action="{{ route('messages.store') }}" method="POST" class="form-inline">
-            <input class="form-control" type="hidden" name="_token" value="{{ csrf_token() }}">
-            <input class="form-control" type="text" name="phone" id="phone" placeholder="Phone No." title="Subject's mobile phone number" required>
-            <input class="form-control" type="text" name="message" id="message" placeholder="Message (optional)" maxlength="290">
+          <form name="sendSms" class="form-inline" ng-controller="SendCtrl" ng-submit="submit()">
+            <input class="form-control" type="hidden" ng-model="message._token" value="{{ csrf_token() }}">
+            <input class="form-control" type="text" ng-model="message.phone" id="phone" placeholder="Phone No." title="Subject's mobile phone number" required>
+            <input class="form-control" type="text" ng-model="message.message" id="message" placeholder="Message (default: Tap link to send location to SAR)" maxlength="290">
             <button class="btn btn-default" type="submit">Send</button>
+            <span class="btn btn-success notification" ng-show="showNotification()">@{{ notification }}</span>
           </form>
         </div>
       </div>
@@ -80,7 +81,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr ng-repeat="phone in phones">
+              <tr ng-repeat="phone in phones | orderBy:'last_location?last_location.location_time:0':true">
                 <td>@{{ phone.id }}: @{{ phone.token }}</td>
                 <td>@{{ phone.number_pretty }}: @{{ phone.created_at }}</td>
                 <td>@{{ phone.last_location.location }}</td>

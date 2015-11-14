@@ -641,10 +641,17 @@ angular
     // Phones resource
     return $resource('/~admin/phones/:id');
   }])
-  .controller('MainCtrl', ['$scope', '$resource', 'poller', 'Phones', function ($scope, $resource, poller, Phones) {
+  .factory('Messages', ['$resource', function($resource) {
+    // Messages resource
+    return $resource('/~admin/messages/:id');
+  }])
+  .controller('MainCtrl', ['$scope', 'poller', 'Phones', function ($scope, poller, Phones) {
 
-    // Initialize display variables
+    // Show/hide help text
     $scope.showHelp = false;
+    $scope.clickHelp = function() {
+        $scope.showHelp = !$scope.showHelp;
+    }
 
     // Get poller. This also starts/restarts poller.
     var phonesPoller = poller.get(Phones, {action: 'query'});
@@ -655,6 +662,24 @@ angular
     phonesPoller.promise.then(null, null, function(data) {
         $scope.phones = data;
     });
+
+  }])
+  .controller('SendCtrl', ['$scope', '$timeout', 'Messages', function($scope, $timeout, Messages) {
+
+    $scope.submit = function() {
+        Messages.save($scope.message, function(data) {
+            if (data.success) {
+                $scope.notification = 'Message sent';
+                $timeout(function() {
+                    $scope.notification = '';
+                }, 3000);
+            }
+        });
+    };
+
+    $scope.showNotification = function() {
+        return $scope.notification && $scope.notification !== '';
+    }
 
   }]);
 
