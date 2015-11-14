@@ -666,19 +666,22 @@ angular
   }])
   .controller('SendCtrl', ['$scope', '$timeout', 'Messages', function($scope, $timeout, Messages) {
 
+    var showNotification = false;
+
     $scope.submit = function() {
         Messages.save($scope.message, function(data) {
             if (data.success) {
                 $scope.notification = 'Message sent';
+                showNotification = true;
                 $timeout(function() {
-                    $scope.notification = '';
+                    showNotification = false;
                 }, 3000);
             }
         });
     };
 
     $scope.showNotification = function() {
-        return $scope.notification && $scope.notification !== '';
+        return showNotification;
     }
 
   }]);
