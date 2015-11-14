@@ -58,7 +58,8 @@
             <input class="form-control" type="text" ng-model="message.phone" id="phone" placeholder="Phone No." title="Subject's mobile phone number" required>
             <input class="form-control" type="text" ng-model="message.message" id="message" placeholder="Message (default: Tap link to send location to SAR)" maxlength="290">
             <button class="btn btn-default" type="submit">Send</button>
-            <span class="btn btn-success notification" ng-show="showNotification()">@{{ notification }}</span>
+            <div class="loading"><span class="glyphicon glyphicon-refresh spin" ng-show="loading"></span></div>
+            <span class="btn btn-success notification" ng-show="showNotification">@{{ notification }}</span>
           </form>
         </div>
       </div>

@@ -46,3 +46,33 @@ nav {
   pointer-events: none;
 }
 
+.loading {
+  display: inline-block;
+  margin: 0 0.2em;
+}
+
+.spin {
+  -webkit-animation: spin 1300ms infinite linear;
+  animation: spin 1300ms infinite linear;
+}
+
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
+@keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
