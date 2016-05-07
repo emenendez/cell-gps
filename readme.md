@@ -2,7 +2,7 @@
 
 ### Usage
 
-https://login.cellgps.org
+http://login.cellgps.org
 
 ### Updates
 
