@@ -2,13 +2,17 @@
 
 ### Usage
 
-http://gps.asrc.net/~admin/
+https://login.cellgps.org
 
 ### Updates
 
 Here, or follow [@ericrmenendez](https://twitter.com/ericrmenendez)
 
 ### Version history
+
+#### 3.1.0, May 2016
+
+- Migrate to cellgps.org and HTTPS
 
 #### 3.0.0, July 2014
 
