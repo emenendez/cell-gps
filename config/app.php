@@ -229,4 +229,11 @@ return [
 
     ],
 
+
+
+	/**
+	 * Default phone region
+	 */
+
+	'region' => 'US',
 ];
