@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use libphonenumber\PhoneNumberUtil;
@@ -8,9 +8,61 @@ use libphonenumber\PhoneNumberUtil;
 class Phone extends Model
 {
 
-	protected $touches = ['user'];
+    public static function boot()
+    {
+        parent::boot();
 
-	protected $appends = ['token', 'number_pretty', 'last_location'];
+        static::saving(function ($phone) {
+            if (empty($phone->ip)) {
+                $phone->ip = request()->ip();
+            }
+
+            if (empty($phone->user_agent)) {
+                $phone->user_agent = request()->header('User-Agent');
+            }
+        });
+
+        static::saved(function ($phone) {
+            if (empty($phone->token)) {
+                $phone->token      = rtrim(strtr(base64_encode($phone->id), '+/', '-_'), '=');
+                $phone->timestamps = false;
+                $phone->save();
+            }
+        });
+    }
+
+    /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'token';
+    }
+
+    /**
+     * Retrieve the model for a bound value.
+     *
+     * @param  mixed  $value
+     * @param  string|null  $field
+     * @return \Illuminate\Database\Eloquent\Model|null
+     */
+    public function resolveRouteBinding($value, $field = null)
+    {
+        if (is_null($value)) {
+            return $value;
+        }
+
+        if (!($phone = $this->where($this->getRouteKeyName(), $value)->first())) {
+            // Create a new phone with no number
+            $phone = new Phone;
+
+            $phone->save();
+        }
+
+        return $phone;
+    }
 
 
 	// RELATIONSHIPS
@@ -30,14 +82,6 @@ class Phone extends Model
     {
         return $this->hasMany(Message::class);
     }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-	public function user()
-    {
-		return $this->belongsTo(User::class);
-	}
 
 
 	// ACCESSORS
@@ -71,10 +115,10 @@ class Phone extends Model
         }
 	}
 
-	public function getTokenAttribute()
-    {
-		return base64url_encode($this->attributes['id']);
-	}
+//	public function getTokenAttribute()
+//    {
+//		return rtrim(strtr(base64_encode($this->attributes['id']), '+/', '-_'), '=');
+//	}
 
 
 	// MUTATORS

@@ -16,12 +16,13 @@ class CreateLocationsTable extends Migration {
 		Schema::create('locations', function($table){
 			$table->id();
 			$table->foreignId('phone_id')->index();
-			$table->string('location', 64);
-			$table->float('altitude')->nullable();
-			$table->float('accuracy')->nullable();
-			$table->float('altitudeAccuracy')->nullable();
-			$table->float('heading')->nullable();
-			$table->float('speed')->nullable();
+			$table->double('latitude');
+			$table->double('longitude');
+			$table->double('altitude')->nullable();
+			$table->double('accuracy')->nullable();
+			$table->double('altitude_accuracy')->nullable();
+			$table->double('heading')->nullable();
+			$table->double('speed')->nullable();
 			$table->timestamp('location_time')->nullable();
 			$table->timestamps();
 		});

@@ -1,18 +1,11 @@
 <?php
 
+use App\Http\Controllers\PhoneController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+// Prompt subject for location
+Route::get('{phone?}', [PhoneController::class, 'index'])->name('phones.index');
 
-Route::get('/', function () {
-    return view('welcome');
+Route::fallback(function () {
+    Route::get('/');
 });
