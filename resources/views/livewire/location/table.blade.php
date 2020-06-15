@@ -11,6 +11,7 @@
             <th>Lat / Lon</th>
             <th>UTM</th>
             <th>Altitude</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -22,6 +23,7 @@
                 <td>{{ $location->latitude }}, {{ $location->longitude }}</td>
                 <td>{{ $location->utm }}</td>
                 <td>{{ $location->altitude }}</td>
+                <td><a href="{!! 'https://www.google.com/maps/@' . $location->latitude . ',' . $location->longitude . ',16z' !!}" target="_blank">map</a></td>
             </tr>
             @endforeach
         </tbody>
