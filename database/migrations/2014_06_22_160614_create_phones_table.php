@@ -15,11 +15,11 @@ class CreatePhonesTable extends Migration {
 	{
 		Schema::create('phones', function($table){
 			$table->id();
-			$table->string('token')->nullable();
-//			$table->foreignId('user_id')->index();
+			$table->string('token', 4)->nullable();
+			$table->foreignId('user_id')->nullable()->index();
 			$table->string('number', 20)->nullable();
 			$table->string('user_agent', 320)->nullable();
-			$table->ipAddress('ip');
+			$table->ipAddress('ip')->nullable();
 			$table->timestamps();
 		});
 	}

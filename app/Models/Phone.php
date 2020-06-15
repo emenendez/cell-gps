@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
+use Exception;
 use Illuminate\Database\Eloquent\Model;
+use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
+use Vinkla\Hashids\Facades\Hashids;
 
 class Phone extends Model
 {
@@ -12,21 +15,27 @@ class Phone extends Model
     {
         parent::boot();
 
-        static::saving(function ($phone) {
-            if (empty($phone->ip)) {
-                $phone->ip = request()->ip();
-            }
-
-            if (empty($phone->user_agent)) {
-                $phone->user_agent = request()->header('User-Agent');
-            }
-        });
-
         static::saved(function ($phone) {
             if (empty($phone->token)) {
-                $phone->token      = rtrim(strtr(base64_encode($phone->id), '+/', '-_'), '=');
-                $phone->timestamps = false;
-                $phone->save();
+                $hash = null;
+
+                if (!is_int($phone->getKey())) {
+                    logger()->error('can only hash integers');
+
+                    return;
+                }
+
+                try {
+                    $hash = Hashids::connection(self::class);
+                } catch (Exception $e) {
+                    logger()->error($e->getMessage());
+                }
+
+                if ($hash) {
+                    $phone->token      = $hash->encode($phone->getKey());
+                    $phone->timestamps = false;
+                    $phone->save();
+                }
             }
         });
     }
@@ -39,29 +48,6 @@ class Phone extends Model
     public function getRouteKeyName()
     {
         return 'token';
-    }
-
-    /**
-     * Retrieve the model for a bound value.
-     *
-     * @param  mixed  $value
-     * @param  string|null  $field
-     * @return \Illuminate\Database\Eloquent\Model|null
-     */
-    public function resolveRouteBinding($value, $field = null)
-    {
-        if (is_null($value)) {
-            return $value;
-        }
-
-        if (!($phone = $this->where($this->getRouteKeyName(), $value)->first())) {
-            // Create a new phone with no number
-            $phone = new Phone;
-
-            $phone->save();
-        }
-
-        return $phone;
     }
 
 
@@ -81,6 +67,14 @@ class Phone extends Model
     public function messages()
     {
         return $this->hasMany(Message::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
 

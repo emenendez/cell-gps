@@ -12,19 +12,44 @@ class PhoneController extends Controller
     /**
      * Prompt subject device for location
      */
-    public function index(Phone $phone = null)
+    public function index()
     {
-        // phone was created, but doesn't match current route
-        if (url()->current() !== route('phones.index', $phone)) {
-            return redirect()->route('phones.index', $phone);
+        if (!session()->has('phone')) {
+            $phone             = new Phone;
+            $phone->ip         = request()->ip();
+            $phone->user_agent = request()->header('User-Agent');
+
+            if (!$phone->save()) {
+                logger()->warning('could not create a phone', ['line' => __LINE__, 'file' => __FILE__]);
+
+                return redirect()->route('help')->withError('Could not generate a new record.');
+            }
+
+            session(['phone' => $phone->token]);
+
+            return redirect()->route('phones.show', $phone);
         }
 
-        // Update the user agent
-        $phone->user_agent = request()->ip() . ' ' . request()->header('User-Agent');
+        return redirect()->route('phones.show', session('phone'));
+    }
 
-        $phone->save();
+    public function show(Phone $phone)
+    {
+        // first visit
+        if (!session()->has('phone') && $phone->locations()->count() === 0) {
+            $phone->ip         = request()->ip();
+            $phone->user_agent = request()->header('User-Agent');
+            $phone->save();
 
-        return view('site.index', compact('phone'));
+            session(['phone' => $phone->token]);
+        }
+
+        // session / url mismatch
+        if (session('phone') !== $phone->token) {
+            return redirect()->route('home');
+        }
+
+        return view('site.phones.show', compact('phone'));
     }
 
     /**
@@ -95,49 +120,6 @@ class PhoneController extends Controller
         }
 
         return View::make('phone', array('phone' => $phone));
-    }
-
-    /**
-     * Parse token and return phone model
-     * Create a new phone if need be
-     */
-    private function getPhone ($token)
-    {
-        // Base64url-decode ID
-        $id = (int) base64_decode(str_pad(strtr($token, '-_', '+/'), strlen($token) % 4, '=', STR_PAD_RIGHT));
-        $phone = Phone::find($id);
-
-        if(!$phone) {
-            // Create a new phone with no number
-            $phone = new Phone;
-            $phone->user_id = User::guestId();
-        }
-
-        // Update the user agent
-        $phone->user_agent = request()->ip() . ' ' . request()->header('User-Agent');
-
-        $phone->save();
-
-        return $phone;
-    }
-
-    /**
-     * Convert 'null' to null, all other values to float
-     */
-    private function toFloat($input)
-    {
-        if (is_null($input))
-        {
-            return null;
-        }
-        else if (strtolower($input) == 'null')
-        {
-            return null;
-        }
-        else
-        {
-            return floatval($input);
-        }
     }
 
 }

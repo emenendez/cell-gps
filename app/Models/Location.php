@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use PHPCoord\LatLng;
+use PHPCoord\RefEll;
 
 class Location extends Model
 {
@@ -10,6 +12,8 @@ class Location extends Model
     public $dates = [
         'location_time',
     ];
+
+    public $touches = ['phone'];
 
 
     // RELATIONSHIPS
@@ -20,6 +24,16 @@ class Location extends Model
 	public function phone() {
 		return $this->belongsTo(Phone::class);
 	}
+
+
+	// ACCESSORS
+
+    public function getUtmAttribute($field)
+    {
+        $latLng = new LatLng($this->latitude, $this->longitude, $this->altitude ?? 0, RefEll::wgs84());
+
+        return $latLng->toUTMRef();
+    }
 
 
 	// MUTATORS
@@ -64,11 +78,6 @@ class Location extends Model
         if ($value === 'null') {
             $value = null;
         }
-
-        // convert to float
-//        if (!is_null($value)) {
-//            $value = floatval($value);
-//        }
 
         return $value;
     }
