@@ -67,12 +67,19 @@ window.onload = function() {
     document.getElementById('status').innerHTML = 'Geolocation not supported by this device.';
   }
 };
-</script><style>
+</script>
+<link rel="dns-prefetch" href="//fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+<style>
 body {
-  font-size:1.5em;
-  font-family: "Georgia", serif;
-  background-color: #e30;
-  color: #fff;
+    margin: 0;
+    font-family: "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 1.3rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #EBEBEB;
+    text-align: left;
+    background-color: #2B3E50;
 }
 p {
   text-align: center;
