@@ -10,7 +10,7 @@
             <th>Time Ago</th>
             <th>Lat / Lon</th>
             <th>UTM</th>
-            <th>Altitude</th>
+            <th>Altitude (m)</th>
             <th></th>
         </tr>
         </thead>
