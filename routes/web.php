@@ -9,10 +9,6 @@ Auth::routes();
 // Prompt subject for location
 Route::get('/', [PhoneController::class, 'index'])->name('home');
 
-Route::fallback(function () {
-    Route::get('/');
-});
-
 Route::view('help', 'site.help')->name('help');
 
 Route::group(['middleware' => 'auth'], function () {
