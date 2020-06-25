@@ -39,7 +39,7 @@ class Create extends Component
 
         $phone->messages()->save($message);
 
-/*        try {
+        try {
             $client = new Client(config('services.twilio.account_sid'), config('services.twilio.auth_token'));
 
             $client->messages->create(
@@ -55,7 +55,7 @@ class Create extends Component
             session()->flash('error', 'Could not send SMS.');
 
             return redirect()->route('manage.dashboard');
-        }*/
+        }
 
         // reset the form
         $this->message = '';
