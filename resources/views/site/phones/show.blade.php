@@ -87,7 +87,18 @@ p {
 #allow {
   font-weight: bold;
 }
+a {
+    color: #DF691A;
+    text-decoration: none;
+    background-color: transparent;
+}
+a:hover {
+    color: #9a4912;
+    text-decoration: underline;
+}
 </style></head><body>
 <p id="allow">Tap &#8220;Allow&#8221; to send your location to Search &amp; Rescue.</p>
 <p id="status"></p>
+
+<p style="text-align: center;margin-top: 200px;"><a href="/help">Help</a></p>
 </body></html>
